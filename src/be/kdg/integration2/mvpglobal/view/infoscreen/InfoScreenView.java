@@ -21,7 +21,7 @@ public class InfoScreenView extends BorderPane{
     }
 
     private void initialiseNodes() {
-        InfoText = new TextArea("test");
+        InfoText = new TextArea("poc");
         okButton = new Button("OK");
         okButton.setPrefWidth(60);
     }
