@@ -27,8 +27,8 @@ public class MVPMain extends Application {
             }
         }
         primaryStage.setScene(scene);
-        primaryStage.setHeight(uiSettings.getLowestRes() / 4);
-        primaryStage.setWidth(uiSettings.getLowestRes() / 4);
+        primaryStage.setHeight(uiSettings.getLowestRes() /4);
+        primaryStage.setWidth(uiSettings.getLowestRes()/4 );
         primaryStage.setTitle(uiSettings.getApplicationName());
         if (Files.exists(uiSettings.getApplicationIconPath())) {
              try {

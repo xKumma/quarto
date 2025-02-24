@@ -31,3 +31,8 @@
 .button-clicked {
     -fx-text-fill: red;
 }
+
+.font {
+    -fx-font-family:"Franklin Gothic Heavy";
+    -fx-color-label-visible: black;
+}
