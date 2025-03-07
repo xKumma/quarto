@@ -24,6 +24,7 @@ public class StartScreenPresenter {
     }
 
     private void updateView() {
+        view.getTitolo().getStylesheets().add(uiSettings.getStyleSheetPath().toString());
     }
 
     private void EventHandlers() {

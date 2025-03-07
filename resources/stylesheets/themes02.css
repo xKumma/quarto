@@ -4,7 +4,7 @@
 
 .light {
     -fx-background-color: ivory;
-    -fx-text-fill: navy;
+    -fx-text-fill: white;
 }
 .dark {
     -fx-background-color: slategrey;
@@ -15,14 +15,21 @@
     -fx-text-fill: white;
 }
 
+
+
+
 .root {
     -fx-padding: 15px;
     -fx-border-width: 2px;
     -fx-border-insets: 5px;
     -fx-border-radius: 5px;
-    -fx-background-color: lightgrey;
+    -fx-text-fill: white;
+
+
 
 }
+
+
 
 .radio-button {
     -fx-padding: 8px;
@@ -32,7 +39,3 @@
     -fx-text-fill: red;
 }
 
-.font {
-    -fx-font-family:"Franklin Gothic Heavy";
-    -fx-color-label-visible: black;
-}

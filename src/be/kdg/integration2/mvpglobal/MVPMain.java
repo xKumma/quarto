@@ -22,13 +22,14 @@ public class MVPMain extends Application {
         if (uiSettings.styleSheetAvailable()){
             try {
                 scene.getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+
             } catch (MalformedURLException ex) {
                 // do nothing, if toURL-conversion fails, program can continue
             }
         }
         primaryStage.setScene(scene);
-        primaryStage.setHeight(uiSettings.getLowestRes() /4);
-        primaryStage.setWidth(uiSettings.getLowestRes()/4 );
+        primaryStage.setHeight(uiSettings.getLowestRes() /2);
+        primaryStage.setWidth(uiSettings.getLowestRes()/2);
         primaryStage.setTitle(uiSettings.getApplicationName());
         if (Files.exists(uiSettings.getApplicationIconPath())) {
              try {

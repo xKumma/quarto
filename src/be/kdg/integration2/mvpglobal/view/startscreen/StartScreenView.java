@@ -26,7 +26,8 @@ public class StartScreenView extends BorderPane  {
     private Rectangle rectangle3;
 
     private StackPane graphic = new StackPane();
-    Label titolo;
+    public Label titolo;
+
 
 
     public StartScreenView(UISettings uiSettings) {
@@ -41,51 +42,60 @@ public class StartScreenView extends BorderPane  {
         this.timeProgress = new ProgressBar();
         circle = new Circle();
         rectangle = new Rectangle();
+
         rectangle1 = new Rectangle();
         rectangle2 = new Rectangle();
         rectangle3 = new Rectangle();
         titolo = new Label();
+        this.titolo.setStyle("   -fx-font-size: 20pt  ;  -fx-text-fill: white ");
+
     }
 
 
     private void layoutNodes() {
         //color
-        circle.setStroke(Color.BLACK);
+        this.setStyle("    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 55% , #D4D4D4, black  );");
+        circle.setStroke(Color.WHITE);
         circle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
-        rectangle1.setStroke(Color.BLACK);
-        rectangle2.setStroke(Color.BLACK);
-        rectangle3.setStroke(Color.BLACK);
-
+        circle.setStyle("-fx-border-width: 5px");
+        rectangle.setStroke(Color.WHITE);
+        rectangle1.setStroke(Color.WHITE);
+        rectangle2.setStroke(Color.WHITE);
+        rectangle3.setStroke(Color.WHITE);
         rectangle.setFill(Color.TRANSPARENT);
         rectangle1.setFill(Color.TRANSPARENT);
         rectangle1.setRotate(45);
         rectangle2.setFill(Color.TRANSPARENT);
-        rectangle2.setRotate(112);
+        rectangle2.setRotate(110);
         rectangle3.setFill(Color.TRANSPARENT);
-        rectangle3.setRotate(72);
+        rectangle3.setRotate(155);
         //geometry
-        circle.radiusProperty().bind(this.heightProperty().divide(3.80));
-        rectangle.heightProperty().bind(this.heightProperty().divide(2*Math.sqrt(2)));
-        rectangle.widthProperty().bind(this.widthProperty().divide(2*Math.sqrt(2)));
-        rectangle1.heightProperty().bind(this.heightProperty().divide(2*Math.sqrt(2)));
-        rectangle2.heightProperty().bind(this.heightProperty().divide(2*Math.sqrt(2)));
-        rectangle3.heightProperty().bind(this.heightProperty().divide(2*Math.sqrt(2)));
-        rectangle1.widthProperty().bind(this.widthProperty().divide(2*Math.sqrt(2)));
-        rectangle2.widthProperty().bind(this.widthProperty().divide(2*Math.sqrt(2)));
-        rectangle3.widthProperty().bind(this.widthProperty().divide(2*Math.sqrt(2)));
+        circle.radiusProperty().bind(this.heightProperty().divide(2.45));
+        rectangle.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
+        rectangle1.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle2.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle3.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle1.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
+        rectangle2.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
+        rectangle3.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
 
         BorderPane progressPane = new BorderPane();
-        progressPane.getChildren().add(graphic);
-        titolo.setText("     QUARTO     " );
+        progressPane.getChildren().addAll(graphic);
+        titolo.setText("     \uD83C\uDD40UARTO     " );
+        this.titolo.setId("titolo");
+        this.titolo.setStyle("   -fx-font-size: 20pt  ;  -fx-text-fill: white ");
 
         // this.getChildren().add(titolo);
         this.setTop(titolo);
 
 
+
         this.setCenter(graphic);
 
-        graphic.getChildren().addAll(circle, rectangle, rectangle1, rectangle2, rectangle3,titolo);
+
+        graphic.getChildren().addAll( circle, rectangle, rectangle1, rectangle2, rectangle3,titolo );
+
         progressPane.setRight(this.timeProgress);
         progressPane.setLeft(this.timeDisplay);
         BorderPane.setMargin(this.timeDisplay, new Insets(uiSettings.getInsetsMargin()));
@@ -110,7 +120,8 @@ public class StartScreenView extends BorderPane  {
          */
         this.setBottom(progressPane);
 
-
+       // titolo.getStylesheets().(uiSettings.getStyleSheetPath());
+         titolo.setId("#label");
 
 
     }
@@ -122,10 +133,37 @@ public class StartScreenView extends BorderPane  {
 
     StartScreenTransition getTransition() {return trans;}
 
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public Rectangle getRectangle1() {
+        return rectangle1;
+    }
+
+    public Rectangle getRectangle2() {
+        return rectangle2;
+    }
+
+    public Rectangle getRectangle3() {
+        return rectangle3;
+    }
+
+    public Label getTitolo() {
+        return titolo;
+    }
+
     private void animate() {
-        trans = new StartScreenTransition(this,3);
+        trans = new StartScreenTransition(this,5);
+        trans.sqaretransition(rectangle , rectangle1 , rectangle2 , rectangle3);
         trans.play();
     }
+
+
 
 
 
