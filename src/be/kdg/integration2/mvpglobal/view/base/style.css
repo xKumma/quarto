@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Helvetica";
+    src: url('/fonts/helvetica/Helvetica.ttf');
+}
+
+@font-face {
+    font-family: "Source Sans Pro";
+    src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
+}
+/*Fonts dont work on my end, not sure if its just local*/
+
+.header {
+    -fx-font-size: 64px;
+    -fx-font-family: "Helvetica";
+}
+
+.header-q {
+    -fx-min-width: 64px;
+    -fx-min-height: 64px;
+    -fx-max-width: 64px;
+    -fx-max-height: 64px;
+
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+
+    -fx-font-size: 95%;
+    /*-fx-font-weight: bold;*/
+    -fx-font-family: "Source Sans Pro";
+
+    /*-fx-alignment: center;*/
+    /*-fx-text-alignment: center;*/
+    /*-fx-content-display: center;*/
+}
+
+.board-button {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-style: dashed;
+}
+
+.unused-button {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-style: dashed;
+}
+
+.center {
+    -fx-padding: 48px;
+}

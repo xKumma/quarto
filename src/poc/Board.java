@@ -1,5 +1,8 @@
 package poc;
 
+import be.kdg.integration2.mvpglobal.model.Position;
+import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+
 import java.util.Map;
 
 public class Board {

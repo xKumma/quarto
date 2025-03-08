@@ -1,5 +1,7 @@
 package poc;
 
+import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+
 import java.util.List;
 
 public final class RuleChecker {

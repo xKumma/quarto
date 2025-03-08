@@ -1,5 +1,8 @@
 package poc;
 
+import be.kdg.integration2.mvpglobal.model.Position;
+import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+
 public class Move {
     private Player player;
     private Piece piece;

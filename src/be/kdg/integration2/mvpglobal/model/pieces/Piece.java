@@ -1,13 +1,13 @@
-package poc;
+package be.kdg.integration2.mvpglobal.model.pieces;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Piece {
-    private PieceType type;
-    private PieceColor color;
-    private PieceShape shape;
-    private PieceSize size;
+    private final PieceType type;
+    private final PieceColor color;
+    private final PieceShape shape;
+    private final PieceSize size;
 
     public Piece(PieceType type,
                  PieceColor color,
@@ -20,11 +20,18 @@ public class Piece {
     }
 
     public Map<PieceAttribute, Object> getAttributes() {
-        Map<PieceAttribute, Object> attributes = new HashMap<PieceAttribute, Object>();
+        Map<PieceAttribute, Object> attributes = new HashMap<>();
         attributes.put(PieceAttribute.TYPE, type);
         attributes.put(PieceAttribute.COLOR, color);
         attributes.put(PieceAttribute.SHAPE, shape);
         attributes.put(PieceAttribute.SIZE, size);
         return attributes;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%s_%s_%s#%s", shape.toString(), size.toString(), type.toString(), color.toString()
+        ).toLowerCase();
     }
 }
