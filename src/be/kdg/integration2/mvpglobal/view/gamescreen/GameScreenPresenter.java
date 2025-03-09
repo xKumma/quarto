@@ -4,8 +4,8 @@ import be.kdg.integration2.mvpglobal.model.Move;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.gamescreen.records.BoardUpdateData;
-import be.kdg.integration2.mvpglobal.view.gamescreen.records.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -105,14 +105,19 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, TestModel
         System.out.println("End turn");
     }
 
+    /*
+    * TODO: Optimize, a lot
+    *  Move timer operations solely to View or a separate thread
+    */
+
     private void startTimer() {
-        long startTime = System.nanoTime(); // Capture the first timestamp
+        long startTime = System.nanoTime();
 
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                long elapsedNano = now - startTime; // Normalize so it starts at 0
-                long turnTime = elapsedNano / 1_000_000; // Convert to milliseconds
+                long elapsedNano = now - startTime;
+                long turnTime = elapsedNano / 1_000_000;
                 long totalTime = model.getTotalElapsedTime() + turnTime;
                 view.update(new TimeUpdateData(totalTime, turnTime));
             }

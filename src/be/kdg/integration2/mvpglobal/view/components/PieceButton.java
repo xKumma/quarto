@@ -16,21 +16,25 @@ public class PieceButton extends Button {
     public static final double BUTTON_SIZE = 72;
 
     public PieceButton(String pieceImagePath, String color) {
+        super();
         this.pieceImagePath = pieceImagePath;
         this.color = color;
-        setupButton();
+        setupComponent();
     }
 
-    private void setupButton() {
+    private void setupComponent() {
         setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         setMinSize(BUTTON_SIZE, BUTTON_SIZE);
         setMaxSize(BUTTON_SIZE, BUTTON_SIZE);
+
+        getStyleClass().add("piece-button");
+
         updateImage();
     }
 
     private void updateImage() {
         if (pieceImagePath == null || color == null || color.isEmpty() || pieceImagePath.isEmpty()) {
-            System.out.println("pieceImagePath or color is null");
+            //System.out.println("pieceImagePath or color is null");
             setGraphic(null);
             return;
         }

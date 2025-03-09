@@ -1,4 +1,4 @@
-package be.kdg.integration2.mvpglobal.view.gamescreen.records;
+package be.kdg.integration2.mvpglobal.model.dataobjects;
 
 public record BoardUpdateData(String imagePath, String color, int x, int y) {
     public BoardUpdateData(String slug, int x, int y) {

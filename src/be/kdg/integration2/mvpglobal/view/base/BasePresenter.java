@@ -13,6 +13,8 @@ public class BasePresenter<V, M> {
         this.view = view;
         this.model = model;
         this.uiSettings = uiSettings;
+
+        addEventHandlers();
     }
 
     protected void updateView(){

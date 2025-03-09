@@ -4,12 +4,13 @@
 }
 
 @font-face {
-    font-family: "Source Sans Pro";
+    font-family: "Source Sans Pro Bold";
     src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
 }
 /*Fonts dont work on my end, not sure if its just local*/
 
 .header {
+    -fx-padding: 48px;
     -fx-font-size: 64px;
     -fx-font-family: "Helvetica";
 }
@@ -24,27 +25,25 @@
     -fx-border-width: 3px;
     -fx-border-style: solid;
 
-    -fx-font-size: 95%;
-    /*-fx-font-weight: bold;*/
-    -fx-font-family: "Source Sans Pro";
-
-    /*-fx-alignment: center;*/
-    /*-fx-text-alignment: center;*/
-    /*-fx-content-display: center;*/
+    -fx-font-size: 56px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Source Sans Pro Bold";
 }
 
-.board-button {
+.piece-button {
     -fx-border-color: black;
     -fx-border-width: 1px;
     -fx-border-style: dashed;
 }
 
-.unused-button {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-    -fx-border-style: dashed;
-}
+.board-button { }
 
-.center {
+.unused-button { }
+
+.container {
     -fx-padding: 48px;
+}
+
+.setup-container {
+    -fx-font-size: 21px;
 }

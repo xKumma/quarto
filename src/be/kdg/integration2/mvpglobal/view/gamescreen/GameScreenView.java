@@ -2,17 +2,17 @@ package be.kdg.integration2.mvpglobal.view.gamescreen;
 
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.components.Header;
 import be.kdg.integration2.mvpglobal.view.components.PieceButton;
-import be.kdg.integration2.mvpglobal.view.gamescreen.records.BoardUpdateData;
-import be.kdg.integration2.mvpglobal.view.gamescreen.records.RoundUpdateData;
-import be.kdg.integration2.mvpglobal.view.gamescreen.records.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.RoundUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class GameScreenView extends BaseView {
@@ -69,17 +69,7 @@ public class GameScreenView extends BaseView {
 
     @Override
     protected void layoutNodes() {
-        Label qLabel = new Label("Q");
-        StackPane qContainer = new StackPane(qLabel);
-        qContainer.setAlignment(Pos.CENTER);
-        qContainer.getStyleClass().add("header-q");
-
-        Label restLabel = new Label("arto");
-
-        HBox header = new HBox(qContainer, restLabel);
-        header.setAlignment(Pos.CENTER);
-        header.getStyleClass().add("header");
-        setTop(header);
+        setTop(new Header());
 
         VBox centerLeft = new VBox(roundInfoLbl, timeLbl, unusedPieces);
         centerLeft.setSpacing(32);
@@ -90,12 +80,12 @@ public class GameScreenView extends BaseView {
 
         VBox centerContainer = new VBox(centerUpper, infoLbl);
         centerContainer.setAlignment(Pos.CENTER);
-        centerContainer.getStyleClass().add("center");
         centerContainer.setSpacing(32);
         setCenter(centerContainer);
 
         HBox footer = new HBox(menuBtn);
         footer.setAlignment(Pos.CENTER);
+        footer.getStyleClass().add("container");
         setBottom(footer);
     }
 
