@@ -1,18 +1,24 @@
 package be.kdg.integration2.mvpglobal.view.rules;
 
 import be.kdg.integration2.mvpglobal.view.components.Header;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class RulesView extends BorderPane {
 
     Button menuButton;
-    TextArea rulesTextArea;
+    Label rulesTextLabel;
+    Label rulesTitleLabel;
+    Header header;
 
     public RulesView() {
         initialiseNodes();
@@ -20,25 +26,48 @@ public class RulesView extends BorderPane {
     }
 
     protected void initialiseNodes() {
-        Button menuButton = new Button("Menu");
+        Font font = new Font(16);
+        menuButton = new Button("Menu");
         String rulesText = "In Quarto, you play against a computer on a 4x4 grid with 16 unique pieces, each varying by color, height, shape, and top style. The goal is to create a row, column, or diagonal of four pieces sharing a common attribute. Depending on who starts the game, either you or the computer selects a piece for the other to place on the board. Turns alternate as each player places the given piece and then chooses a piece for their opponent. If all pieces are placed without a win, the game is a draw.";
-        rulesTextArea = new TextArea(rulesText);
+        rulesTextLabel = new Label(rulesText);
+        rulesTextLabel.setWrapText(true);  // Enable text wrapping
+        rulesTextLabel.setFont(font); // Adjust the font size as needed
 
-        rulesTextArea.setWrapText(true); // Enables line wrapping
-        rulesTextArea.setEditable(false); // Makes the text read-only
+        rulesTitleLabel = new Label("Rules");
+        rulesTitleLabel.setFont(font);
+        header = new Header();
+
     }
 
     protected void layoutNodes() {
-        setTop(new Header());
-        VBox rulesVBox = new VBox(new Label("Menu"), rulesTextArea);
-        setCenter(rulesVBox);
+
+
+        setTop(header);
+
+        VBox rulesVBox = new VBox(rulesTitleLabel, rulesTextLabel);
+        rulesVBox.setSpacing(15);
         rulesVBox.setAlignment(Pos.CENTER);
+        menuButton.setAlignment(Pos.BOTTOM_CENTER);
+
+
+        setCenter(rulesVBox);
         setBottom(menuButton);
+
+
+        setPadding(new Insets(50));
 
     }
 
-    public TextArea getRulesTextArea() {
-        return rulesTextArea;
+    public Header getHeader() {
+        return header;
+    }
+
+    public Label getRulesTitleLabel() {
+        return rulesTitleLabel;
+    }
+
+    public Label getRulesTextLabel() {
+        return rulesTextLabel;
     }
 
     public Button getMenuButton() {

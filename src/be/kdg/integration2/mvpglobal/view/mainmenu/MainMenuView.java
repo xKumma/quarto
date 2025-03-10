@@ -31,8 +31,9 @@ public class MainMenuView extends BorderPane {
     protected void layoutNodes() {
         setTop(new Header());
         VBox buttons = new VBox(new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton);
+        buttons.setSpacing(3);
+        buttons.setAlignment(Pos.CENTER);
         setCenter(buttons);
-        BorderPane.setAlignment(buttons, Pos.CENTER);
 
     }
 

@@ -22,6 +22,6 @@ public class RulesPresenter {
     }
 
     private void goToMenu() {
-
+        //goTo(Screen.MENU, null);
     }
 }
