@@ -1,11 +1,14 @@
 package be.kdg.integration2.mvpglobal.view.gamescreen;
 
+import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.Move;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -13,14 +16,14 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScreenPresenter extends BasePresenter<GameScreenView, TestModel> {
+public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSession> {
 
     private AnimationTimer timer;
 
-    public GameScreenPresenter(GameScreenView view, TestModel model, UISettings uiSettings) {
-        super(view, model, uiSettings);
+    public GameScreenPresenter(BaseView view, BaseModel model, UISettings uiSettings) {
+        super((GameScreenView)  view,(GameSession)  model, uiSettings);
 
-        setUpBoard(model.board, model.unusedPieces);
+        setUpBoard(((GameSession) model).getBoard1(),((GameSession) model).getUnusedPieces());
 
         TestMove();
     }

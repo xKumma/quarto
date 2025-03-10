@@ -1,28 +1,26 @@
 package be.kdg.integration2.mvpglobal;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
-import be.kdg.integration2.mvpglobal.view.startscreen.*;
-import be.kdg.integration2.mvpglobal.model.*;
-import be.kdg.integration2.mvpglobal.view.*;
-import be.kdg.integration2.mvpglobal.view.statscreen.StatPresenter;
+import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 import javafx.application.Application;
-import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.*;
+import javafx.stage.Stage;
+
 import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.sql.SQLException;
 
 public class MVPMain extends Application {
-
     @Override
-    public void start(Stage primaryStage) throws SQLException {
+    public void start(Stage primaryStage) {
         UISettings uiSettings = new UISettings();
         MVPModel model = new MVPModel();
-        StartScreenView view = new StartScreenView(uiSettings);
-        DBManager.setupDatabase();
-
+        BaseView view = new StartScreenView(uiSettings);
 
         Scene scene = new Scene(view);
         if (uiSettings.styleSheetAvailable()){
@@ -53,11 +51,9 @@ public class MVPMain extends Application {
         StatView SV = new StatView(uiSettings);
         System.out.println(SV.getserie());
 
-
-
-
-
+        new Router(primaryStage);
     }
+
 
     public static void main(String[] args) {
         launch(args);

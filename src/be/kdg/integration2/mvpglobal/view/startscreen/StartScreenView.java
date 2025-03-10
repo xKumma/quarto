@@ -81,6 +81,7 @@ public class StartScreenView extends BorderPane  {
         rectangle3.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
 
         BorderPane progressPane = new BorderPane();
+        graphic = new StackPane();
         progressPane.getChildren().addAll(graphic);
         titolo.setText("     \uD83C\uDD40UARTO     " );
         this.titolo.setId("titolo");

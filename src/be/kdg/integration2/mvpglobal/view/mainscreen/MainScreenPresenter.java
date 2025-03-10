@@ -2,11 +2,11 @@ package be.kdg.integration2.mvpglobal.view.mainscreen;
 
 import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
-import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
-import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
 import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenView;
 import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
@@ -335,43 +335,11 @@ public class MainScreenPresenter {
         });
 
         view.getGameSetupMI().setOnAction(event -> {
-            GameSetupView gameSetupView = new GameSetupView(uiSettings);
-            view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
-            GameSetupPresenter gameSetupPresenter = new GameSetupPresenter(gameSetupView, model, uiSettings);
-            Stage gameSetupStage = new Stage();
-            gameSetupStage.initOwner(view.getScene().getWindow());
-            gameSetupStage.initModality(Modality.APPLICATION_MODAL);
-            Scene scene = new Scene(gameSetupView);
-            gameSetupStage.setScene(scene);
-            gameSetupStage.setTitle(uiSettings.getApplicationName()+ " - Info");
-            gameSetupStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
-            gameSetupStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-            if (Files.exists(uiSettings.getApplicationIconPath())) {
-                try {
-                    gameSetupStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
-                }
-                catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            } else { // do nothing, if ApplicationIconImage is not available, program can continue
-            }
-            gameSetupView.getScene().getWindow().setHeight(uiSettings.getResY()/2);
-            gameSetupView.getScene().getWindow().setWidth(uiSettings.getResX()/2);
-            if (uiSettings.styleSheetAvailable()){
-                gameSetupView.getScene().getStylesheets().removeAll();
-                try {
-                    gameSetupView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                }
-                catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-            gameSetupStage.showAndWait();
+            Router.Instance.goTo(Screen.GAME_SETUP, null);
         });
 
         view.getMenuMI().setOnAction(event -> {
             MainMenuView menuView = new MainMenuView();
-            view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
             MainMenuPresenter menuPresenter = new MainMenuPresenter(menuView, model, uiSettings);
             Stage menuStage = new Stage();
             menuStage.initOwner(view.getScene().getWindow());
@@ -403,6 +371,7 @@ public class MainScreenPresenter {
             }
             menuStage.showAndWait();
         });
+        view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
     }
 
     public void windowsHandler() {
