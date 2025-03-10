@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal;
 
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.startscreen.*;
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.view.*;
@@ -11,14 +12,16 @@ import javafx.scene.image.Image;
 import javafx.stage.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.sql.SQLException;
 
 public class MVPMain extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws SQLException {
         UISettings uiSettings = new UISettings();
         MVPModel model = new MVPModel();
         StartScreenView view = new StartScreenView(uiSettings);
+        DBManager.setupDatabase();
 
 
         Scene scene = new Scene(view);
