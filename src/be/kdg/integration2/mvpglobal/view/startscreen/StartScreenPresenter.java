@@ -38,7 +38,7 @@ public class StartScreenPresenter {
             loginView.getScene().getWindow().setHeight(600);
         });
     }
-
+/* Needed?
     public void windowsHandler() {
         view.getScene().getWindow().setOnCloseRequest(event -> {
                  final Alert stopWindow = new Alert(Alert.AlertType.ERROR);
@@ -47,6 +47,8 @@ public class StartScreenPresenter {
                  stopWindow.showAndWait();
                  event.consume(); } );
     }
+
+ */
 
 
 
