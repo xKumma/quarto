@@ -1,21 +1,18 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Insets;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-import java.net.MalformedURLException;
-import java.nio.file.Files;
+public final class StartScreenView extends BaseView {
 
-public class StartScreenView extends BorderPane  {
-
-    private UISettings uiSettings;
     private Label timeDisplay;
     private ProgressBar timeProgress;
     private StartScreenTransition trans;
@@ -31,13 +28,14 @@ public class StartScreenView extends BorderPane  {
 
 
     public StartScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
+        super(uiSettings);
         initialiseNodes();
         layoutNodes();
         animate();
     }
 
-    private void initialiseNodes() {
+
+    protected void initialiseNodes() {
         this.timeDisplay = new Label("Loading: 0.0");
         this.timeProgress = new ProgressBar();
         circle = new Circle();
@@ -52,7 +50,7 @@ public class StartScreenView extends BorderPane  {
     }
 
 
-    private void layoutNodes() {
+    protected void layoutNodes() {
         //color
         this.setStyle("    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 55% , #D4D4D4, black  );");
         circle.setStroke(Color.WHITE);
