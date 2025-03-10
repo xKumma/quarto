@@ -16,6 +16,8 @@ public class MainScreenView extends BorderPane  {
     private MenuItem infoMI;
     private Button testButton;
     private MenuItem leaderboardMI;
+    private MenuItem gameSetupMI;
+    private MenuItem menuMI;
 
 
     private UISettings uiSettings;
@@ -37,10 +39,25 @@ public class MainScreenView extends BorderPane  {
         this.statistic = new MenuItem("Statistics");
         this.table = new MenuItem("Table");
         this.leaderboardMI = new MenuItem("Leaderboard");
+        this.gameSetupMI = new MenuItem("Game Setup");
+        this.menuMI = new MenuItem("Menu");
     }
 
     private void layoutNodes() {
-        Menu menuFile = new Menu("File",null,loadMI, saveMI, new SeparatorMenuItem(), settingsMI, new SeparatorMenuItem(),exitMI , new SeparatorMenuItem() , statistic , new SeparatorMenuItem() , table);
+        Menu menuFile = new Menu(
+                "File",null,
+                loadMI,
+                saveMI,
+                gameSetupMI,
+                menuMI,
+                new SeparatorMenuItem(),
+                settingsMI,
+                new SeparatorMenuItem(),
+                exitMI ,
+                new SeparatorMenuItem() ,
+                statistic ,
+                new SeparatorMenuItem() ,
+                table);
         Menu menuHelp = new Menu("Help",null, aboutMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile,menuHelp);
         setTop(menuBar);
@@ -64,4 +81,7 @@ public class MainScreenView extends BorderPane  {
 
     MenuItem getTableItem() {return table;}
 
+    MenuItem getGameSetupMI() {return gameSetupMI;}
+    
+    MenuItem getMenuMI() {return menuMI;}
 }

@@ -1,16 +1,24 @@
 package be.kdg.integration2.mvpglobal.view.mainscreen;
 
-import be.kdg.integration2.mvpglobal.model.*;
-import be.kdg.integration2.mvpglobal.view.aboutscreen.*;
-import be.kdg.integration2.mvpglobal.view.infoscreen.*;
-import be.kdg.integration2.mvpglobal.view.settingsscreen.*;
+import be.kdg.integration2.mvpglobal.model.GameSession;
+import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
+import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
+import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
+import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenView;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
+import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsPresenter;
+import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsView;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatPresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
-import javafx.event.*;
-import javafx.scene.*;
+import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
@@ -233,6 +241,8 @@ public class MainScreenPresenter {
             statStage.setTitle(uiSettings.getApplicationName() + " - Statistics");
             statStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
             statStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+         //   statStage.setHeight(uiSettings.getResY()/2);
+        //    statStage.setWidth(uiSettings.getResX()/2);
             if (Files.exists(uiSettings.getApplicationIconPath())) {
                 try {
                     statStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
@@ -260,6 +270,15 @@ public class MainScreenPresenter {
                     // do nothing, if toURL-conversion fails, program can continue
                 }
             }
+
+
+
+
+
+
+
+
+
         });
 
 
@@ -284,6 +303,8 @@ public class MainScreenPresenter {
             tableStage.setTitle(uiSettings.getApplicationName() + " - table");
             tableStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
             tableStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+            //   statStage.setHeight(uiSettings.getResY()/2);
+            //    statStage.setWidth(uiSettings.getResX()/2);
             if (Files.exists(uiSettings.getApplicationIconPath())) {
                 try {
                     tableStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
@@ -312,13 +333,81 @@ public class MainScreenPresenter {
                 }
             }
         });
+
+        view.getGameSetupMI().setOnAction(event -> {
+            GameSetupView gameSetupView = new GameSetupView(uiSettings);
+            view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
+            GameSetupPresenter gameSetupPresenter = new GameSetupPresenter(gameSetupView, model, uiSettings);
+            Stage gameSetupStage = new Stage();
+            gameSetupStage.initOwner(view.getScene().getWindow());
+            gameSetupStage.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(gameSetupView);
+            gameSetupStage.setScene(scene);
+            gameSetupStage.setTitle(uiSettings.getApplicationName()+ " - Info");
+            gameSetupStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
+            gameSetupStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+            if (Files.exists(uiSettings.getApplicationIconPath())) {
+                try {
+                    gameSetupStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
+                }
+                catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            } else { // do nothing, if ApplicationIconImage is not available, program can continue
+            }
+            gameSetupView.getScene().getWindow().setHeight(uiSettings.getResY()/2);
+            gameSetupView.getScene().getWindow().setWidth(uiSettings.getResX()/2);
+            if (uiSettings.styleSheetAvailable()){
+                gameSetupView.getScene().getStylesheets().removeAll();
+                try {
+                    gameSetupView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                }
+                catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+            gameSetupStage.showAndWait();
+        });
+
+        view.getMenuMI().setOnAction(event -> {
+            MainMenuView menuView = new MainMenuView();
+            view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
+            MainMenuPresenter menuPresenter = new MainMenuPresenter(menuView, model, uiSettings);
+            Stage menuStage = new Stage();
+            menuStage.initOwner(view.getScene().getWindow());
+            menuStage.initModality(Modality.APPLICATION_MODAL);
+            Scene scene = new Scene(menuView);
+            menuStage.setScene(scene);
+            menuStage.setTitle(uiSettings.getApplicationName()+ " - Info");
+            menuStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
+            menuStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+            if (Files.exists(uiSettings.getApplicationIconPath())) {
+                try {
+                    menuStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
+                }
+                catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            } else { // do nothing, if ApplicationIconImage is not available, program can continue
+            }
+            menuView.getScene().getWindow().setHeight(uiSettings.getResY()/2);
+            menuView.getScene().getWindow().setWidth(uiSettings.getResX()/2);
+            if (uiSettings.styleSheetAvailable()){
+                menuView.getScene().getStylesheets().removeAll();
+                try {
+                    menuView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                }
+                catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+            menuStage.showAndWait();
+        });
     }
 
     public void windowsHandler() {
         view.getScene().getWindow().setOnCloseRequest(event -> handleCloseEvent(event));
     }
-
-
 
     private void handleCloseEvent(Event event){
         final Alert stopWindow = new Alert(Alert.AlertType.CONFIRMATION);
