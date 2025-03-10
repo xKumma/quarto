@@ -18,7 +18,7 @@ public class Header extends HBox {
         //qContainer.setAlignment(Pos.CENTER);
         qContainer.getStyleClass().add("header-q");
 
-        Label restLabel = new Label("arto");
+        Label restLabel = new Label("uarto");
 
         this.getChildren().addAll(qContainer, restLabel);
         setAlignment(Pos.CENTER);

@@ -5,6 +5,10 @@ import be.kdg.integration2.mvpglobal.view.aboutscreen.*;
 import be.kdg.integration2.mvpglobal.view.infoscreen.*;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.*;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatPresenter;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
+import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
+import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.event.*;
 import javafx.scene.*;
 import javafx.scene.control.Alert;
@@ -13,12 +17,13 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.List;
 
@@ -207,6 +212,136 @@ public class MainScreenPresenter {
                 }
                 infoScreenStage.showAndWait();
         });
+
+
+        view.getStatisticsItem().setOnAction(event -> {
+            StatView statView = new StatView(uiSettings);
+            try {
+                StatPresenter statPresenter = new StatPresenter(model , statView , uiSettings);
+                statView.getserieC(statPresenter.stat1());
+                statView.draw(statPresenter.stat1());
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            Stage statStage = new Stage();
+            statStage.setTitle("Setatistics");
+            statStage.initOwner(view.getScene().getWindow());
+            statStage.initModality(Modality.APPLICATION_MODAL);
+            Scene scene1 = new Scene(statView);
+            statStage.setScene(scene1);
+            statStage.setTitle(uiSettings.getApplicationName() + " - Statistics");
+            statStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
+            statStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+         //   statStage.setHeight(uiSettings.getResY()/2);
+        //    statStage.setWidth(uiSettings.getResX()/2);
+            if (Files.exists(uiSettings.getApplicationIconPath())) {
+                try {
+                    statStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            } else { // do nothing, if ApplicationIconImage is not available, program can continue
+            }
+            statStage.getScene().getWindow().setHeight(7 * uiSettings.getResY() / 10);
+            statStage.getScene().getWindow().setWidth(7 * uiSettings.getResX() / 10);
+            if (uiSettings.styleSheetAvailable()) {
+                statStage.getScene().getStylesheets().removeAll();
+                try {
+                    statStage.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+            statStage.showAndWait();
+            if (uiSettings.styleSheetAvailable()) {
+                view.getScene().getStylesheets().removeAll();
+                try {
+                    view.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+
+
+
+
+
+
+
+
+
+        });
+
+
+
+        view.getTableItem().setOnAction(event -> {
+            TabletView tableView = null;
+            try {
+                tableView = new TabletView(uiSettings);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            TablePresenter statPresenter = new TablePresenter(model , uiSettings , tableView);
+
+
+            Stage tableStage = new Stage();
+            tableStage.setTitle("table");
+            tableStage.initOwner(view.getScene().getWindow());
+            tableStage.initModality(Modality.APPLICATION_MODAL);
+            Scene scene2 = new Scene(tableView);
+            tableStage.setScene(scene2);
+            tableStage.setTitle(uiSettings.getApplicationName() + " - table");
+            tableStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
+            tableStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
+            //   statStage.setHeight(uiSettings.getResY()/2);
+            //    statStage.setWidth(uiSettings.getResX()/2);
+            if (Files.exists(uiSettings.getApplicationIconPath())) {
+                try {
+                    tableStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            } else { // do nothing, if ApplicationIconImage is not available, program can continue
+            }
+            tableStage.getScene().getWindow().setHeight(7 * uiSettings.getResY() / 10);
+            tableStage.getScene().getWindow().setWidth(7 * uiSettings.getResX() / 10);
+            if (uiSettings.styleSheetAvailable()) {
+                tableStage.getScene().getStylesheets().removeAll();
+                try {
+                    tableStage.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+            tableStage.showAndWait();
+            if (uiSettings.styleSheetAvailable()) {
+                view.getScene().getStylesheets().removeAll();
+                try {
+                    view.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
+                } catch (MalformedURLException ex) {
+                    // do nothing, if toURL-conversion fails, program can continue
+                }
+            }
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+
     }
 
     public void windowsHandler() {
