@@ -54,4 +54,7 @@ public class StartScreenPresenter {
                  stopWindow.showAndWait();
                  event.consume(); } );
     }
+
+
+
 }
