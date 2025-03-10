@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal;
 
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.view.UISettings;
@@ -14,13 +15,15 @@ import javafx.stage.Stage;
 
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.sql.SQLException;
 
 public class MVPMain extends Application {
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws SQLException {
         UISettings uiSettings = new UISettings();
         MVPModel model = new MVPModel();
         BaseView view = new StartScreenView(uiSettings);
+        DBManager.setupDatabase();
 
         Scene scene = new Scene(view);
         if (uiSettings.styleSheetAvailable()){
