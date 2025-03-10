@@ -15,6 +15,7 @@ public class MainScreenView extends BorderPane  {
     private MenuItem aboutMI;
     private MenuItem infoMI;
     private Button testButton;
+    private MenuItem leaderboardMI;
 
 
     private UISettings uiSettings;
@@ -35,6 +36,7 @@ public class MainScreenView extends BorderPane  {
         this.testButton = new Button ("Test of Rule Based System");
         this.statistic = new MenuItem("Statistics");
         this.table = new MenuItem("Table");
+        this.leaderboardMI = new MenuItem("Leaderboard");
     }
 
     private void layoutNodes() {
