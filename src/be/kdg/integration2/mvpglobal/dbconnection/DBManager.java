@@ -125,4 +125,76 @@ public class DBManager {
         return rs.getString(1);
     }
 
+
+    public double getTimeMove1(int sessionid , int moveid) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = true";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+            ps.setInt(2, moveid);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 20; // Valore di default se non ci sono risultati
+    }
+
+    public double getTimeMove2(int sessionid , int i) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = false";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+            ps.setInt(2, i);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 20; // Valore di default se non ci sono risultati
+    }
+
+
+    public int getMoveID2(int sessionid ) throws SQLException {
+        String query = "SELECT moveid FROM moves WHERE sessionID = ? order by moveid DESC LIMIT 1";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int getMoveID1(int sessionid) throws SQLException {
+        String query = "SELECT moveid FROM moves WHERE sessionID = ? order by moveid asc LIMIT 1";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+
+                }
+            }
+        }
+        return 0;
+    }
+
+    public boolean isAI(int moveid) throws SQLException {
+        String query = "SELECT was_ai FROM  moves WHERE moveId = ? and was_ai = true order by moveid asc  ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, moveid);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

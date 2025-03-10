@@ -9,10 +9,14 @@ public class MainScreenView extends BorderPane  {
     private MenuItem exitMI;
     private MenuItem saveMI;
     private MenuItem loadMI;
+    private MenuItem statistic;
+    private MenuItem table;
     private MenuItem settingsMI;
     private MenuItem aboutMI;
     private MenuItem infoMI;
     private Button testButton;
+
+
     private UISettings uiSettings;
 
     public MainScreenView(UISettings uiSettings) {
@@ -29,10 +33,12 @@ public class MainScreenView extends BorderPane  {
         this.aboutMI = new MenuItem("About");
         this.infoMI = new MenuItem("Info");
         this.testButton = new Button ("Test of Rule Based System");
+        this.statistic = new MenuItem("Statistics");
+        this.table = new MenuItem("Table");
     }
 
     private void layoutNodes() {
-        Menu menuFile = new Menu("File",null,loadMI, saveMI, new SeparatorMenuItem(), settingsMI, new SeparatorMenuItem(),exitMI);
+        Menu menuFile = new Menu("File",null,loadMI, saveMI, new SeparatorMenuItem(), settingsMI, new SeparatorMenuItem(),exitMI , new SeparatorMenuItem() , statistic , new SeparatorMenuItem() , table);
         Menu menuHelp = new Menu("Help",null, aboutMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile,menuHelp);
         setTop(menuBar);
@@ -51,5 +57,9 @@ public class MainScreenView extends BorderPane  {
 
     MenuItem getInfoItem() {return infoMI;}
     Button getTestButton () {return testButton;}
+
+    MenuItem getStatisticsItem() {return statistic;}
+
+    MenuItem getTableItem() {return table;}
 
 }

@@ -3,6 +3,8 @@ package be.kdg.integration2.mvpglobal;
 import be.kdg.integration2.mvpglobal.view.startscreen.*;
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.view.*;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatPresenter;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -43,6 +45,14 @@ public class MVPMain extends Application {
         StartScreenPresenter presenter = new StartScreenPresenter(model, view, uiSettings);
         presenter.windowsHandler();
         primaryStage.show();
+
+        StatView SV = new StatView(uiSettings);
+        System.out.println(SV.getserie());
+
+
+
+
+
     }
 
     public static void main(String[] args) {
