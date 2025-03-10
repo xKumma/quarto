@@ -32,7 +32,7 @@ public class RulesView extends BorderPane {
         setTop(new Header());
         VBox rulesVBox = new VBox(new Label("Menu"), rulesTextArea);
         setCenter(rulesVBox);
-        BorderPane.setAlignment(rulesVBox, Pos.CENTER);
+        rulesVBox.setAlignment(Pos.CENTER);
         setBottom(menuButton);
 
     }
