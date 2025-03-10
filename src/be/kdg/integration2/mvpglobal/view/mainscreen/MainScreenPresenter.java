@@ -233,8 +233,6 @@ public class MainScreenPresenter {
             statStage.setTitle(uiSettings.getApplicationName() + " - Statistics");
             statStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
             statStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-         //   statStage.setHeight(uiSettings.getResY()/2);
-        //    statStage.setWidth(uiSettings.getResX()/2);
             if (Files.exists(uiSettings.getApplicationIconPath())) {
                 try {
                     statStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
@@ -262,15 +260,6 @@ public class MainScreenPresenter {
                     // do nothing, if toURL-conversion fails, program can continue
                 }
             }
-
-
-
-
-
-
-
-
-
         });
 
 
@@ -295,8 +284,6 @@ public class MainScreenPresenter {
             tableStage.setTitle(uiSettings.getApplicationName() + " - table");
             tableStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
             tableStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-            //   statStage.setHeight(uiSettings.getResY()/2);
-            //    statStage.setWidth(uiSettings.getResX()/2);
             if (Files.exists(uiSettings.getApplicationIconPath())) {
                 try {
                     tableStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
@@ -324,29 +311,14 @@ public class MainScreenPresenter {
                     // do nothing, if toURL-conversion fails, program can continue
                 }
             }
-
-
-
-
-
-
-
         });
-
-
-
-
-
-
-
-
-
-
     }
 
     public void windowsHandler() {
         view.getScene().getWindow().setOnCloseRequest(event -> handleCloseEvent(event));
     }
+
+
 
     private void handleCloseEvent(Event event){
         final Alert stopWindow = new Alert(Alert.AlertType.CONFIRMATION);

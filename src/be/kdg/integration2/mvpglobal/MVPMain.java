@@ -43,7 +43,7 @@ public class MVPMain extends Application {
         } else { // do nothing, if ApplicationIcon is not available, program can continue
         }
         StartScreenPresenter presenter = new StartScreenPresenter(model, view, uiSettings);
-        presenter.windowsHandler();
+        //presenter.windowsHandler();
         primaryStage.show();
 
         StatView SV = new StatView(uiSettings);
