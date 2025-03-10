@@ -1,22 +1,24 @@
 package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
+import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.BotDifficulty;
-import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.model.GameSetup;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.util.List;
 
-public class GameSetupPresenter extends BasePresenter<GameSetupView, MVPModel> {
+public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> {
     private int startingPlayer = 0; // 0 = R, 1 = P, 2 = B; can be made into an enum
     private BotDifficulty difficulty = BotDifficulty.EASY;
 
-    public GameSetupPresenter(GameSetupView view, MVPModel model, UISettings uiSettings) {
-        super(view, model, uiSettings);
+    public GameSetupPresenter(BaseView view, BaseModel model, UISettings uiSettings) {
+        super((GameSetupView) view, (GameSetup) model, uiSettings);
     }
 
     @Override
@@ -24,6 +26,7 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, MVPModel> {
         super.addEventHandlers();
 
         List<ToggleButton> startingPlayerButtons = view.getStartingPlayerButtons();
+
         for (int i = 0; i < startingPlayerButtons.size(); i++) {
             int index = i;
             startingPlayerButtons.get(i).setOnAction(e -> {
@@ -77,6 +80,6 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, MVPModel> {
     private void startGame() {
         GameSessionData gameSessionData = new GameSessionData(startingPlayer, difficulty);
         System.out.println("Starting Game: " + startingPlayer + " : " + difficulty);
-        // give gameSessionData to model to start game
+        model.startGame(gameSessionData);
     }
 }

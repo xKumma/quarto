@@ -1,38 +1,29 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
-import be.kdg.integration2.mvpglobal.model.*;
-import be.kdg.integration2.mvpglobal.view.*;
+import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;
-import javafx.event.*;
-import javafx.scene.control.Alert;
-import javafx.stage.WindowEvent;
-import java.net.MalformedURLException;
 
-public class StartScreenPresenter {
+public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
-    private MVPModel model;
-    private StartScreenView view;
-    private UISettings uiSettings;
-
-    public StartScreenPresenter(MVPModel model, StartScreenView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
+    public StartScreenPresenter(BaseModel model, BaseView view, UISettings uiSettings) {
+        super((StartScreenView) view, model, uiSettings);
         updateView();
         EventHandlers();
     }
 
-    private void updateView() {
+    protected void updateView() {
         view.getTitolo().getStylesheets().add(uiSettings.getStyleSheetPath().toString());
     }
 
     private void EventHandlers() {
         view.getTransition().setOnFinished(event -> {
             LoginScreenView loginView = new LoginScreenView(uiSettings);
-            LoginScreenPresenter loginPresenter = new LoginScreenPresenter(model, loginView,uiSettings);
+            LoginScreenPresenter loginPresenter = new LoginScreenPresenter((MVPModel) model, loginView,uiSettings);
             view.getScene().setRoot(loginView);
             loginView.getScene().getWindow().setWidth(600);
             loginView.getScene().getWindow().setHeight(600);

@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.model;
 
-public class MVPModel {
+public class MVPModel implements BaseModel {
 
     GameSession gameSession;
     public MVPModel() {
