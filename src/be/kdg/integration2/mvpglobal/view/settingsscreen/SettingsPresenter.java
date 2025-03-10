@@ -3,9 +3,8 @@ package be.kdg.integration2.mvpglobal.view.settingsscreen;
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import javafx.event.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.WindowEvent;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;

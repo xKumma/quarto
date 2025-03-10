@@ -20,6 +20,7 @@ public class MVPMain extends Application {
         MVPModel model = new MVPModel();
         StartScreenView view = new StartScreenView(uiSettings);
 
+
         Scene scene = new Scene(view);
         if (uiSettings.styleSheetAvailable()){
             try {
