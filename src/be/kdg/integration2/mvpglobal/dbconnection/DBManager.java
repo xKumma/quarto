@@ -1,13 +1,23 @@
 package be.kdg.integration2.mvpglobal.dbconnection;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DBManager {
-    Connection connection;
-    Statement statement;
+    static Connection connection;
+    static Statement statement;
     public DBManager() throws SQLException {
         // database url: change to your own database (check jdbc workshop)
+        String url = "jdbc:postgresql://10.134.178.12:5432/game";
+        String user = "game";
+        String password = "7sur7";
+        connection = DriverManager.getConnection(url, user, password);
+        statement = connection.createStatement();
+    }
+
+    public static void setupDatabase() throws SQLException {
         String url = "jdbc:postgresql://10.134.178.12:5432/game";
         String user = "game";
         String password = "7sur7";
@@ -196,5 +206,100 @@ public class DBManager {
         return false;
     }
 
+    public static Boolean registerUser(String usernameData, String passwordData){
+        try{
+            if(userExists(usernameData)){
+                System.out.println("username taken");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Username Taken");
+                alert.setHeaderText("This username is already taken");
+                alert.showAndWait();
+                return false;
+            }
+            else{
+            String registerString = "INSERT INTO human_players(username, password) VALUES(?,?)";
+            PreparedStatement ps = connection.prepareStatement(registerString);
+            ps.setString(1, usernameData);
+            ps.setString(2, passwordData);
+            ps.execute();
+            ps.close();
+            System.out.println("Registering user " + usernameData + " with password " + passwordData);
+            return true;
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public static Boolean loginUser(String usernameData, String passwordData){
+        try{
+            if(userExists(usernameData)){
+                if(passwordCheck(usernameData, passwordData)){
+                    System.out.println("username there");
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                System.out.println("username not in database");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Username does not exist");
+                alert.setHeaderText("This username is not in the database");
+                alert.showAndWait();
+                return false;
+            }
+        }
+        catch(Exception e){
+            System.out.println("Error at login");
+            return false;
+        }
+    }
+
+    public static Boolean userExists(String usernameData){
+        Boolean flag=false;
+        String checkString = "SELECT EXISTS (SELECT 1 FROM human_players WHERE username = ?)";
+        try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
+            ps1.setString(1, usernameData);
+            try (ResultSet rs = ps1.executeQuery()) {
+                if (rs.next()) {
+                    flag= rs.getBoolean(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
+
+    public static Boolean passwordCheck(String usernameData,String passwordData){
+        Boolean flag=false;
+        String checkString = "SELECT password FROM human_players WHERE username = ?";
+        try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
+            ps1.setString(1, usernameData);
+            try (ResultSet rs = ps1.executeQuery()) {
+                if (rs.next()) {
+                    if(rs.getString(1).equals(passwordData)){
+                        flag= true;
+                    }
+                    else{
+                        System.out.println("Password incorrect");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Wrong Password");
+                        alert.setHeaderText("The password is incorrect");
+                        alert.showAndWait();
+                        flag= false;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
 
 }

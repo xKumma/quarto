@@ -4,6 +4,7 @@ import be.kdg.integration2.mvpglobal.view.UISettings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 public class LoginScreenView extends BorderPane {
     private Label quartoLogo;
     private TextField nameField;
-    private TextField passwordField;
+    private PasswordField passwordField;
     private Label passwordLabel;
     private Label nameLabel;
     private Button loginButton;
@@ -33,7 +34,7 @@ public class LoginScreenView extends BorderPane {
     private void initialiseNodes(){
         this.quartoLogo = new Label("\uD83C\uDD40uarto");
         this.nameField = new TextField();
-        this.passwordField = new TextField();
+        this.passwordField = new PasswordField();
         this.passwordLabel = new Label("Password:");
         this.nameLabel = new Label("Username:");
         this.loginButton = new Button("Login");
@@ -68,6 +69,9 @@ public class LoginScreenView extends BorderPane {
     }
 
     Button getLoginButton(){return loginButton;}
+    TextField getNameField(){return nameField;}
+    TextField getPasswordField(){return passwordField;}
+    Button getRegisterButton(){return registerButton;}
 
 }
 
