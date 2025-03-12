@@ -6,23 +6,33 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBManager {
+    // LIVE DB
+    static final String DB_URL = "jdbc:postgresql://10.134.178.12:5432/game";
+    static final String USER = "game";
+    static final String PASSWORD = "7sur7";
+
+
+    // USE FOR LOCAL TESTING WITHOUT VPN - change for your setup
+    /*
+    static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
+    static final String USER = "devuser";
+    static final String PASSWORD = "devpass";
+    */
     static Connection connection;
     static Statement statement;
+
     public DBManager() throws SQLException {
-        // database url: change to your own database (check jdbc workshop)
-        String url = "jdbc:postgresql://10.134.178.12:5432/game";
-        String user = "game";
-        String password = "7sur7";
-        connection = DriverManager.getConnection(url, user, password);
-        statement = connection.createStatement();
+        setupDatabase();
     }
 
-    public static void setupDatabase() throws SQLException {
-        String url = "jdbc:postgresql://10.134.178.12:5432/game";
-        String user = "game";
-        String password = "7sur7";
-        connection = DriverManager.getConnection(url, user, password);
-        statement = connection.createStatement();
+    public static void setupDatabase() {
+        try {
+            connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            statement = connection.createStatement();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createPlayer (String username,String password) throws SQLException {
@@ -223,7 +233,7 @@ public class DBManager {
             ps.setString(2, passwordData);
             ps.execute();
             ps.close();
-            System.out.println("Registering user " + usernameData + " with password " + passwordData);
+            System.out.println("Registering USER " + usernameData + " with password " + passwordData);
             return true;
             }
         }
