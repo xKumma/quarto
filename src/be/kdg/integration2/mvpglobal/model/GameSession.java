@@ -1,6 +1,7 @@
 package be.kdg.integration2.mvpglobal.model;
 
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
 
 import java.util.ArrayList;
@@ -73,9 +74,9 @@ public class GameSession implements BaseModel {
 
     public List<Move> moves = new ArrayList<>(
             Arrays.asList(
-                    new Move(new Player(), unusedPieces.get(6), new Position(3,2)),
-                    new Move(new Player(), unusedPieces.get(3), new Position(2,3)),
-                    new Move(new Player(), unusedPieces.get(8), new Position(0,0))
+                    new Move(new Player(), unusedPieces.get(6), new PositionData(3,2)),
+                    new Move(new Player(), unusedPieces.get(3), new PositionData(2,3)),
+                    new Move(new Player(), unusedPieces.get(8), new PositionData(0,0))
             )
     );
 

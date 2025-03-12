@@ -1,12 +1,12 @@
 package poc;
 
-import be.kdg.integration2.mvpglobal.model.Position;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 
 import java.util.Map;
 
 public class Board {
-    private Map<Position, Piece> boardState;
+    private Map<PositionData, Piece> boardState;
 
     public void movePiece(Move move) {
         /*
