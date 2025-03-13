@@ -1,5 +1,37 @@
 package be.kdg.integration2.mvpglobal.model;
 
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
+import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
+import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
+import be.kdg.integration2.mvpglobal.view.leaderboardscreen.LeaderboardScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.leaderboardscreen.LeaderboardScreenView;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
+import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
+import be.kdg.integration2.mvpglobal.view.rules.RulesView;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
+
+import java.util.function.Supplier;
+
 public enum Screen {
-    GAME, GAME_SETUP, MAIN_MENU, LEADERBOARD, END_SCREEN, RULES, LOGIN
+    GAME(() -> new GameScreenPresenter(new GameScreenView(), new GameSession())),
+    GAME_SETUP(() -> new GameSetupPresenter(new GameSetupView(), new GameSetup())),
+    MAIN_MENU(() -> new MainMenuPresenter(new MainMenuView(), null)),
+    LEADERBOARD(() -> new LeaderboardScreenPresenter(new LeaderboardScreenView(), null)),
+    END_SCREEN(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
+    RULES(() -> new RulesPresenter(new RulesView(), null)),
+    LOGIN(() -> null);
+
+    private final Supplier<BasePresenter> presenterSupplier;
+
+    Screen(Supplier<BasePresenter> presenterSupplier) {
+        this.presenterSupplier = presenterSupplier;
+    }
+
+    public BasePresenter createPresenter() {
+        return presenterSupplier.get();
+    }
 }

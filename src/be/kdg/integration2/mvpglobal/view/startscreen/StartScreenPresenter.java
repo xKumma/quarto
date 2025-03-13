@@ -1,32 +1,32 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
 import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.base.BaseView;
-import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
 
 public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
-    public StartScreenPresenter(BaseModel model, BaseView view, UISettings uiSettings) {
-        super((StartScreenView) view, model, uiSettings);
+    public StartScreenPresenter(StartScreenView view, BaseModel model) {
+        super(view, model);
         updateView();
-        EventHandlers();
     }
 
     protected void updateView() {
         view.getTitolo().getStylesheets().add(uiSettings.getStyleSheetPath().toString());
     }
 
-    private void EventHandlers() {
+    protected void addEventHandlers() {
+//        view.getTransition().setOnFinished(event -> {
+//            LoginScreenView loginView = new LoginScreenView(uiSettings);
+//            LoginScreenPresenter loginPresenter = new LoginScreenPresenter((MVPModel) model, loginView,uiSettings);
+//            view.getScene().setRoot(loginView);
+//            loginView.getScene().getWindow().setWidth(600);
+//            loginView.getScene().getWindow().setHeight(600);
+//        });
+
+        // Skip the login screen for quicker testing
         view.getTransition().setOnFinished(event -> {
-            LoginScreenView loginView = new LoginScreenView(uiSettings);
-            LoginScreenPresenter loginPresenter = new LoginScreenPresenter((MVPModel) model, loginView,uiSettings);
-            view.getScene().setRoot(loginView);
-            loginView.getScene().getWindow().setWidth(600);
-            loginView.getScene().getWindow().setHeight(600);
+            Router.getInstance().mainScreen();
         });
     }
 /* Needed?

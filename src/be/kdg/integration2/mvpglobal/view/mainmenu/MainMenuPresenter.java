@@ -1,28 +1,14 @@
 package be.kdg.integration2.mvpglobal.view.mainmenu;
 
+import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
-import be.kdg.integration2.mvpglobal.view.gamescreen.TestModel;
-import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
-import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
-import be.kdg.integration2.mvpglobal.view.rules.RulesView;
-import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenView;
-import javafx.scene.*;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
-public class MainMenuPresenter {
-
-    private MVPModel model;
-    private MainMenuView view;
-    private UISettings uiSettings;
-
-    public MainMenuPresenter(MainMenuView view, MVPModel model, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
+public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
+    public MainMenuPresenter(MainMenuView view, MVPModel model) {
+        super(view, model);
     }
 
     protected void addEventHandlers() {
@@ -36,15 +22,15 @@ public class MainMenuPresenter {
         //quit
     }
     private void goToLeaderboard() {
-        //goTo(Screen.LEADERBOARD, null);
+        Router.getInstance().goTo(Screen.LEADERBOARD);
 
     }
     private void goToRules() {
-        //goTo(Screen.RULES, null);
+        Router.getInstance().goTo(Screen.RULES);
     }
 
     private void goToGameSetup() {
-        //goTo(Screen.GAMESETUP, null);
+        Router.getInstance().goTo(Screen.GAME_SETUP);
 
     }
 

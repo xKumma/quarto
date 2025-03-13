@@ -1,12 +1,10 @@
 package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
-import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.BotDifficulty;
 import be.kdg.integration2.mvpglobal.model.GameSetup;
-import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
-import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.FileChooser;
 
@@ -14,11 +12,9 @@ import java.io.File;
 import java.util.List;
 
 public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> {
-    private int startingPlayer = 0; // 0 = R, 1 = P, 2 = B; can be made into an enum
-    private BotDifficulty difficulty = BotDifficulty.EASY;
 
-    public GameSetupPresenter(BaseView view, BaseModel model, UISettings uiSettings) {
-        super((GameSetupView) view, (GameSetup) model, uiSettings);
+    public GameSetupPresenter(GameSetupView view, GameSetup model) {
+        super(view, model);
     }
 
     @Override
@@ -30,7 +26,7 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
         for (int i = 0; i < startingPlayerButtons.size(); i++) {
             int index = i;
             startingPlayerButtons.get(i).setOnAction(e -> {
-                startingPlayer = index;
+                model.setStartingPlayer(index);
             });
         }
 
@@ -38,7 +34,7 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
         for (int i = 0; i < difficultyButtons.size(); i++) {
             BotDifficulty difficulty = BotDifficulty.values()[i];
             difficultyButtons.get(i).setOnAction(e -> {
-                this.difficulty = difficulty;
+                model.setDifficulty(difficulty);
             });
         }
 
@@ -70,16 +66,13 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
     }
 
     private void loadFromDB() {
-        //
     }
 
     private void goToMenu() {
-        //
+        Router.Instance.goTo(Screen.MAIN_MENU);
     }
 
     private void startGame() {
-        GameSessionData gameSessionData = new GameSessionData(startingPlayer, difficulty);
-        System.out.println("Starting Game: " + startingPlayer + " : " + difficulty);
-        model.startGame(gameSessionData);
+        Router.Instance.goTo(Screen.GAME, model.getSessionData());
     }
 }

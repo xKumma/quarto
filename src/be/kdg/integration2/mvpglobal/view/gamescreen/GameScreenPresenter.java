@@ -3,11 +3,10 @@ package be.kdg.integration2.mvpglobal.view.gamescreen;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.Move;
-import be.kdg.integration2.mvpglobal.model.pieces.Piece;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
@@ -20,8 +19,8 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
     private AnimationTimer timer;
 
-    public GameScreenPresenter(BaseView view, BaseModel model, UISettings uiSettings) {
-        super((GameScreenView)  view,(GameSession)  model, uiSettings);
+    public GameScreenPresenter(BaseView view, BaseModel model) {
+        super((GameScreenView)  view,(GameSession)  model);
 
         setUpBoard(((GameSession) model).getBoard1(),((GameSession) model).getUnusedPieces());
 

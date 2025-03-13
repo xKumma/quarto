@@ -1,10 +1,9 @@
 package be.kdg.integration2.mvpglobal.view.mainscreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import javafx.scene.layout.*;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.scene.control.*;
 
-public class MainScreenView extends BorderPane  {
+public class MainScreenView extends BaseView {
 
     private MenuItem exitMI;
     private MenuItem saveMI;
@@ -20,15 +19,11 @@ public class MainScreenView extends BorderPane  {
     private MenuItem menuMI;
 
 
-    private UISettings uiSettings;
-
-    public MainScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
-        initialiseNodes();
-        layoutNodes();
+    public MainScreenView() {
+        super();
     }
 
-    private void initialiseNodes() {
+    protected void initialiseNodes() {
         this.exitMI = new MenuItem("Exit");
         this.saveMI = new MenuItem("Save");
         this.loadMI = new MenuItem("Load");
@@ -43,7 +38,7 @@ public class MainScreenView extends BorderPane  {
         this.menuMI = new MenuItem("Menu");
     }
 
-    private void layoutNodes() {
+    protected void layoutNodes() {
         Menu menuFile = new Menu(
                 "File",null,
                 loadMI,

@@ -1,13 +1,13 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class LeaderboardScreenView extends BorderPane {
+public class LeaderboardScreenView extends BaseView {
     private UISettings uiSettings;
     private Label headerLabel;
     private Label logoLabel;
@@ -20,10 +20,8 @@ public class LeaderboardScreenView extends BorderPane {
     private MenuItem descMI;
     private MenuButton filterMB;
 
-    public LeaderboardScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
-        initialiseNodes();
-        layoutNodes();
+    public LeaderboardScreenView() {
+        super();
     }
 
     public void initialiseNodes () {

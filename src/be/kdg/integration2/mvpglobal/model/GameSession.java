@@ -21,8 +21,11 @@ public class GameSession implements BaseModel {
         //...
     }
 
-    public GameSession (GameSessionData gameSession) {
-        System.out.println(gameSession.getStartingPlayer() + " " + gameSession.getBotDifficulty());
+    @Override
+    public void init(Object data) {
+        GameSessionData sessionData = (GameSessionData) data;
+
+        System.out.println(sessionData.getStartingPlayer() + " " + sessionData.getBotDifficulty());
     }
 
     public void play(){

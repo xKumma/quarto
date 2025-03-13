@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.infoscreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,25 +8,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
-public class InfoScreenView extends BorderPane{
+public class InfoScreenView extends BaseView {
 
-    private UISettings uiSettings;
     private TextArea InfoText;
     private Button okButton;
 
-    public InfoScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
-        initialiseNodes();
-        layoutNodes();
+    public InfoScreenView() {
+        super();
     }
 
-    private void initialiseNodes() {
+    protected void initialiseNodes() {
         InfoText = new TextArea("poc");
         okButton = new Button("OK");
         okButton.setPrefWidth(60);
     }
 
-    private void layoutNodes() {
+    protected void layoutNodes() {
         setCenter(InfoText);
         InfoText.setPrefWidth(Double.MAX_VALUE);
         InfoText.setPrefHeight(Double.MAX_VALUE);

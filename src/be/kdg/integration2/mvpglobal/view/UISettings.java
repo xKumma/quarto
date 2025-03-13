@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class UISettings {
+    public static UISettings Instance = null;
 
     private int resX;
     private int resY;
@@ -21,13 +22,20 @@ public class UISettings {
     private Path startScreenImagePath = Paths.get("resources"+FILE_SEPARATOR+"images"+FILE_SEPARATOR+"icon.png");
     private Path infoTextPath = Paths.get("resources"+FILE_SEPARATOR+"other"+FILE_SEPARATOR+"info.txt");
 
-    public UISettings() {
-        this.resX= (int) Screen.getPrimary().getVisualBounds().getWidth();
+    private UISettings() {
+        this.resX = (int) Screen.getPrimary().getVisualBounds().getWidth();
         this.resY = (int) Screen.getPrimary().getVisualBounds().getHeight();
         this.insetsMargin = this.getLowestRes()/100;
         this.homeDir = System.getProperties().getProperty("user.dir");
         this.ApplicationName = "QUARTO";
-    };
+    }
+
+    public static UISettings getInstance() {
+        if (Instance == null) {
+            Instance = new UISettings();
+        }
+        return Instance;
+    }
 
     public int getResX () {return this.resX;}
 

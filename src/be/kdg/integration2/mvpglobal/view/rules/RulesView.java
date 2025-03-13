@@ -1,19 +1,15 @@
 package be.kdg.integration2.mvpglobal.view.rules;
 
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class RulesView extends BorderPane {
+public class RulesView extends BaseView {
 
     Button menuButton;
     Label rulesTextLabel;
@@ -21,8 +17,7 @@ public class RulesView extends BorderPane {
     Header header;
 
     public RulesView() {
-        initialiseNodes();
-        layoutNodes();
+        super();
     }
 
     protected void initialiseNodes() {
@@ -40,8 +35,6 @@ public class RulesView extends BorderPane {
     }
 
     protected void layoutNodes() {
-
-
         setTop(header);
 
         VBox rulesVBox = new VBox(rulesTitleLabel, rulesTextLabel);

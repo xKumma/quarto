@@ -1,27 +1,21 @@
 package be.kdg.integration2.mvpglobal.view.rules;
 
-import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
+import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
-public class RulesPresenter {
+public class RulesPresenter extends BasePresenter<RulesView, BaseModel> {
 
-
-    private MVPModel model;
-    private RulesView view;
-    private UISettings uiSettings;
-
-    public RulesPresenter(MVPModel model, RulesView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
+    public RulesPresenter(RulesView rulesView, BaseModel model) {
+        super(rulesView, model);
     }
 
-    protected void addEventHandler() {
+    protected void addEventHandlers() {
         view.getMenuButton().setOnAction(e -> goToMenu());
     }
 
     private void goToMenu() {
-        //goTo(Screen.MENU, null);
+        Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
 }

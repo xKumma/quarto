@@ -30,8 +30,8 @@ public class LoginScreenPresenter {
             if(!contentChecker()){return;}
             if(!DBManager.loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
 
-            MainScreenView msView = new MainScreenView(uiSettings);
-            MainScreenPresenter msPresenter = new MainScreenPresenter(model, msView, uiSettings);
+            MainScreenView msView = new MainScreenView();
+            MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
             view.getScene().setRoot(msView);
             try {
                 msView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
@@ -49,8 +49,8 @@ public class LoginScreenPresenter {
            //Does not do anything if register fails
             if(!DBManager.registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
             //Loads Main Screen
-            MainScreenView msView = new MainScreenView(uiSettings);
-            MainScreenPresenter msPresenter = new MainScreenPresenter(model, msView, uiSettings);
+            MainScreenView msView = new MainScreenView();
+            MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
             view.getScene().setRoot(msView);
             try {
                 msView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());

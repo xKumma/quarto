@@ -1,15 +1,11 @@
 package be.kdg.integration2.mvpglobal.model;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
-import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
-import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
+import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;
 import javafx.stage.Stage;
 
 public class Router {
-    public static Router Instance;
+    public static Router Instance = null;
     private final Stage primaryStage;
 
     public Router(Stage primaryStage) {
@@ -17,29 +13,29 @@ public class Router {
         this.primaryStage = primaryStage;
     }
 
-    public void goTo(Screen screenType, Object data){
-        var presenter = new BasePresenter();
+    public static Router getInstance() {
+        if (Instance == null) {
+            // throw an exception or smt
+        }
+        return Instance;
+    }
 
-        switch(screenType){
-            case GAME -> {
-                presenter = new GameScreenPresenter(new GameScreenView(new UISettings()), new GameSession(), new UISettings());
-            }
-            case GAME_SETUP -> {
-                presenter = new GameSetupPresenter(new GameSetupView(new UISettings()), new GameSetup(), new UISettings());
-            }
-            case MAIN_MENU -> {
-            }
-            case LEADERBOARD -> {
-            }
-            case END_SCREEN -> {
-            }
-            case RULES -> {
-            }
-            case LOGIN -> {
-            }
+    public void goTo(Screen screen) {
+        goTo(screen, null);
+    }
+
+    public void goTo(Screen screenType, Object data){
+        var presenter = screenType.createPresenter();
+
+        if (presenter.getModel() != null) {
+            presenter.getModel().init(data);
         }
 
+        primaryStage.getScene().setRoot(presenter.getView());
+    }
 
+    public void mainScreen() {
+        MainScreenPresenter presenter = new MainScreenPresenter(new MainScreenView(), new MVPModel());
         primaryStage.getScene().setRoot(presenter.getView());
     }
 }

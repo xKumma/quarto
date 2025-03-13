@@ -6,8 +6,9 @@ import javafx.scene.layout.BorderPane;
 public abstract class BaseView extends BorderPane {
     protected UISettings uiSettings;
 
-    public BaseView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
+    public BaseView() {
+        uiSettings = UISettings.getInstance();
+
         initialiseNodes();
         layoutNodes();
     }

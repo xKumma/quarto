@@ -4,10 +4,8 @@ import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenView;
-import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,9 +18,9 @@ import java.sql.SQLException;
 public class MVPMain extends Application {
     @Override
     public void start(Stage primaryStage) throws SQLException {
-        UISettings uiSettings = new UISettings();
+        UISettings uiSettings = UISettings.getInstance();
         MVPModel model = new MVPModel();
-        BaseView view = new StartScreenView(uiSettings);
+        StartScreenView view = new StartScreenView();
         DBManager.setupDatabase();
 
         Scene scene = new Scene(view);
@@ -47,14 +45,10 @@ public class MVPMain extends Application {
              }
         } else { // do nothing, if ApplicationIcon is not available, program can continue
         }
-        StartScreenPresenter presenter = new StartScreenPresenter(model, view, uiSettings);
+        StartScreenPresenter presenter = new StartScreenPresenter(view, model);
         //presenter.windowsHandler();
-        primaryStage.show();
-
-        StatView SV = new StatView(uiSettings);
-        System.out.println(SV.getserie());
-
         new Router(primaryStage);
+        primaryStage.show();
     }
 
 

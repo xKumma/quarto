@@ -1,15 +1,13 @@
 package be.kdg.integration2.mvpglobal.model;
 
 import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Statistics {
+public class Statistics implements BaseModel {
     public static DBManager dbManager;
     public static int i =1;
     public static int j =1;
@@ -27,7 +25,7 @@ public class Statistics {
     protected double UoutlierB;
     protected double RIQA;
     protected double RIQB;
-    protected List<Double> stat1;
+    protected List<Double> stat1 = new ArrayList<>();
     protected String firstname;
     protected double score;
     protected  double time;
@@ -44,15 +42,12 @@ public class Statistics {
 
     protected static double[] time1 ;
     protected static double[] time2 ;
-    protected  List <Double> timeList1 ;
-    protected List <Double> timeList2  ;
+    protected  List <Double> timeList1 = new ArrayList<>();
+    protected List <Double> timeList2 = new ArrayList<>();
 
 
 
-    public Statistics() throws SQLException {
-        timeList1 = new ArrayList<>();
-        timeList2 = new ArrayList<>();
-        stat1 = new ArrayList<>();
+    public Statistics()  {
     }
 
     public  void setValues() throws SQLException {
@@ -62,6 +57,7 @@ public class Statistics {
         j++;
 
     }
+
 
     public void launch() throws SQLException {
             for (int i = dbManager.getMoveID1(1); i <= dbManager.getMoveID2(1 ); i ++){

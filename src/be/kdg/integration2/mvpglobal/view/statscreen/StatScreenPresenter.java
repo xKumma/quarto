@@ -1,28 +1,20 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
-import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Statistics;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.PieChart;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.chart.XYChart;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatPresenter {
+public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistics> {
     /*
     ObservableList<LineChart.Data> lineChartData =
             FXCollections.observableArrayList();
 
      */
-    Statistics statistics = new Statistics();
-    UISettings uiSettings = new UISettings();
-    StatView view ;
+
     protected double[] values1;
     int size1;
     int size3;
@@ -37,24 +29,38 @@ public class StatPresenter {
 
 
 
-    public StatPresenter(MVPModel model, StatView view1  , UISettings uiSettings) throws SQLException {
-        this.view = view1;
-        this.uiSettings = uiSettings;
-        statistics.launch();
-        size1 = statistics.getTime1().length;
+    public StatScreenPresenter(StatScreenView view, Statistics model) {
+        super(view, model);
+
+        if (this.model == null) {
+            System.out.println("model is null");
+            return;
+        }
+
+
+        //arrayx();
+        updateVIew();
+    }
+
+    private void init() {
+
+        try {
+            model.launch();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        size1 = model.getTime1().length;
         values1 = new double[size1];
-        size2 = statistics.getTime2().length;
+        size2 = model.getTime2().length;
         values2 = new double[size2];
         xAxis = new double[size2];
         val1 = new ArrayList<>();
         val2 = new ArrayList<>();
-        size3= statistics.stat1().toArray().length;
-        stat = statistics.stat1();
+        size3= model.stat1().toArray().length;
+        stat = model.stat1();
+
         getvalues();
-        //arrayx();
-        updateVIew();
-
-
     }
 
 
@@ -72,7 +78,7 @@ public class StatPresenter {
         }
         for(int i = 0; i < size3; i++){
             //series1.getData().add(new XYChart.Data<>(values1[i], player));
-            series3.getData().add(new XYChart.Data<>(statistics.stat1().get(i), player));
+            series3.getData().add(new XYChart.Data<>(model.stat1().get(i), player));
 
 
         }
@@ -92,12 +98,12 @@ public class StatPresenter {
     public void getvalues(){
 
         for(int i = 0; i < size1; i++){
-            values1[i] = statistics.getTime1()[i];
-            val1.add(statistics.getTime1()[i]);
+            values1[i] = model.getTime1()[i];
+            val1.add(model.getTime1()[i]);
         }
         for(int i = 0; i < size2; i++){
-            values2[i] = statistics.getTime2()[i];
-            val2.add(statistics.getTime2()[i]);
+            values2[i] = model.getTime2()[i];
+            val2.add(model.getTime2()[i]);
         }
     }
 

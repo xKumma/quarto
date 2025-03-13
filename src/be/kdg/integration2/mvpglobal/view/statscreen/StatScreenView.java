@@ -1,27 +1,22 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import javafx.collections.ObservableList;
-import javafx.geometry.*;
-import javafx.scene.chart.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import javafx.geometry.Pos;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.chart.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StatView extends BorderPane {
+public class StatScreenView extends BaseView {
 
-     protected LineChart<Number, String> lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());;
+     protected LineChart<Number, String> lineChart;;
      private static final Double[] MAXIMA = {5.7, 6.6, 10.4, 14.2, 18.1, 20.6, 23.0, 22.6, 19.0, 14.7, 9.5, 6.1};
      private static final Double[] MINIMA = {0.7, 0.7, 3.1, 5.3, 9.2, 11.9, 14.0, 13.6, 10.9, 7.8, 4.1, 1.6};
      public Rectangle rectangle;
@@ -30,10 +25,11 @@ public class StatView extends BorderPane {
      public Rectangle rectangle4;
      //private static  Double[] serie1 = new Double[MAXIMA.length];
     // private static  Double[] serie2 = new Double[MAXIMA.length];
-     protected  List<Double> serieA = new ArrayList<Double>();
-     protected  List<Double> serieB = new ArrayList<>();
-     protected  List<Double> serieC = new ArrayList<>();
-     protected double QA1;
+     protected  List<Double> serieA;
+    protected  List<Double> serieB;
+    protected  List<Double> serieC;
+
+    protected double QA1;
      protected double QA2;
      protected double QA3;
      protected double QB1;
@@ -41,25 +37,21 @@ public class StatView extends BorderPane {
      protected double QB3;
 
 
+      XYChart.Series<Number, String> series1;
+      XYChart.Series<Number, String> series3;
+     XYChart.Series<Number, String> series2;
+     XYChart.Series<Number, String> series4;
 
 
-      XYChart.Series<Number, String> series1 = new XYChart.Series<>();
-      XYChart.Series<Number, String> series3 = new XYChart.Series<>();
-     XYChart.Series<Number, String> series2 = new XYChart.Series<>();
-     XYChart.Series<Number, String> series4 = new XYChart.Series<>();
-
-
-
-     public StatView(UISettings settings) {
-          initialiseNodes();
-          layoutNodes();
-          //getval();
+    public StatScreenView() {
+          super();
+         System.out.println("Fff");
           getserieA();
      }
 
 
 
-     private void layoutNodes() {
+     protected void layoutNodes() {
           StackPane stackPane = new StackPane();
 
           stackPane.getChildren().add(lineChart); // Add the chart first
@@ -111,7 +103,16 @@ public class StatView extends BorderPane {
           setCenter(stackPane); // Set the StackPane as the center
      }
 
-     private void initialiseNodes() {
+     protected void initialiseNodes() {
+          series2 = new XYChart.Series<>();
+          series3 = new XYChart.Series<>();
+          series1 = new XYChart.Series<>();
+          series4 = new XYChart.Series<>();
+          lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
+          serieA = new ArrayList<Double>();
+          serieB = new ArrayList<>();
+          serieC = new ArrayList<>();
+
           series1.setName("player");
           series2.setName("ai");
           series3.setName("b");

@@ -4,17 +4,13 @@ import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
-import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenView;
-import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
-import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsPresenter;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsView;
-import be.kdg.integration2.mvpglobal.view.statscreen.StatPresenter;
-import be.kdg.integration2.mvpglobal.view.statscreen.StatView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.event.Event;
@@ -35,28 +31,18 @@ import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.List;
 
-public class MainScreenPresenter {
-
-    private MVPModel model;
-    private MainScreenView view;
-    private UISettings uiSettings;
-
-    public MainScreenPresenter(MVPModel model, MainScreenView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
-        updateView();
-        EventHandlers();
+public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel> {
+    public MainScreenPresenter(MainScreenView view, MVPModel model) {
+        super(view, model);
     }
 
-    private void updateView() {
-     }
 
-    private void EventHandlers() {
+    protected void addEventHandlers() {
         view.getTestButton().setOnAction (event -> {
             GameSession gameSession = new GameSession();
             gameSession.play();
         }); // just test code, needs another proper place in your code!!
+
         view.getSettingsItem().setOnAction(event -> {
                 SettingsView settingsView = new SettingsView(uiSettings);
                 SettingsPresenter presenter = new SettingsPresenter(this.model, settingsView, uiSettings);
@@ -187,9 +173,10 @@ public class MainScreenPresenter {
                 }
                 aboutScreenStage.showAndWait();
         });
+
         view.getInfoItem().setOnAction(event -> {
-                InfoScreenView infoScreenView = new InfoScreenView(uiSettings);
-                InfoScreenPresenter infoScreenPresenter = new InfoScreenPresenter(model, infoScreenView, uiSettings);
+                InfoScreenView infoScreenView = new InfoScreenView();
+                InfoScreenPresenter infoScreenPresenter = new InfoScreenPresenter(infoScreenView, null);
                 Stage infoScreenStage = new Stage();
                 infoScreenStage.initOwner(view.getScene().getWindow());
                 infoScreenStage.initModality(Modality.APPLICATION_MODAL);
@@ -223,64 +210,8 @@ public class MainScreenPresenter {
 
 
         view.getStatisticsItem().setOnAction(event -> {
-            StatView statView = new StatView(uiSettings);
-            try {
-                StatPresenter statPresenter = new StatPresenter(model , statView , uiSettings);
-                statView.getserieC(statPresenter.stat1());
-                statView.draw(statPresenter.stat1());
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            Stage statStage = new Stage();
-            statStage.setTitle("Setatistics");
-            statStage.initOwner(view.getScene().getWindow());
-            statStage.initModality(Modality.APPLICATION_MODAL);
-            Scene scene1 = new Scene(statView);
-            statStage.setScene(scene1);
-            statStage.setTitle(uiSettings.getApplicationName() + " - Statistics");
-            statStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
-            statStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-         //   statStage.setHeight(uiSettings.getResY()/2);
-        //    statStage.setWidth(uiSettings.getResX()/2);
-            if (Files.exists(uiSettings.getApplicationIconPath())) {
-                try {
-                    statStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            } else { // do nothing, if ApplicationIconImage is not available, program can continue
-            }
-            statStage.getScene().getWindow().setHeight(7 * uiSettings.getResY() / 10);
-            statStage.getScene().getWindow().setWidth(7 * uiSettings.getResX() / 10);
-            if (uiSettings.styleSheetAvailable()) {
-                statStage.getScene().getStylesheets().removeAll();
-                try {
-                    statStage.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-            statStage.showAndWait();
-            if (uiSettings.styleSheetAvailable()) {
-                view.getScene().getStylesheets().removeAll();
-                try {
-                    view.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-
-
-
-
-
-
-
-
-
+            Router.getInstance().goTo(Screen.END_SCREEN);
         });
-
 
 
         view.getTableItem().setOnAction(event -> {
@@ -335,41 +266,11 @@ public class MainScreenPresenter {
         });
 
         view.getGameSetupMI().setOnAction(event -> {
-            Router.Instance.goTo(Screen.GAME_SETUP, null);
+            Router.getInstance().goTo(Screen.GAME_SETUP);
         });
 
         view.getMenuMI().setOnAction(event -> {
-            MainMenuView menuView = new MainMenuView();
-            MainMenuPresenter menuPresenter = new MainMenuPresenter(menuView, model, uiSettings);
-            Stage menuStage = new Stage();
-            menuStage.initOwner(view.getScene().getWindow());
-            menuStage.initModality(Modality.APPLICATION_MODAL);
-            Scene scene = new Scene(menuView);
-            menuStage.setScene(scene);
-            menuStage.setTitle(uiSettings.getApplicationName()+ " - Info");
-            menuStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
-            menuStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-            if (Files.exists(uiSettings.getApplicationIconPath())) {
-                try {
-                    menuStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
-                }
-                catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            } else { // do nothing, if ApplicationIconImage is not available, program can continue
-            }
-            menuView.getScene().getWindow().setHeight(uiSettings.getResY()/2);
-            menuView.getScene().getWindow().setWidth(uiSettings.getResX()/2);
-            if (uiSettings.styleSheetAvailable()){
-                menuView.getScene().getStylesheets().removeAll();
-                try {
-                    menuView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                }
-                catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-            menuStage.showAndWait();
+            Router.getInstance().goTo(Screen.MAIN_MENU);
         });
         view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
     }

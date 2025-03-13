@@ -1,14 +1,13 @@
 package be.kdg.integration2.mvpglobal.view.mainmenu;
 
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Pos;
-import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class MainMenuView extends BorderPane {
+public class MainMenuView extends BaseView {
 
     Button startGameButton;
     Button rulesButton;
@@ -16,8 +15,7 @@ public class MainMenuView extends BorderPane {
     Button quitButton;
 
     public MainMenuView() {
-        initialiseNodes();
-        layoutNodes();
+        super();
     }
 
     protected void initialiseNodes() {

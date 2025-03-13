@@ -1,6 +1,5 @@
 package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Pos;
@@ -25,8 +24,8 @@ public class GameSetupView extends BaseView {
     Button loadDbBtn;
     Button menuBtn;
 
-    public GameSetupView(UISettings uiSettings) {
-        super(uiSettings);
+    public GameSetupView() {
+        super();
     }
 
     @Override

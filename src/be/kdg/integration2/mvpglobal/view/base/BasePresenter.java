@@ -10,10 +10,11 @@ public class BasePresenter<V, M> {
 
     protected UISettings uiSettings;
 
-    public BasePresenter(V view, M model, UISettings uiSettings) {
+    public BasePresenter(V view, M model) {
         this.view = view;
         this.model = model;
-        this.uiSettings = uiSettings;
+
+        this.uiSettings = UISettings.getInstance();
 
         addEventHandlers();
     }

@@ -1,12 +1,11 @@
 package be.kdg.integration2.mvpglobal.view.gamescreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.base.BaseView;
-import be.kdg.integration2.mvpglobal.view.components.Header;
-import be.kdg.integration2.mvpglobal.view.components.PieceButton;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.RoundUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.components.Header;
+import be.kdg.integration2.mvpglobal.view.components.PieceButton;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -24,8 +23,8 @@ public class GameScreenView extends BaseView {
     Label infoLbl;
     Button menuBtn;
 
-    public GameScreenView(UISettings uiSettings) {
-        super(uiSettings);
+    public GameScreenView() {
+        super();
     }
 
     @Override

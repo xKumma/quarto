@@ -1,6 +1,5 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
-import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -27,10 +26,8 @@ public final class StartScreenView extends BaseView {
 
 
 
-    public StartScreenView(UISettings uiSettings) {
-        super(uiSettings);
-        initialiseNodes();
-        layoutNodes();
+    public StartScreenView() {
+        super();
         animate();
     }
 

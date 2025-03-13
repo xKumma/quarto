@@ -1,22 +1,17 @@
 package be.kdg.integration2.mvpglobal.view.infoscreen;
 
-import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.view.UISettings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import java.io.*;
+import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 
-public class InfoScreenPresenter {
+public class InfoScreenPresenter extends BasePresenter<InfoScreenView, BaseModel> {
 
-    private MVPModel model;
-    private InfoScreenView view;
-    private UISettings uiSettings;
+    public InfoScreenPresenter(InfoScreenView view, BaseModel model) {
+        super(view, model);
 
-    public InfoScreenPresenter(MVPModel model, InfoScreenView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
         view.getInfoText().setText(ReadInfoFromFile());
         view.getBtnOk().setOnAction(event -> view.getScene().getWindow().hide());
     }
