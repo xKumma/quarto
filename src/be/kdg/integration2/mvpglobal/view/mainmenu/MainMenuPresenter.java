@@ -16,11 +16,23 @@ public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
         view.getLeaderboardButton().setOnAction(e ->  goToLeaderboard());
         view.getRulesButton().setOnAction(e -> goToRules());
         view.getStartGameButton().setOnAction(e -> goToGameSetup());
+        view.getTableButton().setOnAction(e -> goToTable());
+        view.getStatisticsButton().setOnAction(e -> goToStatistics());
     }
 
     private void quitGame() {
         //quit
     }
+
+    private void goToTable() {
+        //
+    }
+
+    private void goToStatistics() {
+        //
+    }
+
+
     private void goToLeaderboard() {
         Router.getInstance().goTo(Screen.LEADERBOARD);
 
