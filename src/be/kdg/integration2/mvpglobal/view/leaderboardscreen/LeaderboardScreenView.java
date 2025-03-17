@@ -27,7 +27,7 @@ public class LeaderboardScreenView extends BaseView {
     public void initialiseNodes () {
         this.headerLabel = new Label("Leaderboard");
         this.logoLabel = new Label("\uD83C\uDD40uarto");
-        this.mainButton = new Button("Mainscreen");
+        this.mainButton = new Button("Menu");
         this.winsMI = new MenuItem("Wins");
         this.lossMI = new MenuItem("Losses");
         this.avgMMI = new MenuItem("Average Moves");
