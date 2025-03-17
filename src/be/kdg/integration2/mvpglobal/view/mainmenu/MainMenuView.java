@@ -9,10 +9,10 @@ import javafx.scene.layout.VBox;
 
 public class MainMenuView extends BaseView {
 
-    Button startGameButton;
-    Button rulesButton;
-    Button leaderboardButton;
-    Button quitButton;
+    private Button startGameButton;
+    private Button rulesButton;
+    private Button leaderboardButton;
+    private Button quitButton;
 
     public MainMenuView() {
         super();
@@ -35,19 +35,19 @@ public class MainMenuView extends BaseView {
 
     }
 
-    public Button getQuitButton() {
+    Button getQuitButton() {
         return quitButton;
     }
 
-    public Button getLeaderboardButton() {
+    Button getLeaderboardButton() {
         return leaderboardButton;
     }
 
-    public Button getRulesButton() {
+    Button getRulesButton() {
         return rulesButton;
     }
 
-    public Button getStartGameButton() {
+    Button getStartGameButton() {
         return startGameButton;
     }
 }

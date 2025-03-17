@@ -59,6 +59,6 @@ public class LeaderboardScreenView extends BaseView {
         box1.setAlignment(Pos.CENTER);
         setCenter(box1);
     }
-    public Button getMainButton() {return mainButton;}
+    Button getMainButton() {return mainButton;}
 }
 

@@ -11,10 +11,10 @@ import javafx.scene.text.Font;
 
 public class RulesView extends BaseView {
 
-    Button menuButton;
-    Label rulesTextLabel;
-    Label rulesTitleLabel;
-    Header header;
+    private Button menuButton;
+    private Label rulesTextLabel;
+    private Label rulesTitleLabel;
+    private Header header;
 
     public RulesView() {
         super();
@@ -51,19 +51,19 @@ public class RulesView extends BaseView {
 
     }
 
-    public Header getHeader() {
+    Header getHeader() {
         return header;
     }
 
-    public Label getRulesTitleLabel() {
+    Label getRulesTitleLabel() {
         return rulesTitleLabel;
     }
 
-    public Label getRulesTextLabel() {
+    Label getRulesTextLabel() {
         return rulesTextLabel;
     }
 
-    public Button getMenuButton() {
+    Button getMenuButton() {
         return menuButton;
     }
 }

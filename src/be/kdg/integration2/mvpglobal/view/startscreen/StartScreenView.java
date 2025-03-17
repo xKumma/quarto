@@ -22,7 +22,7 @@ public final class StartScreenView extends BaseView {
     private Rectangle rectangle3;
 
     private StackPane graphic = new StackPane();
-    public Label titolo;
+    private Label titolo;
 
 
 
@@ -129,27 +129,27 @@ public final class StartScreenView extends BaseView {
 
     StartScreenTransition getTransition() {return trans;}
 
-    public Circle getCircle() {
+    Circle getCircle() {
         return circle;
     }
 
-    public Rectangle getRectangle() {
+    Rectangle getRectangle() {
         return rectangle;
     }
 
-    public Rectangle getRectangle1() {
+    Rectangle getRectangle1() {
         return rectangle1;
     }
 
-    public Rectangle getRectangle2() {
+    Rectangle getRectangle2() {
         return rectangle2;
     }
 
-    public Rectangle getRectangle3() {
+    Rectangle getRectangle3() {
         return rectangle3;
     }
 
-    public Label getTitolo() {
+    Label getTitolo() {
         return titolo;
     }
 

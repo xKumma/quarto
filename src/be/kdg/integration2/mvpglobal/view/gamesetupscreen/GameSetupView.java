@@ -16,13 +16,13 @@ import java.util.List;
 
 public class GameSetupView extends BaseView {
 
-    List<ToggleButton> startingPlayerButtons;
-    List<ToggleButton> difficultyButtons;
+    private List<ToggleButton> startingPlayerButtons;
+    private List<ToggleButton> difficultyButtons;
 
-    Button startBtn;
-    Button loadFileBtn;
-    Button loadDbBtn;
-    Button menuBtn;
+    private Button startBtn;
+    private Button loadFileBtn;
+    private Button loadDbBtn;
+    private Button menuBtn;
 
     public GameSetupView() {
         super();
@@ -99,27 +99,27 @@ public class GameSetupView extends BaseView {
     }
 
     //region Getters
-    public List<ToggleButton> getDifficultyButtons() {
+    List<ToggleButton> getDifficultyButtons() {
         return difficultyButtons;
     }
 
-    public List<ToggleButton> getStartingPlayerButtons() {
+    List<ToggleButton> getStartingPlayerButtons() {
         return startingPlayerButtons;
     }
 
-    public Button getStartBtn() {
+    Button getStartBtn() {
         return startBtn;
     }
 
-    public Button getLoadFileBtn() {
+    Button getLoadFileBtn() {
         return loadFileBtn;
     }
 
-    public Button getLoadDbBtn() {
+    Button getLoadDbBtn() {
         return loadDbBtn;
     }
 
-    public Button getMenuBtn() {
+    Button getMenuBtn() {
         return menuBtn;
     }
     //endregion

@@ -16,12 +16,12 @@ import javafx.scene.layout.VBox;
 
 public class GameScreenView extends BaseView {
 
-    GridPane board;
-    GridPane unusedPieces;
-    Label roundInfoLbl;
-    Label timeLbl;
-    Label infoLbl;
-    Button menuBtn;
+    private GridPane board;
+    private GridPane unusedPieces;
+    private Label roundInfoLbl;
+    private Label timeLbl;
+    private Label infoLbl;
+    private Button menuBtn;
 
     public GameScreenView() {
         super();
@@ -153,19 +153,19 @@ public class GameScreenView extends BaseView {
     }
 
     //region Getters
-    public GridPane getBoard() {
+    GridPane getBoard() {
         return board;
     }
 
-    public Label getRoundInfoLbl() {
+    Label getRoundInfoLbl() {
         return roundInfoLbl;
     }
 
-    public Button getMenuBtn() {
+    Button getMenuBtn() {
         return menuBtn;
     }
 
-    public Label getInfoLbl() {
+    Label getInfoLbl() {
         return infoLbl;
     }
     //endregion

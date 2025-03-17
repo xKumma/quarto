@@ -67,12 +67,4 @@ public class PieceButton extends Button {
 
         updateImage();
     }
-
-    public String getPieceImagePath() {
-        return pieceImagePath;
-    }
-
-    public String getColor() {
-        return color;
-    }
 }
