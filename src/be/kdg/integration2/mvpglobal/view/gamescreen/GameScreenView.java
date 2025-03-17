@@ -168,5 +168,7 @@ public class GameScreenView extends BaseView {
     Label getInfoLbl() {
         return infoLbl;
     }
+
+    GridPane getUnusedPieces() { return unusedPieces; }
     //endregion
 }

@@ -5,7 +5,10 @@ import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class MainMenuView extends BaseView {
 
@@ -13,6 +16,8 @@ public class MainMenuView extends BaseView {
     private Button rulesButton;
     private Button leaderboardButton;
     private Button quitButton;
+    private Button statisticsButton;
+    private Button tableButton;
 
     public MainMenuView() {
         super();
@@ -23,6 +28,8 @@ public class MainMenuView extends BaseView {
         rulesButton = new Button("Rules");
         leaderboardButton = new Button("Leaderboard");
         quitButton = new Button("Quit");
+        statisticsButton = new Button("Statistics");
+        tableButton = new Button("Table");
 
     }
 
@@ -38,19 +45,20 @@ public class MainMenuView extends BaseView {
 
 
         //rectangle
+
+        Rectangle rectangle = new Rectangle();
         rectangle.setStroke(Color.BLACK);
         rectangle.setStrokeWidth(3);
         rectangle.setFill(Color.TRANSPARENT);
         rectangle.setRotate(45);
 
-        setTop(header);
+        setTop(new Header());
         VBox buttons = new VBox(new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton, statisticsButton, tableButton);
         buttons.setSpacing(4);
         buttons.setAlignment(Pos.CENTER);
 
         buttons.setMaxWidth(400);
         buttons.setMaxHeight(400);
-
 
         rectangle.widthProperty().bind(buttons.widthProperty().add(20));
         rectangle.heightProperty().bind(buttons.heightProperty().add(20));
@@ -68,14 +76,6 @@ public class MainMenuView extends BaseView {
 
     Button getStatisticsButton() {
         return statisticsButton;
-    }
-
-    Header getHeader() {
-        return header;
-    }
-
-    Rectangle getRectangle() {
-        return rectangle;
     }
 
     Button getQuitButton() {

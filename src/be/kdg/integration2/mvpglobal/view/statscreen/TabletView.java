@@ -1,15 +1,10 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.model.Statistics;
-import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
-import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-
-import java.sql.SQLException;
 
 public class TabletView extends BaseView {
 
@@ -23,6 +18,10 @@ public class TabletView extends BaseView {
 
     public TabletView()  {
         super();
+    }
+
+    @Override
+    protected void initialiseNodes() {
         table= new TableView<Statistics>();
         name = new TableColumn<Statistics , String>("Name");
 
@@ -35,13 +34,6 @@ public class TabletView extends BaseView {
         table.getItems().addAll(new Statistics());
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setCenter(table);
-
-
-    }
-
-    @Override
-    protected void initialiseNodes() {
-
     }
 
     @Override

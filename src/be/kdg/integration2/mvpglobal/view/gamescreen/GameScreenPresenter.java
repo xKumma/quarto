@@ -74,7 +74,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 )
         );
 
-        for (Node node : view.unusedPieces.getChildren()) {
+        for (Node node : view.getUnusedPieces().getChildren()) {
             if (node.toString().equals(move.getPiece().toString())) {
                 System.out.println(node + " " + (move.getPiece().toString()));
 
