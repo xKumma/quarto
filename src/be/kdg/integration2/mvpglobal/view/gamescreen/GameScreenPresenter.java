@@ -1,8 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.gamescreen;
 
-import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.GameSession;
-import be.kdg.integration2.mvpglobal.model.Move;
+import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
@@ -35,7 +33,13 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     @Override
     protected void addEventHandlers() {
         super.addEventHandlers();
+        view.getMenuBtn().setOnAction(e -> goToMenu());
     }
+
+    private void goToMenu() {
+        Router.getInstance().goTo(Screen.MAIN_MENU, null);
+    }
+
 
     private void setUpBoard(Piece[][] board, List<Piece> unusedPieces) {
         List<BoardUpdateData> updates = new ArrayList<>();

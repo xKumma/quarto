@@ -1,28 +1,27 @@
 package be.kdg.integration2.mvpglobal.view.loginscreen;
 
 import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
+import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.scene.control.Alert;
 
-public class LoginScreenPresenter {
-    private MVPModel model;
-    private LoginScreenView view;
-    private UISettings uiSettings;
+public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseModel> {
 
-    public LoginScreenPresenter(MVPModel model, LoginScreenView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
-        updateView();
-        EventHandlers();
+    public LoginScreenPresenter(MVPModel model, LoginScreenView view) {
+        super(view, model);
+        //updateView();
+        //addEventHandlers();
     }
 
-    private void updateView() {}
+    protected void updateView() {}
 
-    private void EventHandlers() {
+    protected void addEventHandlers() {
         view.getLoginButton().setOnAction(event -> {
             // Does not do anything if TextFields are empty
             if(!contentChecker()){return;}

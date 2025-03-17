@@ -1,6 +1,7 @@
 package be.kdg.integration2.mvpglobal.view.loginscreen;
 
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class LoginScreenView extends BorderPane {
+public class LoginScreenView extends BaseView {
     private Label quartoLogo;
     private TextField nameField;
     private PasswordField passwordField;
@@ -25,13 +26,13 @@ public class LoginScreenView extends BorderPane {
     private UISettings uiSettings;
     private Rectangle rectangle;
 
-    public LoginScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
+    public LoginScreenView() {
+        super();
         initialiseNodes();
         layoutNodes();
     }
 
-    private void initialiseNodes(){
+    protected void initialiseNodes(){
         this.quartoLogo = new Label("\uD83C\uDD40uarto");
         this.nameField = new TextField();
         this.passwordField = new PasswordField();
@@ -43,7 +44,7 @@ public class LoginScreenView extends BorderPane {
         this.rectangle = new Rectangle(200, 100);
     }
 
-    private void layoutNodes(){
+    protected void layoutNodes(){
         //Rectangle
         rectangle.setStroke(Color.BLACK);
         rectangle.setStrokeWidth(3);

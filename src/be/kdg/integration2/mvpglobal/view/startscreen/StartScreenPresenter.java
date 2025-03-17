@@ -1,8 +1,12 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
 import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
 
 public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
@@ -16,18 +20,14 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
     }
 
     protected void addEventHandlers() {
-//        view.getTransition().setOnFinished(event -> {
-//            LoginScreenView loginView = new LoginScreenView(uiSettings);
-//            LoginScreenPresenter loginPresenter = new LoginScreenPresenter((MVPModel) model, loginView,uiSettings);
-//            view.getScene().setRoot(loginView);
-//            loginView.getScene().getWindow().setWidth(600);
-//            loginView.getScene().getWindow().setHeight(600);
-//        });
+        view.getTransition().setOnFinished(event -> {
+            Router.getInstance().goTo(Screen.LOGIN);
+        });
 
         // Skip the login screen for quicker testing
-        view.getTransition().setOnFinished(event -> {
-            Router.getInstance().mainScreen();
-        });
+        //view.getTransition().setOnFinished(event -> {
+        //    Router.getInstance().mainScreen();
+        //});
     }
 /* Needed?
     public void windowsHandler() {

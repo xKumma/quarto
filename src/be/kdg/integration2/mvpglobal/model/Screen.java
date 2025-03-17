@@ -8,6 +8,8 @@ import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
 import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupView;
 import be.kdg.integration2.mvpglobal.view.leaderboardscreen.LeaderboardScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.leaderboardscreen.LeaderboardScreenView;
+import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
 import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
 import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
 import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
@@ -28,7 +30,7 @@ public enum Screen {
     LEADERBOARD(() -> new LeaderboardScreenPresenter(new LeaderboardScreenView(), null)),
     END_SCREEN(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
     RULES(() -> new RulesPresenter(new RulesView(), null)),
-    LOGIN(() -> null),
+    LOGIN(() -> new LoginScreenPresenter(null, new LoginScreenView())),
     TABLE(() -> new TablePresenter(null, new TabletView()));
 
 
