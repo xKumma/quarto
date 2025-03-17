@@ -216,13 +216,10 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
 
         view.getTableItem().setOnAction(event -> {
             TabletView tableView = null;
-            try {
-                tableView = new TabletView(uiSettings);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            tableView = new TabletView();
 
-            TablePresenter statPresenter = new TablePresenter(model , uiSettings , tableView);
+
+            TablePresenter statPresenter = new TablePresenter(model, tableView);
 
 
             Stage tableStage = new Stage();

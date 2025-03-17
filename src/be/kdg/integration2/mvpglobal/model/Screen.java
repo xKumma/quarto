@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.model;
 
+import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
@@ -13,6 +14,10 @@ import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
 import be.kdg.integration2.mvpglobal.view.rules.RulesView;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
+import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
+import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableView;
 
 import java.util.function.Supplier;
 
@@ -23,7 +28,9 @@ public enum Screen {
     LEADERBOARD(() -> new LeaderboardScreenPresenter(new LeaderboardScreenView(), null)),
     END_SCREEN(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
     RULES(() -> new RulesPresenter(new RulesView(), null)),
-    LOGIN(() -> null);
+    LOGIN(() -> null),
+    TABLE(() -> new TablePresenter(null, new TabletView()));
+
 
     private final Supplier<BasePresenter> presenterSupplier;
 
