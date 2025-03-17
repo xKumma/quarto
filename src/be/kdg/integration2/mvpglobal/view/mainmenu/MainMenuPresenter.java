@@ -25,11 +25,11 @@ public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
     }
 
     private void goToTable() {
-        //
+        Router.getInstance().goTo(Screen.TABLE);
     }
 
     private void goToStatistics() {
-        //
+        Router.getInstance().goTo(Screen.END_SCREEN);
     }
 
 

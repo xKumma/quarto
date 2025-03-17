@@ -73,35 +73,35 @@ public class MainMenuView extends BaseView {
 
     }
 
-    public Button getTableButton() {
+    Button getTableButton() {
         return tableButton;
     }
 
-    public Button getStatisticsButton() {
+    Button getStatisticsButton() {
         return statisticsButton;
     }
 
-    public Header getHeader() {
+    Header getHeader() {
         return header;
     }
 
-    public Rectangle getRectangle() {
+    Rectangle getRectangle() {
         return rectangle;
     }
 
-    public Button getQuitButton() {
+    Button getQuitButton() {
         return quitButton;
     }
 
-    public Button getLeaderboardButton() {
+    Button getLeaderboardButton() {
         return leaderboardButton;
     }
 
-    public Button getRulesButton() {
+    Button getRulesButton() {
         return rulesButton;
     }
 
-    public Button getStartGameButton() {
+    Button getStartGameButton() {
         return startGameButton;
     }
 }
