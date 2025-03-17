@@ -2,12 +2,10 @@ package be.kdg.integration2.mvpglobal.view.loginscreen;
 
 import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;
 import javafx.scene.control.Alert;
-
-import java.net.MalformedURLException;
 
 public class LoginScreenPresenter {
     private MVPModel model;
@@ -30,7 +28,7 @@ public class LoginScreenPresenter {
             if(!contentChecker()){return;}
             if(!DBManager.loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
 
-            MainScreenView msView = new MainScreenView();
+            /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
             view.getScene().setRoot(msView);
             try {
@@ -40,7 +38,9 @@ public class LoginScreenPresenter {
             msView.getScene().getWindow().setX(uiSettings.getResX()/20);
             msView.getScene().getWindow().setY(uiSettings.getResY()/20);
             msView.getScene().getWindow().setHeight(9 * uiSettings.getResY()/10);
-            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);
+            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);*/
+            Router.getInstance().goTo(Screen.MAIN_MENU);
+
         });
 
         view.getRegisterButton().setOnAction(event -> {
@@ -49,7 +49,7 @@ public class LoginScreenPresenter {
            //Does not do anything if register fails
             if(!DBManager.registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
             //Loads Main Screen
-            MainScreenView msView = new MainScreenView();
+            /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
             view.getScene().setRoot(msView);
             try {
@@ -59,7 +59,8 @@ public class LoginScreenPresenter {
             msView.getScene().getWindow().setX(uiSettings.getResX()/20);
             msView.getScene().getWindow().setY(uiSettings.getResY()/20);
             msView.getScene().getWindow().setHeight(9 * uiSettings.getResY()/10);
-            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);
+            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);*/
+            Router.getInstance().goTo(Screen.MAIN_MENU);
         });
     }
 
