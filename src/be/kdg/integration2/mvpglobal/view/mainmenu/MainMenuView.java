@@ -27,12 +27,55 @@ public class MainMenuView extends BaseView {
     }
 
     protected void layoutNodes() {
-        setTop(new Header());
-        VBox buttons = new VBox(new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton);
-        buttons.setSpacing(3);
-        buttons.setAlignment(Pos.CENTER);
-        setCenter(buttons);
+        //resize buttons
+        startGameButton.setPrefSize(110, 20); // Width, Height
+        rulesButton.setPrefSize(110, 20);
+        leaderboardButton.setPrefSize(110, 20);
+        quitButton.setPrefSize(110, 20);
+        statisticsButton.setPrefSize(110, 20);
+        tableButton.setPrefSize(110, 20);
 
+
+
+        //rectangle
+        rectangle.setStroke(Color.BLACK);
+        rectangle.setStrokeWidth(3);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setRotate(45);
+
+        setTop(header);
+        VBox buttons = new VBox(new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton, statisticsButton, tableButton);
+        buttons.setSpacing(4);
+        buttons.setAlignment(Pos.CENTER);
+
+        buttons.setMaxWidth(400);
+        buttons.setMaxHeight(400);
+
+
+        rectangle.widthProperty().bind(buttons.widthProperty().add(20));
+        rectangle.heightProperty().bind(buttons.heightProperty().add(20));
+        StackPane root = new StackPane(rectangle, buttons);
+        StackPane.setAlignment(buttons, Pos.CENTER);
+        StackPane.setAlignment(rectangle, Pos.CENTER);
+        setCenter(root);
+
+
+    }
+
+    Button getTableButton() {
+        return tableButton;
+    }
+
+    Button getStatisticsButton() {
+        return statisticsButton;
+    }
+
+    Header getHeader() {
+        return header;
+    }
+
+    Rectangle getRectangle() {
+        return rectangle;
     }
 
     Button getQuitButton() {

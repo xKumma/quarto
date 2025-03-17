@@ -20,7 +20,7 @@ public class TabletView extends BorderPane {
 
 
 
-    public TabletView(UISettings settings) throws SQLException {
+    public TabletView() {
         table= new TableView<Statistics>();
         name = new TableColumn<Statistics , String>("Name");
 
