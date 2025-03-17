@@ -1,5 +1,7 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
+import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.Statistics;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.chart.XYChart;
@@ -27,6 +29,14 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     protected List<Double> val2;
     protected List<Double> stat;
 
+
+    protected void addEventHandlers() {
+        view.getMenuButton().setOnAction(e -> goToMenu());
+    }
+
+    private void goToMenu() {
+        Router.getInstance().goTo(Screen.MAIN_MENU, null);
+    }
 
 
     public StatScreenPresenter(StatScreenView view, Statistics model) {

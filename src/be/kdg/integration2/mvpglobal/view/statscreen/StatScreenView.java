@@ -6,6 +6,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class StatScreenView extends BaseView {
 
+    Button menuButton;
      protected LineChart<Number, String> lineChart;;
      private static final Double[] MAXIMA = {5.7, 6.6, 10.4, 14.2, 18.1, 20.6, 23.0, 22.6, 19.0, 14.7, 9.5, 6.1};
      private static final Double[] MINIMA = {0.7, 0.7, 3.1, 5.3, 9.2, 11.9, 14.0, 13.6, 10.9, 7.8, 4.1, 1.6};
@@ -101,9 +103,11 @@ public class StatScreenView extends BaseView {
           stackPane.getChildren().addAll(rectangle , rectangle2 , rectangle3 , rectangle4); // Add the rectangle on top
 
           setCenter(stackPane); // Set the StackPane as the center
+         setBottom(menuButton);
      }
 
      protected void initialiseNodes() {
+        menuButton = new Button("Menu");
           series2 = new XYChart.Series<>();
           series3 = new XYChart.Series<>();
           series1 = new XYChart.Series<>();
@@ -251,26 +255,7 @@ public class StatScreenView extends BaseView {
           }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public Button getMenuButton() {
+        return menuButton;
+    }
 }
