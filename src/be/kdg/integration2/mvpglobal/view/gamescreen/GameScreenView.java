@@ -122,11 +122,11 @@ public class GameScreenView extends BaseView {
         int x = updateData.x();
         int y = updateData.y();
 
-        if (x >=0 && y >=0) updateBoardPiece(updateData.imagePath(),updateData.color(),x,y);
-        else updateUnusedPiece(updateData.imagePath(),updateData.color(),x,y);
+        if (x >=0 && y >=0) setBoardPiece(updateData.imagePath(),updateData.color(),x,y);
+        else setUnusedPiece(updateData.imagePath(),updateData.color(),x,y);
     }
 
-    private void updateBoardPiece(String pieceImagePath, String color, int x, int y) {
+    private void setBoardPiece(String pieceImagePath, String color, int x, int y) {
         for (Node node : board.getChildren()) {
             Integer column = GridPane.getColumnIndex(node);
             Integer row = GridPane.getRowIndex(node);
@@ -135,11 +135,20 @@ public class GameScreenView extends BaseView {
 
             System.out.println("Updating BOARD at " + column + " " + row + " with " + pieceImagePath);
             ((PieceButton) node).setPieceImage(pieceImagePath, color);
+
+            removeUnused(pieceImagePath+"#"+color);
             return;
         }
     }
 
-    private void updateUnusedPiece(String pieceImagePath, String color, int x, int y) {
+    private void removeUnused(String slug) {
+        for (Node node : unusedPieces.getChildren()) {
+            if (!node.toString().equals(slug)) continue;
+            ((PieceButton)node).setPieceImage(null, null);
+        }
+    }
+
+    private void setUnusedPiece(String pieceImagePath, String color, int x, int y) {
         for (Node node : unusedPieces.getChildren()) {
             Integer column = GridPane.getColumnIndex(node);
             Integer row = GridPane.getRowIndex(node);

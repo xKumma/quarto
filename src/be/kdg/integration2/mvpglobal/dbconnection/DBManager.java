@@ -12,7 +12,7 @@ public class DBManager {
     static final String PASSWORD = "7sur7";
 
 
-    // USE FOR LOCAL TESTING WITHOUT VPN - change for your setup
+    // USE FOR LOCAL TESTING WITHOUT VPN - change for your setup, dont push this!!
     /*
     static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
     static final String USER = "devuser";

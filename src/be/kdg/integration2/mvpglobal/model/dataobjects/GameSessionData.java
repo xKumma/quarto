@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.model.dataobjects;
 
+import be.kdg.integration2.mvpglobal.model.Board;
 import be.kdg.integration2.mvpglobal.model.BotDifficulty;
 import be.kdg.integration2.mvpglobal.model.Move;
 
@@ -10,7 +11,7 @@ public class GameSessionData implements Serializable {
     private final String playerName;
     private final BotDifficulty botDifficulty;
     private final List<Move> moveHistory;
-    private final String[][] board;
+    private final Board board;
     private int startingPlayer;
 
     // Loaded from file
@@ -26,7 +27,7 @@ public class GameSessionData implements Serializable {
         this.playerName = playerName;
         this.botDifficulty = BotDifficulty.valueOf(botDifficulty.toUpperCase());
         this.moveHistory = null;
-        this.board = board.clone();
+        this.board = new Board(board);
     }
 
     // PreGame
@@ -42,7 +43,7 @@ public class GameSessionData implements Serializable {
     public String getPlayerName() { return playerName; }
     public BotDifficulty getBotDifficulty() { return botDifficulty; }
     public List<Move> getMoveHistory() { return moveHistory; }
-    public String[][] getBoard() { return board; }
+    public Board getBoard() { return board; }
 
     public String toJson() {
         return "{ \"player\": \"" + playerName + "\", \"botDifficulty\": \"" + botDifficulty + "\", \"moves\": " + moveHistory.size() + " }";

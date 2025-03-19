@@ -3,9 +3,11 @@ package be.kdg.integration2.mvpglobal.view.gamescreen;
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.model.eventlisteners.GameSessionListener;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.components.PieceButton;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -19,10 +21,21 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
     public GameScreenPresenter(BaseView view, BaseModel model) {
         super((GameScreenView)  view,(GameSession)  model);
+    }
 
-        setUpBoard(((GameSession) model).getBoard1(),((GameSession) model).getUnusedPieces());
+    @Override
+    public void init(Object data) {
+        super.init(data);
+        setUpBoard(model.getBoard().getPieces(), new ArrayList<>(model.getUnusedPieces().values()));
 
-        TestMove();
+        model.setListener(new GameSessionListener() {
+            @Override
+            public void onMoveSuccessful(Move move) {
+                updateView(move);
+            }
+        });
+
+        startTurn();
     }
 
     @Override
@@ -30,10 +43,43 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         super.updateView();
     }
 
+    public void updateView(Move move) {
+        view.update(new BoardUpdateData(
+                move.getPiece().toString(),
+                move.getPosition().x(),
+                move.getPosition().y()
+        ));
+    }
+
     @Override
     protected void addEventHandlers() {
         super.addEventHandlers();
         view.getMenuBtn().setOnAction(e -> goToMenu());
+
+        for (Node pieceBtn : view.getUnusedPieces().getChildren()) {
+            if (pieceBtn instanceof PieceButton) {
+                pieceBtn.setOnMouseClicked(e -> {
+                    if (!model.isPlayersTurn()) return;
+                    if (model.getTurnPhase() != TurnPhase.PICKING) return;
+
+                    System.out.println("Selecting piece: " + pieceBtn.toString());
+                    if (model.selectPiece(pieceBtn.toString())) {
+                        endTurn();
+                    }
+                });
+            }
+        }
+
+        for (Node pieceBtn : view.getBoard().getChildren()) {
+            if (pieceBtn instanceof PieceButton) {
+                pieceBtn.setOnMouseClicked(e -> {
+                    if (!model.isPlayersTurn()) return;
+                    if (model.getTurnPhase() != TurnPhase.PLACING) return;
+
+                    model.selectPosition(GridPane.getColumnIndex(pieceBtn), GridPane.getRowIndex(pieceBtn));
+                });
+            }
+        }
     }
 
     private void goToMenu() {
@@ -68,47 +114,22 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         }
     }
 
-    public void updateBoard(Move move) {
-        List<BoardUpdateData> updates = new ArrayList<>();
-
-        updates.add(new BoardUpdateData(
-                move.getPiece().toString(),
-                move.getPosition().x(),
-                move.getPosition().y()
-                )
-        );
-
-        for (Node node : view.getUnusedPieces().getChildren()) {
-            if (node.toString().equals(move.getPiece().toString())) {
-                System.out.println(node + " " + (move.getPiece().toString()));
-
-                int x = -(GridPane.getColumnIndex(node)+1);
-                int y = -(GridPane.getRowIndex(node)+1);
-
-                updates.add(new BoardUpdateData(null, x, y)
-                );
-            }
-        }
-
-        for (BoardUpdateData updateData : updates) {
-            view.update(updateData);
-        }
-    }
 
     public void updateTurn(){
 
     }
 
     public void startTurn() {
-        model.startNewTurn();
         startTimer();
+        model.startNewTurn();
     }
 
     public void endTurn() {
         model.endTurn();
+
         stopTimer();
-        updateView();
-        System.out.println("End turn");
+
+        startTurn();
     }
 
     /*
@@ -135,13 +156,5 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         if (timer != null) {
             timer.stop();
         }
-    }
-
-    public void TestMove(){
-        System.out.println("\n\nMaking a move");
-        updateBoard(model.moves.get(1));
-        System.out.println("\n\nMaking a move");
-        updateBoard(model.moves.get(2));
-        startTurn();
     }
 }

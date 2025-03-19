@@ -1,18 +1,26 @@
 package be.kdg.integration2.mvpglobal.model;
 
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
-import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
+import be.kdg.integration2.mvpglobal.model.eventlisteners.GameSessionListener;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class GameSession implements BaseModel {
 
-    ComputerPlayer computer;
-    HumanPlayer player;
-    Board board;
+    private ComputerPlayer computer;
+    private HumanPlayer player;
+    private boolean isPlayersTurn;
+    private TurnPhase turnPhase;
+
+    private Board board;
+    private final Map<String,Piece> unusedPieces = new HashMap<>();
+
+    private List<Move> moves = new ArrayList<>();
+    private Piece selectedPiece;
+    private Move currentMove;
+
+    private GameSessionListener listener;
 
     public GameSession () {
         this.board = new Board();
@@ -25,7 +33,53 @@ public class GameSession implements BaseModel {
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
 
-        System.out.println(sessionData.getStartingPlayer() + " " + sessionData.getBotDifficulty());
+        if (sessionData.getStartingPlayer() == 0) {
+            isPlayersTurn = new Random().nextBoolean();
+        } else if (sessionData.getStartingPlayer() == 1) {
+            isPlayersTurn = true;
+        } else {
+            isPlayersTurn = false;
+        }
+
+        System.out.println("PlayersTurn: " + isPlayersTurn);
+
+        board = sessionData.getBoard() != null ? sessionData.getBoard() : new Board();
+
+        createPieces();
+
+        moves = sessionData.getMoveHistory() != null ? sessionData.getMoveHistory() : new ArrayList<>(
+                // temp
+//                Arrays.asList(
+//                        new Move(new Player(), unusedPieces.get("round_big_hollow#red"), new PositionData(3,2)),
+//                        new Move(new Player(), unusedPieces.get("square_small_hollow#blue"), new PositionData(2,3)),
+//                        new Move(new Player(), unusedPieces.get("round_big_full#red"), new PositionData(0,0))
+//                )
+        );
+        playMoves(moves);
+
+        List<Piece> pieceList = new ArrayList<>(unusedPieces.values());;
+        selectedPiece = pieceList.get(new Random().nextInt(pieceList.size()));
+
+        //startNewTurn();
+    }
+
+    private void playMoves(List<Move> moves) {
+        for (Move move : moves) {
+            movePiece(move);
+        }
+    }
+
+    public boolean movePiece(Move move) {
+        // Validate
+        if (!RuleChecker.isMoveValid(move, board)) {
+            System.out.println("Invalid move");
+            return false;
+        }
+
+        board.movePiece(move);
+        unusedPieces.remove(move.getPiece().toString());
+
+        return true;
     }
 
     public void play(){
@@ -36,74 +90,65 @@ public class GameSession implements BaseModel {
         // ...
     }
 
-    public Board getBoard () {return board;}
-
-    public Piece[][] getBoard1() {
-        return board1;
+    private void createPieces() {
+        for (PieceType type : PieceType.values()) {
+            for (PieceColor color : PieceColor.values()) {
+                for (PieceShape shape : PieceShape.values()) {
+                    for (PieceSize size : PieceSize.values()) {
+                        Piece piece = new Piece(type, color, shape, size);
+                        unusedPieces.put(piece.toString(), piece);
+                    }
+                }
+            }
+        }
     }
 
-    public List<Piece> getUnusedPieces() {
-        return unusedPieces;
+    public void startNewTurn() {
+        currentMove = new Move(selectedPiece);
+        turnPhase = TurnPhase.PLACING;
+
+        System.out.println("---------------------------------");
+        System.out.println("moves: " + moves.size());
+
+        System.out.println("Selected Piece: " + currentMove.getPiece().toString());
     }
 
-    public Piece[][] board1 = new Piece[4][4];
-    public List<Piece> unusedPieces = new ArrayList<>(
-            Arrays.asList(
-                    new Piece(PieceType.FULL, PieceColor.RED, PieceShape.ROUND, PieceSize.BIG),
-                    new Piece(PieceType.FULL, PieceColor.RED, PieceShape.ROUND, PieceSize.SMALL),
 
-                    new Piece(PieceType.FULL, PieceColor.BLUE, PieceShape.ROUND, PieceSize.BIG),
-                    new Piece(PieceType.FULL, PieceColor.BLUE, PieceShape.ROUND, PieceSize.SMALL),
+    public void endMove() {
+        if (currentMove == null) return;
 
-                    new Piece(PieceType.FULL, PieceColor.RED, PieceShape.SQUARE, PieceSize.BIG),
-                    new Piece(PieceType.FULL, PieceColor.RED, PieceShape.SQUARE, PieceSize.SMALL),
+        currentMove.setEndTime(System.currentTimeMillis());
+        moves.add(currentMove);
 
-                    new Piece(PieceType.FULL, PieceColor.BLUE, PieceShape.SQUARE, PieceSize.BIG),
-                    new Piece(PieceType.FULL, PieceColor.BLUE, PieceShape.SQUARE, PieceSize.SMALL),
+        currentMove = new Move();
+    }
 
-                    new Piece(PieceType.HOLLOW, PieceColor.RED, PieceShape.ROUND, PieceSize.BIG),
-                    new Piece(PieceType.HOLLOW, PieceColor.RED, PieceShape.ROUND, PieceSize.SMALL),
+    public boolean selectPiece(String pieceSlug) {
+        if (!unusedPieces.containsKey(pieceSlug)) return false;
 
-                    new Piece(PieceType.HOLLOW, PieceColor.BLUE, PieceShape.ROUND, PieceSize.BIG),
-                    new Piece(PieceType.HOLLOW, PieceColor.BLUE, PieceShape.ROUND, PieceSize.SMALL),
-
-                    new Piece(PieceType.HOLLOW, PieceColor.RED, PieceShape.SQUARE, PieceSize.BIG),
-                    new Piece(PieceType.HOLLOW, PieceColor.RED, PieceShape.SQUARE, PieceSize.SMALL),
-
-                    new Piece(PieceType.HOLLOW, PieceColor.BLUE, PieceShape.SQUARE, PieceSize.BIG),
-                    new Piece(PieceType.HOLLOW, PieceColor.BLUE, PieceShape.SQUARE, PieceSize.SMALL)
-            )
-    );
-
-    public List<Move> moves = new ArrayList<>(
-            Arrays.asList(
-                    new Move(new Player(), unusedPieces.get(6), new PositionData(3,2)),
-                    new Move(new Player(), unusedPieces.get(3), new PositionData(2,3)),
-                    new Move(new Player(), unusedPieces.get(8), new PositionData(0,0))
-            )
-    );
-
-    public boolean MovePiece(Move move) {
-        board1[move.getPosition().x()][move.getPosition().y()] = move.getPiece();
-        unusedPieces.remove(move.getPiece());
+        selectedPiece = unusedPieces.get(pieceSlug);
 
         return true;
     }
 
+    public void selectPosition(int x, int y) {
+        currentMove.setPosition(x,y);
 
-    private Move currentMove;
+        if (!movePiece(currentMove)) return;
 
-    public void startNewTurn() {
-        currentMove = new Move();
+        listener.onMoveSuccessful(currentMove);
+
+        turnPhase = TurnPhase.PICKING;
     }
 
     public void endTurn() {
-        if (currentMove != null) {
-            currentMove.setEndTime(System.currentTimeMillis());
-            moves.add(currentMove);
-            currentMove = null;
-        }
+        //isPlayersTurn = !isPlayersTurn;
+
+        endMove();
+
+        System.out.println("End turn ; " + isPlayersTurn);
     }
+
 
     public long getTotalElapsedTime() {
         long elapsedTime = moves.stream().mapToLong(Move::getTime).sum();
@@ -114,4 +159,31 @@ public class GameSession implements BaseModel {
         return (currentMove != null) ? System.currentTimeMillis() - currentMove.getStartTime() : 0;
     }
 
+    public int getRoundsCount() {
+        return moves.size()+1;
+    }
+
+    public Move getCurrentMove() { return currentMove; }
+
+    public Board getBoard () {return board;}
+
+    public Map<String, Piece> getUnusedPieces() {
+        return unusedPieces;
+    }
+
+    public boolean isPlayersTurn() {
+        return isPlayersTurn;
+    }
+
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
+    }
+
+    public List<Move> getMoves() {
+        return moves;
+    }
+
+    public void setListener(GameSessionListener listener) {
+        this.listener = listener;
+    }
 }
