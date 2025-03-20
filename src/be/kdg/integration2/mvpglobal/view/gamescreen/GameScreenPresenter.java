@@ -2,6 +2,7 @@ package be.kdg.integration2.mvpglobal.view.gamescreen;
 
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import be.kdg.integration2.mvpglobal.model.eventlisteners.GameSessionListener;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
@@ -26,12 +27,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     @Override
     public void init(Object data) {
         super.init(data);
-        setUpBoard(model.getBoard().getPieces(), new ArrayList<>(model.getUnusedPieces().values()));
+        setUpBoard(model.getBoard().getPieces(), model.getUnusedPieces());
 
         model.setListener(new GameSessionListener() {
             @Override
             public void onMoveSuccessful(Move move) {
-                updateView(move);
+                //updateView(move);
             }
         });
 
@@ -59,7 +60,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         for (Node pieceBtn : view.getUnusedPieces().getChildren()) {
             if (pieceBtn instanceof PieceButton) {
                 pieceBtn.setOnMouseClicked(e -> {
-                    if (!model.isPlayersTurn()) return;
+                    if (!model.isPlayersTurn() || !model.isActive()) return;
                     if (model.getTurnPhase() != TurnPhase.PICKING) return;
 
                     System.out.println("Selecting piece: " + pieceBtn.toString());
@@ -73,10 +74,18 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         for (Node pieceBtn : view.getBoard().getChildren()) {
             if (pieceBtn instanceof PieceButton) {
                 pieceBtn.setOnMouseClicked(e -> {
-                    if (!model.isPlayersTurn()) return;
+                    if (!model.isPlayersTurn() || !model.isActive()) return;
                     if (model.getTurnPhase() != TurnPhase.PLACING) return;
 
-                    model.selectPosition(GridPane.getColumnIndex(pieceBtn), GridPane.getRowIndex(pieceBtn));
+                    PositionData positionData = new PositionData(
+                            GridPane.getColumnIndex(pieceBtn),
+                            GridPane.getRowIndex(pieceBtn)
+                    );
+                    if (model.selectPosition(positionData)) {
+                        System.out.println("Selected position: " + positionData);
+                        System.out.println("Updating view with: " + model.getCurrentMove());
+                        updateView(model.getCurrentMove());
+                    }
                 });
             }
         }
@@ -122,6 +131,33 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     public void startTurn() {
         startTimer();
         model.startNewTurn();
+
+        if (model.isPlayersTurn()) return;
+
+        botPlay();
+    }
+
+    private void botPlay() {
+
+        boolean success = false;
+
+        while (!success) {
+            PositionData positionData = model.getComputerPlayer().getPosition(model);
+            System.out.println("Trying: " + positionData);
+            success = model.selectPosition(positionData);
+        }
+
+        updateView(model.getCurrentMove());
+
+        if (!model.isActive()) return;
+        success = false;
+
+
+        while (!success) {
+            success = model.selectPiece(model.getComputerPlayer().getPiece(model));
+        }
+
+        endTurn();
     }
 
     public void endTurn() {

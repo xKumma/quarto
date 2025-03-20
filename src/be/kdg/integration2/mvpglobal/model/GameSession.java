@@ -1,6 +1,7 @@
 package be.kdg.integration2.mvpglobal.model;
 
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.eventlisteners.GameSessionListener;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
 
@@ -10,11 +11,13 @@ public class GameSession implements BaseModel {
 
     private ComputerPlayer computer;
     private HumanPlayer player;
+
     private boolean isPlayersTurn;
     private TurnPhase turnPhase;
+    public boolean active;
 
     private Board board;
-    private final Map<String,Piece> unusedPieces = new HashMap<>();
+    private final List<Piece> unusedPieces = new ArrayList<>();
 
     private List<Move> moves = new ArrayList<>();
     private Piece selectedPiece;
@@ -32,6 +35,8 @@ public class GameSession implements BaseModel {
     @Override
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
+
+        computer.setDifficulty(sessionData.getBotDifficulty());
 
         if (sessionData.getStartingPlayer() == 0) {
             isPlayersTurn = new Random().nextBoolean();
@@ -57,10 +62,9 @@ public class GameSession implements BaseModel {
         );
         playMoves(moves);
 
-        List<Piece> pieceList = new ArrayList<>(unusedPieces.values());;
-        selectedPiece = pieceList.get(new Random().nextInt(pieceList.size()));
+        selectedPiece = getUnusedPieces().get(new Random().nextInt(unusedPieces.size()));
 
-        //startNewTurn();
+        active = true;
     }
 
     private void playMoves(List<Move> moves) {
@@ -77,8 +81,9 @@ public class GameSession implements BaseModel {
         }
 
         board.movePiece(move);
-        unusedPieces.remove(move.getPiece().toString());
-
+        unusedPieces.remove(move.getPiece());
+        System.out.println("Unused left: " + unusedPieces.size());
+        if (unusedPieces.isEmpty()) endGame();
         return true;
     }
 
@@ -86,7 +91,7 @@ public class GameSession implements BaseModel {
         //...
 
         // determine move AI:
-        Move move = computer.getMove(this);
+        //Move move = computer.getMove(this);
         // ...
     }
 
@@ -96,7 +101,7 @@ public class GameSession implements BaseModel {
                 for (PieceShape shape : PieceShape.values()) {
                     for (PieceSize size : PieceSize.values()) {
                         Piece piece = new Piece(type, color, shape, size);
-                        unusedPieces.put(piece.toString(), piece);
+                        unusedPieces.add(piece);
                     }
                 }
             }
@@ -124,29 +129,49 @@ public class GameSession implements BaseModel {
     }
 
     public boolean selectPiece(String pieceSlug) {
-        if (!unusedPieces.containsKey(pieceSlug)) return false;
+        for (Piece piece : unusedPieces) {
+            if (piece.toString().equals(pieceSlug)) {
+                selectedPiece = piece;
+                return true;
+            }
+        }
+        return false;
+    }
 
-        selectedPiece = unusedPieces.get(pieceSlug);
+    // select by index, if you prefer generating an index rather than getting a slug from the piece
+    // might be useful for future AI
+    public boolean selectPiece(int index) {
+        if (index >= unusedPieces.size()) return false;
 
+        selectedPiece = unusedPieces.get(index);
         return true;
     }
 
-    public void selectPosition(int x, int y) {
-        currentMove.setPosition(x,y);
 
-        if (!movePiece(currentMove)) return;
+    public boolean selectPosition(PositionData positionData) {
+        currentMove.setPosition(positionData.x(), positionData.y());
+
+        if (!movePiece(currentMove)) return false;
 
         listener.onMoveSuccessful(currentMove);
 
         turnPhase = TurnPhase.PICKING;
+
+        return true;
     }
 
     public void endTurn() {
-        //isPlayersTurn = !isPlayersTurn;
+        isPlayersTurn = !isPlayersTurn;
 
         endMove();
 
         System.out.println("End turn ; " + isPlayersTurn);
+    }
+
+    private void endGame() {
+        active = false;
+
+        System.out.println("End game");
     }
 
 
@@ -167,7 +192,7 @@ public class GameSession implements BaseModel {
 
     public Board getBoard () {return board;}
 
-    public Map<String, Piece> getUnusedPieces() {
+    public List<Piece> getUnusedPieces() {
         return unusedPieces;
     }
 
@@ -185,5 +210,13 @@ public class GameSession implements BaseModel {
 
     public void setListener(GameSessionListener listener) {
         this.listener = listener;
+    }
+
+    public ComputerPlayer getComputerPlayer() {
+        return computer;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
