@@ -22,6 +22,8 @@ public class GameScreenView extends BaseView {
     private Label timeLbl;
     private Label infoLbl;
     private Button menuBtn;
+    private PieceButton chosenPieceButton;
+    private Label chosenPieceLabel;
 
     public GameScreenView() {
         super();
@@ -38,6 +40,8 @@ public class GameScreenView extends BaseView {
             }
         }
 
+        chosenPieceLabel = new Label("Chosen piece: ");
+        chosenPieceButton = new PieceButton(null, null);
 
         unusedPieces = new GridPane();
         for (int x = 0; x < 8; x++) {
@@ -70,12 +74,26 @@ public class GameScreenView extends BaseView {
     protected void layoutNodes() {
         setTop(new Header());
 
-        VBox centerLeft = new VBox(roundInfoLbl, timeLbl, unusedPieces);
+        //new boxes with chosenpiece included
+        GridPane chosenPieceGrid = new GridPane();
+        chosenPieceGrid.add(chosenPieceLabel, 0, 0);
+        chosenPieceGrid.add(chosenPieceButton, 1, 0);
+        VBox labels = new VBox(roundInfoLbl, timeLbl);
+        labels.setSpacing(32);
+        HBox allLabels = new HBox(labels, chosenPieceGrid);
+        //allLabels.setAlignment(Pos.TOP_LEFT);
+        allLabels.setSpacing(193);
+
+
+        VBox centerLeft = new VBox(allLabels, unusedPieces);
         centerLeft.setSpacing(32);
 
         HBox centerUpper = new HBox(board, centerLeft);
         centerUpper.setSpacing(128);
         centerUpper.setAlignment(Pos.CENTER);
+
+        chosenPieceGrid.setAlignment(Pos.TOP_LEFT);
+
 
         VBox centerContainer = new VBox(centerUpper, infoLbl);
         centerContainer.setAlignment(Pos.CENTER);
@@ -136,9 +154,20 @@ public class GameScreenView extends BaseView {
             System.out.println("Updating BOARD at " + column + " " + row + " with " + pieceImagePath);
             ((PieceButton) node).setPieceImage(pieceImagePath, color);
 
+            removeChosenPiece();
             removeUnused(pieceImagePath+"#"+color);
             return;
         }
+    }
+
+    void setChosenPiece(String slug) {
+        String[] sluglist = slug.split("#");
+        chosenPieceButton.setPieceImage(sluglist[0], sluglist[1]);
+        removeUnused(slug);
+    }
+
+    private void removeChosenPiece() {
+        chosenPieceButton.setPieceImage(null, null);
     }
 
     private void removeUnused(String slug) {
@@ -164,6 +193,14 @@ public class GameScreenView extends BaseView {
     //region Getters
     GridPane getBoard() {
         return board;
+    }
+
+    Label getChosenPieceLabel() {
+        return chosenPieceLabel;
+    }
+
+    PieceButton getChosenPieceGrid() {
+        return chosenPieceButton;
     }
 
     Label getRoundInfoLbl() {

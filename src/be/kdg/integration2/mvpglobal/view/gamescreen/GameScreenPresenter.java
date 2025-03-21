@@ -65,6 +65,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
                     System.out.println("Selecting piece: " + pieceBtn.toString());
                     if (model.selectPiece(pieceBtn.toString())) {
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         endTurn();
                     }
                 });
@@ -131,7 +132,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     public void startTurn() {
         startTimer();
         model.startNewTurn();
-
+        view.setChosenPiece(model.getCurrentMove().getPiece().toString());
         if (model.isPlayersTurn()) return;
 
         botPlay();

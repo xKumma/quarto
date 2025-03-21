@@ -184,6 +184,10 @@ public class GameSession implements BaseModel {
         return (currentMove != null) ? System.currentTimeMillis() - currentMove.getStartTime() : 0;
     }
 
+    public Piece getSelectedPiece() {
+        return selectedPiece;
+    }
+
     public int getRoundsCount() {
         return moves.size()+1;
     }
