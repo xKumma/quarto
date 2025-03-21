@@ -5,6 +5,7 @@ import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 import java.io.InputStream;
@@ -14,12 +15,14 @@ public class PieceButton extends Button {
     private String pieceImagePath;
     private String color;
     public static final double BUTTON_SIZE = 72;
+    private boolean active;
 
     public PieceButton(String pieceImagePath, String color) {
         super();
         this.pieceImagePath = pieceImagePath;
         this.color = color;
         setupComponent();
+        active = true;
     }
 
     private void setupComponent() {
@@ -34,8 +37,9 @@ public class PieceButton extends Button {
 
     private void updateImage() {
         if (pieceImagePath == null || color == null || color.isEmpty() || pieceImagePath.isEmpty()) {
-            //System.out.println("pieceImagePath or color is null");
             setGraphic(null);
+            active = false;
+            System.out.println("Deactivated " + GridPane.getColumnIndex(this) + " " + GridPane.getRowIndex(this));
             return;
         }
 
@@ -66,5 +70,13 @@ public class PieceButton extends Button {
         this.color = newColor;
 
         updateImage();
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

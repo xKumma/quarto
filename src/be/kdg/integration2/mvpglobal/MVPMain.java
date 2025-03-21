@@ -1,7 +1,6 @@
 package be.kdg.integration2.mvpglobal;
 
 import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
-import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenPresenter;
@@ -19,9 +18,9 @@ public class MVPMain extends Application {
     @Override
     public void start(Stage primaryStage) throws SQLException {
         UISettings uiSettings = UISettings.getInstance();
-        MVPModel model = new MVPModel();
-        StartScreenView view = new StartScreenView();
         DBManager.setupDatabase();
+
+        StartScreenView view = new StartScreenView();
 
         Scene scene = new Scene(view);
         if (uiSettings.styleSheetAvailable()){
@@ -32,6 +31,7 @@ public class MVPMain extends Application {
                 // do nothing, if toURL-conversion fails, program can continue
             }
         }
+
         primaryStage.setScene(scene);
         primaryStage.setHeight(uiSettings.getLowestRes() /2);
         primaryStage.setWidth(uiSettings.getLowestRes()/2);
@@ -45,7 +45,8 @@ public class MVPMain extends Application {
              }
         } else { // do nothing, if ApplicationIcon is not available, program can continue
         }
-        StartScreenPresenter presenter = new StartScreenPresenter(view, model);
+        StartScreenPresenter presenter = new StartScreenPresenter(view, null);
+        presenter.init();
         //presenter.windowsHandler();
         new Router(primaryStage);
         primaryStage.show();

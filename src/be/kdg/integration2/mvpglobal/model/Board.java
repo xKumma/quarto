@@ -1,6 +1,29 @@
 package be.kdg.integration2.mvpglobal.model;
 
+import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+
 public class Board  {
+
+    private Piece[][] pieces = new Piece[4][4];
+
+    public Board(String[][] board) {
+        // parse board gotten from the DB
+    }
+
+    public Board() {
+    }
+
+    public void movePiece(Move move) {
+        pieces[move.getPosition().x()][move.getPosition().y()] = move.getPiece();
+        System.out.println(pieces[move.getPosition().x()][move.getPosition().y()]);
+    }
+
+    public Piece[][] getPieces() {
+        return pieces;
+    }
+
+
+    // region AI
     public boolean endMoveAIPossible() {
         return false;
     }
@@ -32,4 +55,5 @@ public class Board  {
     public void determineWinningPositionMove (Move move) {
         // change attributes of move
     }
+    // endregion
 }

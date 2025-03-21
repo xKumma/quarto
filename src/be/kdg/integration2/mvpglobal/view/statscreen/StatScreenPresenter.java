@@ -52,7 +52,8 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
         updateVIew();
     }
 
-    private void init() {
+    public void init() {
+        super.init();
 
         try {
             model.launch();

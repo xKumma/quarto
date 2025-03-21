@@ -4,8 +4,8 @@ import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 
 public class BasePresenter<V, M> {
-
     protected V view;
+
     protected M model;
 
     protected UISettings uiSettings;
@@ -15,21 +15,24 @@ public class BasePresenter<V, M> {
         this.model = model;
 
         this.uiSettings = UISettings.getInstance();
+    }
 
+    public void init() {
         addEventHandlers();
     }
 
-    public BasePresenter() {
-
+    public void init(Object data) {
+        if (model instanceof BaseModel) {
+            ((BaseModel) model).init(data);
+        }
+        init();
     }
 
     protected void updateView(){
 
     }
 
-    protected void addEventHandlers(){
-
-    }
+    protected void addEventHandlers(){}
 
     public BaseView getView() {
         return (BaseView) view;

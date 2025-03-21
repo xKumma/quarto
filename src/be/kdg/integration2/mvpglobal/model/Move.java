@@ -21,6 +21,11 @@ public class Move {
         this.startTime = System.currentTimeMillis();
     }
 
+    public Move(Piece selectedPiece) {
+        this.piece = selectedPiece;
+        this.startTime = System.currentTimeMillis();
+    }
+
     public long getTime() { return endTime - startTime; }
     public long getStartTime() { return startTime; }
 
@@ -31,4 +36,11 @@ public class Move {
 
     public void setPlayer(Player player) { this.player = player; }
     public void setEndTime(long endTime) { this.endTime = endTime; }
+
+    public void setPiece(Piece piece) { this.piece = piece;
+    }
+
+    public void setPosition(int x, int y) {
+        position = new PositionData(x,y);
+    }
 }

@@ -27,9 +27,7 @@ public class Router {
     public void goTo(Screen screenType, Object data){
         var presenter = screenType.createPresenter();
 
-        if (presenter.getModel() != null) {
-            presenter.getModel().init(data);
-        }
+        presenter.init(data);
 
         primaryStage.getScene().setRoot(presenter.getView());
     }
