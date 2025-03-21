@@ -2,19 +2,24 @@ package be.kdg.integration2.mvpglobal.view.aboutscreen;
 
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.rules.RulesView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-public class AboutScreenPresenter {
+public class AboutScreenPresenter extends BasePresenter<AboutScreenView, BaseModel> {
 
-    private MVPModel model;
-    private AboutScreenView view;
-    private UISettings uiSettings;
+    public AboutScreenPresenter(MVPModel model, AboutScreenView view) {
+        super(view, model);
+        addEventHandlers();
+    }
 
-    public AboutScreenPresenter(MVPModel model, AboutScreenView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
+    protected void addEventHandlers() {
         view.getBtnOk().setOnAction(event -> view.getScene().getWindow().hide());
+        view.getMenuButton().setOnAction(e -> goToMenu());
+    }
+
+    protected void goToMenu() {
+        Router.getInstance().goTo(Screen.MAIN_MENU);
     }
 }

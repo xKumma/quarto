@@ -3,6 +3,7 @@ package be.kdg.integration2.mvpglobal.view.aboutscreen;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,25 +11,28 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class AboutScreenView extends BorderPane {
+public class AboutScreenView extends BaseView {
 
-    private UISettings uiSettings;
     private Button okButton;
+    private Button menuButton;
 
-    public AboutScreenView(UISettings uiSettings) {
-        this.uiSettings = uiSettings;
+    public AboutScreenView() {
+        super();
         initialiseNodes();
         layoutNodes();
     }
 
-    private void initialiseNodes() {
-        okButton = new Button("OK");
-        okButton.setPrefWidth(60);
+    protected void initialiseNodes() {
+        okButton = new Button("OK (quit)");
+        okButton.setPrefWidth(100);
+        menuButton = new Button("Menu");
+        menuButton.setPrefWidth(60);
     }
 
-    private void layoutNodes() {
+    protected void layoutNodes() {
         BorderPane centralPane = new BorderPane();
          if (Files.exists(uiSettings.getAboutImagePath())) {
             try {
@@ -46,11 +50,17 @@ public class AboutScreenView extends BorderPane {
         centralPane.setBottom(labelsPane);
         setCenter(centralPane);
         setPadding(new Insets(uiSettings.getInsetsMargin()));
-        BorderPane.setAlignment(okButton, Pos.CENTER_RIGHT);
-        BorderPane.setMargin(okButton, new Insets(uiSettings.getInsetsMargin(), 0, 0, 0));
-        setBottom(okButton);
+        HBox buttons = new HBox(okButton, menuButton);
+        buttons.setSpacing(4);
+        BorderPane.setAlignment(buttons, Pos.CENTER_RIGHT);
+        BorderPane.setMargin(buttons, new Insets(uiSettings.getInsetsMargin(), 0, 0, 0));
+        setBottom(buttons);
         setPrefWidth(uiSettings.getLowestRes() / 4);
         setPrefHeight(uiSettings.getLowestRes() / 4);
+    }
+
+    Button getMenuButton() {
+        return menuButton;
     }
 
     Button getBtnOk() {

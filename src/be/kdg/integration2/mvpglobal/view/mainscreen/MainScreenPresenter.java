@@ -44,8 +44,8 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
         }); // just test code, needs another proper place in your code!!
 
         view.getSettingsItem().setOnAction(event -> {
-                SettingsView settingsView = new SettingsView(uiSettings);
-                SettingsPresenter presenter = new SettingsPresenter(this.model, settingsView, uiSettings);
+                SettingsView settingsView = new SettingsView();
+                SettingsPresenter presenter = new SettingsPresenter(this.model, settingsView);
                 Stage settingsStage = new Stage();
                 settingsStage.setTitle("Settings");
                 settingsStage.initOwner(view.getScene().getWindow());
@@ -143,8 +143,8 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
         view.getExitItem().setOnAction(event -> handleCloseEvent(event));
 
         view.getAboutItem().setOnAction(event -> {
-                AboutScreenView aboutScreenView = new AboutScreenView(uiSettings);
-                AboutScreenPresenter aboutScreenPresenter = new AboutScreenPresenter(model, aboutScreenView, uiSettings);
+                AboutScreenView aboutScreenView = new AboutScreenView();
+                AboutScreenPresenter aboutScreenPresenter = new AboutScreenPresenter(model, aboutScreenView);
                 Stage aboutScreenStage = new Stage();
                 aboutScreenStage.initOwner(view.getScene().getWindow());
                 aboutScreenStage.initModality(Modality.APPLICATION_MODAL);
@@ -216,6 +216,7 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
 
         view.getTableItem().setOnAction(event -> {
             TabletView tableView = null;
+
             tableView = new TabletView();
 
 

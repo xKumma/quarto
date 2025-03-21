@@ -1,6 +1,8 @@
 package be.kdg.integration2.mvpglobal.model;
 
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
@@ -14,6 +16,8 @@ import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuPresenter;
 import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
 import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
 import be.kdg.integration2.mvpglobal.view.rules.RulesView;
+import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsPresenter;
+import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsView;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
@@ -31,7 +35,9 @@ public enum Screen {
     END_SCREEN(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
     RULES(() -> new RulesPresenter(new RulesView(), null)),
     LOGIN(() -> new LoginScreenPresenter(null, new LoginScreenView())),
-    TABLE(() -> new TablePresenter(null, new TabletView()));
+    TABLE(() -> new TablePresenter(null, new TabletView())),
+    ABOUT(() -> new AboutScreenPresenter(null, new AboutScreenView())),
+    SETTINGS(() -> new SettingsPresenter(null, new SettingsView()));
 
 
     private final Supplier<BasePresenter> presenterSupplier;

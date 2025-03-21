@@ -2,6 +2,8 @@ package be.kdg.integration2.mvpglobal.view.settingsscreen;
 
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.rules.RulesView;
 import javafx.event.*;
 import javafx.stage.FileChooser;
 
@@ -10,25 +12,22 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Paths;
 
-public class SettingsPresenter {
+public class SettingsPresenter extends BasePresenter<SettingsView, BaseModel> {
 
-    private MVPModel model;
-    private SettingsView view;
-    private UISettings uiSettings;
 
-    public SettingsPresenter(MVPModel model, SettingsView view, UISettings uiSettings) {
-        this.model = model;
-        this.view = view;
-        this.uiSettings = uiSettings;
+
+    public SettingsPresenter(MVPModel model, SettingsView view) {
+        super(view, model);
         updateView();
         EventHandlers();
     }
 
-    private void updateView() {
+    protected void updateView() {
     }
 
-    private void EventHandlers() {
+    protected void EventHandlers() {
         view.getExitItem().setOnAction(event -> handleCloseEvent(event));
+        view.getMenuButton().setOnAction(e -> goToMenu());
 
         view.getCssButton().setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -53,6 +52,10 @@ public class SettingsPresenter {
         });
 
         view.getOkButton().setOnMouseClicked(event -> handleCloseEvent(event));
+    }
+
+    private void goToMenu() {
+        Router.getInstance().goTo(Screen.MAIN_MENU);
     }
 
     private void handleCloseEvent(Event event){

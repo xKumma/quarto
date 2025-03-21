@@ -20,6 +20,9 @@ public class MainMenuView extends BaseView {
     private Button statisticsButton;
     private Button tableButton;
     private Header header;
+    private Button aboutButton;
+    private Button settingsButton;
+    //add aboutscreen and settings screen
 
     public MainMenuView() {
         super();
@@ -33,6 +36,8 @@ public class MainMenuView extends BaseView {
         statisticsButton = new Button("Statistics");
         tableButton = new Button("Table");
         header = new Header();
+        aboutButton = new Button("About");
+        settingsButton = new Button("Settings");
 
     }
 
@@ -44,6 +49,8 @@ public class MainMenuView extends BaseView {
         quitButton.setPrefSize(110, 20);
         statisticsButton.setPrefSize(110, 20);
         tableButton.setPrefSize(110, 20);
+        aboutButton.setPrefSize(110, 20);
+        settingsButton.setPrefSize(110, 20);
 
 
 
@@ -55,7 +62,7 @@ public class MainMenuView extends BaseView {
         rectangle.setRotate(45);
 
         //buttons vbox
-        VBox buttons = new VBox(header,new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton, statisticsButton, tableButton);
+        VBox buttons = new VBox(header,new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton, statisticsButton, tableButton, aboutButton, settingsButton);
         buttons.setSpacing(4);
         buttons.setAlignment(Pos.CENTER);
         buttons.setMaxWidth(400);
@@ -75,6 +82,14 @@ public class MainMenuView extends BaseView {
 
     Header getHeader() {
         return header;
+    }
+
+    public Button getSettingsButton() {
+        return settingsButton;
+    }
+
+    public Button getAboutButton() {
+        return aboutButton;
     }
 
     Button getTableButton() {
