@@ -40,6 +40,7 @@ public class Router {
             primaryStage.setMinWidth(500);
             primaryStage.setHeight(uiSettings.getLowestRes() /2);
             primaryStage.setWidth(uiSettings.getLowestRes()/2);
+            primaryStage.setResizable(true);
         }
 
         primaryStage.getScene().setRoot(presenter.getView());

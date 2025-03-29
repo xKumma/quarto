@@ -38,8 +38,9 @@ public class MVPMain extends Application {
         primaryStage.setTitle(uiSettings.getApplicationName());
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(500);
-        //primaryStage.setMaxHeight(1000);
-        //primaryStage.setMaxWidth(1900);
+        primaryStage.setMaxHeight(1000);
+        primaryStage.setMaxWidth(1900);
+        primaryStage.setResizable(false);
         if (Files.exists(uiSettings.getApplicationIconPath())) {
              try {
                  primaryStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
