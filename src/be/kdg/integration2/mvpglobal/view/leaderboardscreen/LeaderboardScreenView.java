@@ -1,9 +1,11 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
+import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -38,15 +40,23 @@ public class LeaderboardScreenView extends BaseView {
     }
 
     public void layoutNodes () {
-        TableView<Object> leaderboardTable = new TableView<>();
-        TableColumn<Object,String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Object,Integer> rankColumn = new TableColumn<>("Rank");
-        TableColumn<Object,Integer> gameCountColumn = new TableColumn<>("Games Played");
-        TableColumn<Object,Integer> winsColumn = new TableColumn<>("Wins");
-        TableColumn<Object,Integer> lossesColumn = new TableColumn<>("Losses");
-        TableColumn<Object,Integer> winRateColumn = new TableColumn<>("Winrate");
-        TableColumn<Object,Integer> avgMovesColumn = new TableColumn<>("Average Moves");
-        TableColumn<Object,Integer> avgTimeColumn = new TableColumn<>("Average Time");
+        TableView<LeaderboardData> leaderboardTable = new TableView<>();
+        TableColumn<LeaderboardData,String> nameColumn = new TableColumn<>("Name");
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<LeaderboardData,Integer> rankColumn = new TableColumn<>("Rank");
+            rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        TableColumn<LeaderboardData,Integer> gameCountColumn = new TableColumn<>("Games Played");
+            gameCountColumn.setCellValueFactory(new PropertyValueFactory<>("gamesPlayed"));
+        TableColumn<LeaderboardData,Integer> winsColumn = new TableColumn<>("Wins");
+            winsColumn.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        TableColumn<LeaderboardData,Integer> lossesColumn = new TableColumn<>("Losses");
+            lossesColumn.setCellValueFactory(new PropertyValueFactory<>("losses"));
+        TableColumn<LeaderboardData,Double> winRateColumn = new TableColumn<>("Winrate");
+            winRateColumn.setCellValueFactory(new PropertyValueFactory<>("winRate"));
+        TableColumn<LeaderboardData,Double> avgMovesColumn = new TableColumn<>("Average Moves");
+            avgMovesColumn.setCellValueFactory(new PropertyValueFactory<>("averageMoves"));
+        TableColumn<LeaderboardData,Double> avgTimeColumn = new TableColumn<>("Average Time");
+            avgTimeColumn.setCellValueFactory(new PropertyValueFactory<>("averageTime"));
 
         leaderboardTable.getColumns().addAll(rankColumn,nameColumn,gameCountColumn,winsColumn,lossesColumn,winRateColumn,avgMovesColumn,avgTimeColumn);
         leaderboardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -58,7 +68,32 @@ public class LeaderboardScreenView extends BaseView {
         VBox box1 = new VBox(10,logoLabel, headerLabel,leaderboardTable, box0);
         box1.setAlignment(Pos.CENTER);
         setCenter(box1);
+        leaderboardTable.setItems(LeaderboardData.LeaderboardData);
     }
     Button getMainButton() {return mainButton;}
+
+    public MenuItem getWinsMI() {
+        return winsMI;
+    }
+
+    public MenuItem getLossMI() {
+        return lossMI;
+    }
+
+    public MenuItem getAvgMMI() {
+        return avgMMI;
+    }
+
+    public MenuItem getAvgTMI() {
+        return avgTMI;
+    }
+
+    public MenuItem getAscMI() {
+        return ascMI;
+    }
+
+    public MenuItem getDescMI() {
+        return descMI;
+    }
 }
 

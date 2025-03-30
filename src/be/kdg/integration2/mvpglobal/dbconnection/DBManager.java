@@ -1,5 +1,7 @@
 package be.kdg.integration2.mvpglobal.dbconnection;
 
+import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PlayerLeaderboardData;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -312,4 +314,27 @@ public class DBManager {
         return flag;
     }
 
+    public static void fillLeaderboard(String filter){
+        System.out.println("called");
+        String name="Empty";
+        int gamesPlayed=8;
+        int wins=4;
+        int losses=0;
+        double averageMoves=0;
+        double averageTime=0;
+        PlayerLeaderboardData.LeaderboardData.clear();
+        for(int i=0;i<5;i++) {
+            String checkString = "SELECT player_username,player_won FROM sessions WHERE is_finished = ? ORDER BY ? OFFSET ? LIMIT ?";
+            try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
+                ps1.setString(1, "true");
+                ps1.setString(2, filter);
+                ps1.setString(3, String.valueOf(i));
+                ps1.setString(4, "1");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            LeaderboardData.LeaderboardData.add(new LeaderboardData(name,gamesPlayed,wins,losses,averageMoves,averageTime));
+        }
+    }
 }

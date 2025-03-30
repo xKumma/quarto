@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
@@ -15,5 +16,26 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
         view.getMainButton().setOnAction(Event -> {
             Router.getInstance().goTo(Screen.MAIN_MENU);
         });
+
+        view.getAscMI().setOnAction(event -> {
+            DBManager.fillLeaderboard("player_username");
+        });
+
+        view.getDescMI().setOnAction(event -> {
+            DBManager.fillLeaderboard("ASC");
+        });
+
+        view.getWinsMI().setOnAction(event -> {
+            DBManager.fillLeaderboard("ASC");
+        });
+
+        view.getLossMI().setOnAction(event -> {
+            DBManager.fillLeaderboard("ASC");
+        });
+
+        view.getAvgTMI().setOnAction(event -> {
+            DBManager.fillLeaderboard("ASC");
+        });
+
     }
 }
