@@ -18,7 +18,7 @@ public class MVPMain extends Application {
     @Override
     public void start(Stage primaryStage) throws SQLException {
         UISettings uiSettings = UISettings.getInstance();
-        DBManager.setupDatabase();
+        DBManager dbManager = DBManager.getInstance();
 
         StartScreenView view = new StartScreenView();
 

@@ -18,23 +18,23 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
         });
 
         view.getAscMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("player_username");
+            DBManager.getInstance().fillLeaderboard("player_username");
         });
 
         view.getDescMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getWinsMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getLossMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getAvgTMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
     }
