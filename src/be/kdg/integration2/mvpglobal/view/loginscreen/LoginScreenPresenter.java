@@ -1,9 +1,9 @@
 package be.kdg.integration2.mvpglobal.view.loginscreen;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.control.Alert;

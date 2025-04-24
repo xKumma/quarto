@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.model;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;import java.util.Collections;

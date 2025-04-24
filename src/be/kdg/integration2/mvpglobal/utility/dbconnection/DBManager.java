@@ -1,4 +1,4 @@
-package be.kdg.integration2.mvpglobal.dbconnection;
+package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import javafx.scene.control.Alert;
