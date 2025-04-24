@@ -65,16 +65,18 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
 
     private void loadFromFile(File file) {
         System.out.println("Loading game from: " + file.getAbsolutePath());
+        GameSessionData sessionData= SaveManager.loadFromFile(file);
+        Router.getInstance().goTo(Screen.GAME, sessionData);
     }
 
     private void loadFromDB() {
     }
 
     private void goToMenu() {
-        Router.Instance.goTo(Screen.MAIN_MENU);
+        Router.getInstance().goTo(Screen.MAIN_MENU);
     }
 
     private void startGame() {
-        Router.Instance.goTo(Screen.GAME, model.getSessionData());
+        Router.getInstance().goTo(Screen.GAME, model.getSessionData());
     }
 }

@@ -4,7 +4,9 @@ import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameSession implements BaseModel {
 
@@ -22,10 +24,8 @@ public class GameSession implements BaseModel {
     private Piece selectedPiece;
     private Move currentMove;
 
-    private GameSessionListener listener;
-
     public GameSession () {
-        this.board = new Board();
+        //this.board = new Board();
         this.player = new HumanPlayer();
         this.computer = new ComputerPlayer();
         //...
@@ -34,6 +34,7 @@ public class GameSession implements BaseModel {
     @Override
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
+        System.out.println(sessionData.toJson());
 
         computer.setDifficulty(sessionData.getBotDifficulty());
 
@@ -51,17 +52,12 @@ public class GameSession implements BaseModel {
 
         createPieces();
 
-        moves = sessionData.getMoveHistory() != null ? sessionData.getMoveHistory() : new ArrayList<>(
-                // temp
-//                Arrays.asList(
-//                        new Move(new Player(), unusedPieces.get("round_big_hollow#red"), new PositionData(3,2)),
-//                        new Move(new Player(), unusedPieces.get("square_small_hollow#blue"), new PositionData(2,3)),
-//                        new Move(new Player(), unusedPieces.get("round_big_full#red"), new PositionData(0,0))
-//                )
-        );
-        playMoves(moves);
-
-        selectedPiece = getUnusedPieces().get(new Random().nextInt(unusedPieces.size()));
+        moves = (sessionData.getMoveHistory() != null) ? sessionData.getMoveHistory() : new ArrayList<>();
+        if (!moves.isEmpty()) {
+            playMoves(moves);
+            selectedPiece = sessionData.getSelectedPiece();
+        }
+        else selectedPiece = getUnusedPieces().get(new Random().nextInt(unusedPieces.size()));
 
         active = true;
     }
@@ -152,8 +148,6 @@ public class GameSession implements BaseModel {
 
         if (!movePiece(currentMove)) return false;
 
-        listener.onMoveSuccessful(currentMove);
-
         turnPhase = TurnPhase.PICKING;
 
         return true;
@@ -211,15 +205,15 @@ public class GameSession implements BaseModel {
         return moves;
     }
 
-    public void setListener(GameSessionListener listener) {
-        this.listener = listener;
-    }
-
     public ComputerPlayer getComputerPlayer() {
         return computer;
     }
 
     public boolean isActive() {
         return active;
+    }
+
+    public GameSessionData getSessionData() {
+        return new GameSessionData("player.name", computer.getDifficulty(), moves, selectedPiece);
     }
 }

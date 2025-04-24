@@ -19,6 +19,16 @@ public class Piece {
         this.size = size;
     }
 
+    public Piece(String slug) {
+        String[] parts = slug.split("#");
+        String[] attrs = parts[0].split("_");
+
+        shape = PieceShape.valueOf(attrs[0].toUpperCase());
+        size = PieceSize.valueOf(attrs[1].toUpperCase());
+        type = PieceType.valueOf(attrs[2].toUpperCase());
+        color = PieceColor.valueOf(parts[1].toUpperCase());
+    }
+
     public Map<PieceAttribute, Object> getAttributes() {
         Map<PieceAttribute, Object> attributes = new HashMap<>();
         attributes.put(PieceAttribute.TYPE, type);

@@ -84,12 +84,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 });
             }
         }
+        view.getChosenPieceGrid().setOnMouseClicked(e -> SaveManager.saveToFile(model.getSessionData()));
     }
 
     private void goToMenu() {
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
-
 
     private void setUpBoard(Piece[][] board, List<Piece> unusedPieces) {
         List<BoardUpdateData> updates = new ArrayList<>();
