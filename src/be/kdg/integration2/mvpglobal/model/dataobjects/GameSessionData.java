@@ -16,7 +16,7 @@ public class GameSessionData implements Serializable {
     private int startingPlayer;
     private Piece lastSelectedPiece;
 
-    // Loaded from file
+    // Loaded from a file
     public GameSessionData(String playerName, String botDifficulty, List<Move> moveHistory, String lastSelectedPiece) {
         this.playerName = playerName;
         this.moveHistory = moveHistory;
@@ -52,13 +52,13 @@ public class GameSessionData implements Serializable {
         this.lastSelectedPiece = selectedPiece;
     }
 
-    public String getPlayerName() { return playerName; }
-    public BotDifficulty getBotDifficulty() { return botDifficulty; }
-    public List<Move> getMoveHistory() { return moveHistory; }
-    public Board getBoard() { return board; }
-    public int getStartingPlayer() { return startingPlayer; }
-    public Piece getSelectedPiece() { return lastSelectedPiece; }
-
+    /**
+     * Converts the GameSessionData object into a JSON string representation.
+     * The JSON includes the player's name, bot difficulty, last selected piece,
+     * and the move history (if available).
+     *
+     * @return A JSON string representing the current state of the GameSessionData object.
+     */
     public String toJson() {
         StringBuilder sb = new StringBuilder();
 
@@ -83,5 +83,14 @@ public class GameSessionData implements Serializable {
 
         return sb.toString();
     }
+
+    //region Getters
+    public String getPlayerName() { return playerName; }
+    public BotDifficulty getBotDifficulty() { return botDifficulty; }
+    public List<Move> getMoveHistory() { return moveHistory; }
+    public Board getBoard() { return board; }
+    public int getStartingPlayer() { return startingPlayer; }
+    public Piece getSelectedPiece() { return lastSelectedPiece; }
+    //endregion
 }
 

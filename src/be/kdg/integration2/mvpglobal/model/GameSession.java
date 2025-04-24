@@ -34,8 +34,6 @@ public class GameSession implements BaseModel {
     @Override
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
-        System.out.println(sessionData.toJson());
-
         computer.setDifficulty(sessionData.getBotDifficulty());
 
         if (sessionData.getStartingPlayer() == 0) {
@@ -45,8 +43,6 @@ public class GameSession implements BaseModel {
         } else {
             isPlayersTurn = false;
         }
-
-        System.out.println("PlayersTurn: " + isPlayersTurn);
 
         board = sessionData.getBoard() != null ? sessionData.getBoard() : new Board();
 
@@ -68,16 +64,23 @@ public class GameSession implements BaseModel {
         }
     }
 
+    /**
+     * Moves a piece on the board according to the specified move.
+     * Validates the move using the RuleChecker and updates the board state.<br>
+     * If the move is valid, it removes the piece from the unused pieces list,
+     * updates the board, and checks if the game should end.
+     *
+     * @param move The Move object representing the piece and its destination.
+     * @return true if the move is valid and successfully executed, false otherwise.
+     */
     public boolean movePiece(Move move) {
         // Validate
         if (!RuleChecker.isMoveValid(move, board)) {
-            System.out.println("Invalid move");
             return false;
         }
 
         board.movePiece(move);
         unusedPieces.remove(move.getPiece());
-        System.out.println("Unused left: " + unusedPieces.size());
         if (unusedPieces.isEmpty()) endGame();
         return true;
     }
@@ -90,6 +93,11 @@ public class GameSession implements BaseModel {
         // ...
     }
 
+    /**
+     * Creates all possible pieces for the game by iterating through
+     * all combinations of PieceType, PieceColor, PieceShape, and PieceSize.<br>
+     * Adds the created pieces to the unusedPieces list.
+     */
     private void createPieces() {
         for (PieceType type : PieceType.values()) {
             for (PieceColor color : PieceColor.values()) {
@@ -103,17 +111,21 @@ public class GameSession implements BaseModel {
         }
     }
 
+    /**
+         * Starts a new turn by initializing a new move with the currently selected piece
+         * and setting the turn phase to PLACING.
+         */
     public void startNewTurn() {
         currentMove = new Move(selectedPiece);
         turnPhase = TurnPhase.PLACING;
-
-        System.out.println("---------------------------------");
-        System.out.println("moves: " + moves.size());
-
-        System.out.println("Selected Piece: " + currentMove.getPiece().toString());
     }
 
 
+    /**
+     * Ends the current move by setting its end time and adding it to the move history.
+     * If no current move exists, the method does nothing.
+     * A new empty move is initialized after ending the current one.
+     */
     public void endMove() {
         if (currentMove == null) return;
 
@@ -123,6 +135,14 @@ public class GameSession implements BaseModel {
         currentMove = new Move();
     }
 
+    /**
+     * Selects a piece from the unused pieces list based on the provided slug.
+     * If the piece is found, it sets it as the selected piece and returns true.
+     * Otherwise, it returns false.
+     *
+     * @param pieceSlug The slug of the piece to select.
+     * @return true if the piece was successfully selected, false otherwise.
+     */
     public boolean selectPiece(String pieceSlug) {
         for (Piece piece : unusedPieces) {
             if (piece.toString().equals(pieceSlug)) {
@@ -133,8 +153,13 @@ public class GameSession implements BaseModel {
         return false;
     }
 
-    // select by index, if you prefer generating an index rather than getting a slug from the piece
-    // might be useful for future AI
+    /**
+     * Selects a piece from the unused pieces list based on the provided index.
+     * If the index is valid, it sets the piece at the specified index as the selected piece.
+     *
+     * @param index The index of the piece to select.
+     * @return true if the piece was successfully selected, false if the index is out of bounds.
+     */
     public boolean selectPiece(int index) {
         if (index >= unusedPieces.size()) return false;
 
@@ -143,6 +168,15 @@ public class GameSession implements BaseModel {
     }
 
 
+    /**
+     * Selects a position on the board for the current move.
+     * Updates the position of the current move and attempts to execute it.
+     * If the move is invalid, the method returns false.
+     * If the move is valid, the turn phase is updated to PICKING.
+     *
+     * @param positionData The position data containing x and y coordinates.
+     * @return true if the move is valid and successfully executed, false otherwise.
+     */
     public boolean selectPosition(PositionData positionData) {
         currentMove.setPosition(positionData.x(), positionData.y());
 
@@ -153,20 +187,32 @@ public class GameSession implements BaseModel {
         return true;
     }
 
+    /**
+     * Ends the current turn by toggling the player's turn status and finalizing the current move.
+     */
     public void endTurn() {
         isPlayersTurn = !isPlayersTurn;
-
         endMove();
-
-        System.out.println("End turn ; " + isPlayersTurn);
     }
 
+    /**
+     * Ends the game by setting the active status to false.
+     * This method is called when the game reaches its conclusion,
+     * such as when all pieces have been used or a win condition is met.
+     */
     private void endGame() {
         active = false;
-
-        System.out.println("End game");
     }
 
+
+    // region Getters
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean isPlayersTurn() {
+        return isPlayersTurn;
+    }
 
     public long getTotalElapsedTime() {
         long elapsedTime = moves.stream().mapToLong(Move::getTime).sum();
@@ -193,10 +239,6 @@ public class GameSession implements BaseModel {
         return unusedPieces;
     }
 
-    public boolean isPlayersTurn() {
-        return isPlayersTurn;
-    }
-
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
@@ -209,11 +251,9 @@ public class GameSession implements BaseModel {
         return computer;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public GameSessionData getSessionData() {
         return new GameSessionData("player.name", computer.getDifficulty(), moves, selectedPiece);
     }
+
+    // endregion
 }

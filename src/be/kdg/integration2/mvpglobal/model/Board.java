@@ -15,7 +15,6 @@ public class Board  {
 
     public void movePiece(Move move) {
         pieces[move.getPosition().x()][move.getPosition().y()] = move.getPiece();
-        System.out.println(pieces[move.getPosition().x()][move.getPosition().y()]);
     }
 
     public Piece[][] getPieces() {
