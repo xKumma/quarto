@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
-import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.Statistics;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;

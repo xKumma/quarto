@@ -1,7 +1,7 @@
 package be.kdg.integration2.mvpglobal;
 
-import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
-import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenView;
@@ -18,7 +18,7 @@ public class MVPMain extends Application {
     @Override
     public void start(Stage primaryStage) throws SQLException {
         UISettings uiSettings = UISettings.getInstance();
-        DBManager dbManager = DBManager.getInstance();
+        DBManager.setupDatabase();
 
         StartScreenView view = new StartScreenView();
 

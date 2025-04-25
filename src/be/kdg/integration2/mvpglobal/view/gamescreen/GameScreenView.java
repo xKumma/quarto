@@ -67,6 +67,7 @@ public class GameScreenView extends BaseView {
 
         menuBtn = new Button("Menu");
         menuBtn.getStyleClass().add("button");
+        System.out.println("------------------------------------");
     }
 
     @Override
@@ -105,12 +106,6 @@ public class GameScreenView extends BaseView {
         setBottom(footer);
     }
 
-
-    /**
-     * Updates the round information and the info label with the provided data.
-     *
-     * @param updateData The data object containing the round number, player name, and info text.
-     */
     public void update(RoundUpdateData updateData) {
         roundInfoLbl.setText(
                 String.format(
@@ -125,14 +120,6 @@ public class GameScreenView extends BaseView {
         infoLbl.setText(updateData.infoText());
     }
 
-
-    /**
-     * Updates the time label with the total and turn time information.<br>
-     * The time is formatted as minutes, seconds, and hundredths of a second
-     * for the total time, and seconds and milliseconds for the turn time.
-     *
-     * @param updateData The data object containing the total and turn time values.
-     */
     public void update(TimeUpdateData updateData) {
         long totalTime = updateData.totalTime();
         long turnTime = updateData.turnTime();
@@ -149,97 +136,57 @@ public class GameScreenView extends BaseView {
         );
     }
 
-    /**
-     * Updates the board or unused pieces based on the given `BoardUpdateData`.<br>
-     * If the coordinates are non-negative, the piece is placed on the board.
-     * Otherwise, the piece is added to the unused pieces grid.
-     *
-     * @param updateData The data object containing the piece's image path, color, and coordinates.
-     */
     public void update(BoardUpdateData updateData) {
         int x = updateData.x();
         int y = updateData.y();
 
-        if (x >= 0 && y >= 0) setBoardPiece(updateData.imageName(), updateData.color(), x, y);
-        else setUnusedPiece(updateData.imageName(), updateData.color(), x, y);
+        if (x >=0 && y >=0) setBoardPiece(updateData.imagePath(),updateData.color(),x,y);
+        else setUnusedPiece(updateData.imagePath(),updateData.color(),x,y);
     }
 
-    /**
-     * Updates the board grid with a piece at the specified position.<br>
-     * If a node exists at the given coordinates, it sets the piece's image and color.
-     * Additionally, it removes the chosen piece and the corresponding unused piece.
-     *
-     * @param pieceImageName The file name for the image of the piece.
-     * @param color          The color of the piece.
-     * @param x              The x-coordinate of the piece on the board.
-     * @param y              The y-coordinate of the piece on the board.
-     */
-    private void setBoardPiece(String pieceImageName, String color, int x, int y) {
+    private void setBoardPiece(String pieceImagePath, String color, int x, int y) {
         for (Node node : board.getChildren()) {
             Integer column = GridPane.getColumnIndex(node);
             Integer row = GridPane.getRowIndex(node);
 
             if (column != x || row != y) continue;
 
-            ((PieceButton) node).setPieceImage(pieceImageName, color);
+            System.out.println("Updating BOARD at " + column + " " + row + " with " + pieceImagePath);
+            ((PieceButton) node).setPieceImage(pieceImagePath, color);
 
             removeChosenPiece();
-            removeUnused(pieceImageName + "#" + color);
+            removeUnused(pieceImagePath+"#"+color);
             return;
         }
     }
 
-    /**
-     * Sets the chosen piece on the `chosenPieceButton` based on the given slug.
-     * The slug is expected to be in the format "shape_size_type#color".<br>
-     * The method splits the slug, sets the piece image and color,
-     * and removes the piece from the unused pieces grid.
-     *
-     * @param slug The unique identifier of the piece, in the format "shape_size_type#color".
-     */
-    public void setChosenPiece(String slug) {
-        String[] slugParts = slug.split("#");
-        chosenPieceButton.setPieceImage(slugParts[0], slugParts[1]);
+    void setChosenPiece(String slug) {
+        String[] sluglist = slug.split("#");
+        chosenPieceButton.setPieceImage(sluglist[0], sluglist[1]);
         removeUnused(slug);
-    }
-
-    /**
-     * Sets an unused piece on the `unusedPieces` grid at the specified position.
-     * If the position matches an existing node in the grid, the piece's image and color are updated.
-     *
-     * @param pieceImagePath The file path to the image of the piece.
-     * @param color          The color of the piece.
-     * @param x              The x-coordinate (negative index) of the piece in the grid.
-     * @param y              The y-coordinate (negative index) of the piece in the grid.
-     */
-    private void setUnusedPiece(String pieceImagePath, String color, int x, int y) {
-        for (Node node : unusedPieces.getChildren()) {
-            Integer column = GridPane.getColumnIndex(node);
-            Integer row = GridPane.getRowIndex(node);
-
-            // Reverse the x and y coordinates to match the grid layout.
-            if (column != -(x + 1) || row != -(y + 1)) continue;
-
-            ((PieceButton) node).setPieceImage(pieceImagePath, color);
-            return;
-        }
     }
 
     private void removeChosenPiece() {
         chosenPieceButton.setPieceImage(null, null);
     }
 
-    /**
-     * Removes an unused piece from the `unusedPieces` grid based on the given slug.
-     * The slug is compared to the string representation of each node in the grid.
-     * If a match is found, the piece's image and color are cleared.
-     *
-     * @param slug The unique identifier of the piece to be removed, in the format "imageName#color".
-     */
     private void removeUnused(String slug) {
         for (Node node : unusedPieces.getChildren()) {
             if (!node.toString().equals(slug)) continue;
             ((PieceButton)node).setPieceImage(null, null);
+        }
+    }
+
+    private void setUnusedPiece(String pieceImagePath, String color, int x, int y) {
+        for (Node node : unusedPieces.getChildren()) {
+            Integer column = GridPane.getColumnIndex(node);
+            Integer row = GridPane.getRowIndex(node);
+
+            if (column != -(x + 1) || row != -(y + 1)) continue;
+
+            System.out.println("Updating UNUSED at " + column + " " + row + " with " + pieceImagePath);
+            ((PieceButton) node).setPieceImage(pieceImagePath, color);
+            return;
         }
     }
 
