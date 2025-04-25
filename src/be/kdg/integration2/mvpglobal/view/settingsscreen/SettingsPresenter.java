@@ -1,7 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.settingsscreen;
 
 import be.kdg.integration2.mvpglobal.model.*;
-import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.rules.RulesView;

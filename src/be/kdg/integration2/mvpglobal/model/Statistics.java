@@ -1,12 +1,14 @@
 package be.kdg.integration2.mvpglobal.model;
 
-import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 
 import java.sql.SQLException;
-import java.util.ArrayList;import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Statistics implements BaseModel {
+    public static DBManager dbManager;
     public static int i =1;
     public static int j =1;
     protected  double meanA;
@@ -28,6 +30,16 @@ public class Statistics implements BaseModel {
     protected double score;
     protected  double time;
 
+
+    static {
+        try {
+            dbManager = new DBManager();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     protected static double[] time1 ;
     protected static double[] time2 ;
     protected  List <Double> timeList1 = new ArrayList<>();
@@ -39,16 +51,16 @@ public class Statistics implements BaseModel {
     }
 
     public  void setValues() throws SQLException {
-        if(!DBManager.getInstance().isAI(j)) {
-            timeList1.add(DBManager.getInstance().getTimeMove2(i, j));
-        } else {timeList2.add(DBManager.getInstance().getTimeMove1(i , j ));}
+        if(dbManager.isAI(j)==false) {
+            timeList1.add(dbManager.getTimeMove2(i, j));
+        } else {timeList2.add(dbManager.getTimeMove1(i , j ));}
         j++;
 
     }
 
 
     public void launch() throws SQLException {
-            for (int i = DBManager.getInstance().getMoveID1(1); i <= DBManager.getInstance().getMoveID2(1 ); i ++){
+            for (int i = dbManager.getMoveID1(1); i <= dbManager.getMoveID2(1 ); i ++){
                 try {
                     setValues();
                 } catch (SQLException e) {
@@ -57,8 +69,8 @@ public class Statistics implements BaseModel {
             }
             i++;
 
-          //  System.out.println(DBManager.getInstance().getTimeMove1(1, j));
-          //  System.out.println(DBManager.getInstance().getTimeMove2(1,j));
+          //  System.out.println(dbManager.getTimeMove1(1, j));
+          //  System.out.println(dbManager.getTimeMove2(1,j));
         Collections.sort(timeList1);
           System.out.println(timeList1);
           System.out.println(timeList2);
