@@ -1,13 +1,18 @@
-package be.kdg.integration2.mvpglobal.dbconnection;
+package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
-import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import javafx.scene.control.Alert;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DBManager {
+    private static DBManager Instance;
+
     // LIVE DB
     static final String DB_URL = "jdbc:postgresql://10.134.178.12:5432/game";
     static final String USER = "game";
@@ -19,21 +24,58 @@ public class DBManager {
     static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
     static final String USER = "devuser";
     static final String PASSWORD = "devpass";
-    */
-    static Connection connection;
-    static Statement statement;
 
-    public DBManager() throws SQLException {
+    private static final Path DDL_PATH = Paths.get("src/be/kdg/integration2/mvpglobal/utility/dbconnection/DDL.sql");
+
+    private Connection connection;
+    private Statement statement;
+
+    private DBManager() {
         setupDatabase();
     }
 
-    public static void setupDatabase() {
+    public static DBManager getInstance() {
+        if (Instance == null) {
+            Instance = new DBManager();
+        }
+        return Instance;
+    }
+
+    private void setupDatabase() {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             statement = connection.createStatement();
+
+            // Check if there are any tables in the database
+            DatabaseMetaData meta = connection.getMetaData();
+            ResultSet tables = meta.getTables(null, null, "%", new String[] {"TABLE"});
+
+            boolean hasTables = tables.next(); // true if there's at least one table
+
+            if (!hasTables) {
+                System.out.println("No tables found. Initializing database schema...");
+
+                // Load and execute the DDL.sql file
+                System.out.println(DDL_PATH.toAbsolutePath().toString());
+                String ddlSql = Files.readString(DDL_PATH);
+                for (String sql : ddlSql.split(";")) {
+                    sql = sql.trim();
+                    if (!sql.isEmpty()) {
+                        statement.execute(sql);
+                    }
+                }
+
+                System.out.println("Database initialized successfully.");
+            } else {
+                System.out.println("Database already contains tables. Skipping initialization.");
+            }
+
+            tables.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -218,7 +260,7 @@ public class DBManager {
         return false;
     }
 
-    public static Boolean registerUser(String usernameData, String passwordData){
+    public Boolean registerUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
                 System.out.println("username taken");
@@ -246,7 +288,7 @@ public class DBManager {
         }
     }
 
-    public static Boolean loginUser(String usernameData, String passwordData){
+    public Boolean loginUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
                 if(passwordCheck(usernameData, passwordData)){
@@ -272,7 +314,7 @@ public class DBManager {
         }
     }
 
-    public static Boolean userExists(String usernameData){
+    public Boolean userExists(String usernameData){
         Boolean flag=false;
         String checkString = "SELECT EXISTS (SELECT 1 FROM human_players WHERE username = ?)";
         try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
@@ -288,7 +330,7 @@ public class DBManager {
         return flag;
     }
 
-    public static Boolean passwordCheck(String usernameData,String passwordData){
+    public Boolean passwordCheck(String usernameData,String passwordData){
         Boolean flag=false;
         String checkString = "SELECT password FROM human_players WHERE username = ?";
         try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
@@ -314,7 +356,7 @@ public class DBManager {
         return flag;
     }
 
-    public static void fillLeaderboard(String filter){
+    public void fillLeaderboard(String filter){
         System.out.println("called");
         String name="Empty";
         int gamesPlayed=8;

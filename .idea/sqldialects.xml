@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/be/kdg/integration2/mvpglobal/utility/dbconnection/DDL.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/be/kdg/integration2/mvpglobal/utility/dbconnection/DML.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/be/kdg/integration2/mvpglobal/utility/dbconnection/mockdata.sql" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
+  </component>
+</project>

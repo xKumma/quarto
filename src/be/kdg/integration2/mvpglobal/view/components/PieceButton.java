@@ -5,12 +5,15 @@ import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * A custom button component representing a game piece.
+ * It includes layout configurations and functionality for setting an image.
+ */
 public class PieceButton extends Button {
     private String pieceImagePath;
     private String color;
@@ -39,7 +42,6 @@ public class PieceButton extends Button {
         if (pieceImagePath == null || color == null || color.isEmpty() || pieceImagePath.isEmpty()) {
             setGraphic(null);
             active = false;
-            System.out.println("Deactivated " + GridPane.getColumnIndex(this) + " " + GridPane.getRowIndex(this));
             return;
         }
 

@@ -1,15 +1,9 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
-
-import java.sql.SQLException;
 
 public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
@@ -19,18 +13,12 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
     }
 
     protected void updateView() {
+        view.getTitolo().getStylesheets().add(uiSettings.getStyleSheetPath().toString());
     }
 
     protected void addEventHandlers() {
         view.getTransition().setOnFinished(event -> {
             Router.getInstance().goTo(Screen.LOGIN);
-
-            try {
-                DBManager.setupDatabase();
-            } catch (SQLException e) {
-               System.out.println("server not available");
-            }
-
         });
 
         // Skip the login screen for quicker testing
@@ -38,6 +26,18 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
         //    Router.getInstance().mainScreen();
         //});
     }
+/* Needed?
+    public void windowsHandler() {
+        view.getScene().getWindow().setOnCloseRequest(event -> {
+                 final Alert stopWindow = new Alert(Alert.AlertType.ERROR);
+                 stopWindow.setHeaderText("You can not yet close the application.");
+                 stopWindow.setContentText("Try again after the program has started");
+                 stopWindow.showAndWait();
+                 event.consume(); } );
+    }
+
+ */
+
 
 
 }

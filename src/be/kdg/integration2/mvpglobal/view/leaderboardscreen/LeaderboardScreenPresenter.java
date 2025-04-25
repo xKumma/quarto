@@ -1,8 +1,8 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
@@ -18,23 +18,23 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
         });
 
         view.getAscMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("player_username");
+            DBManager.getInstance().fillLeaderboard("player_username");
         });
 
         view.getDescMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getWinsMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getLossMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
         view.getAvgTMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.getInstance().fillLeaderboard("ASC");
         });
 
     }
