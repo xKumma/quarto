@@ -1,6 +1,7 @@
-package be.kdg.integration2.mvpglobal.utility.dbconnection;
+package be.kdg.integration2.mvpglobal.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PlayerLeaderboardData;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -20,10 +21,9 @@ public class DBManager {
 
 
     // USE FOR LOCAL TESTING WITHOUT VPN - change for your setup, dont push this!!
-    /*
-    static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
-    static final String USER = "devuser";
-    static final String PASSWORD = "devpass";
+//    static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
+//    static final String USER = "devuser";
+//    static final String PASSWORD = "devpass";
 
     private static final Path DDL_PATH = Paths.get("src/be/kdg/integration2/mvpglobal/utility/dbconnection/DDL.sql");
 

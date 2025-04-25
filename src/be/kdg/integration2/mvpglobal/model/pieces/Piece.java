@@ -67,6 +67,18 @@ public class Piece {
         return attributes;
     }
 
+    public String getOneAttribute(PieceAttribute attribute) {
+        if (attribute == PieceAttribute.TYPE) {
+            return type.toString();
+        } else if (attribute == PieceAttribute.COLOR) {
+            return color.toString();
+        } else if (attribute == PieceAttribute.SHAPE) {
+            return shape.toString();
+        } else {
+            return size.toString();
+        }
+    }
+
     @Override
     public String toString() {
         return String.format(
