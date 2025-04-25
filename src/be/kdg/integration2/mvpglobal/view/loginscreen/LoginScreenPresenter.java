@@ -1,11 +1,14 @@
 package be.kdg.integration2.mvpglobal.view.loginscreen;
 
-import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
+import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.scene.control.Alert;
 
 public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseModel> {
@@ -22,7 +25,7 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
         view.getLoginButton().setOnAction(event -> {
             // Does not do anything if TextFields are empty
             if(!contentChecker()){return;}
-            if(!DBManager.getInstance().loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
+            if(!DBManager.loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
 
             /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
@@ -43,7 +46,7 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
             // Does not do anything if TextFields are empty
            if(!contentChecker()){return;}
            //Does not do anything if register fails
-            if(!DBManager.getInstance().registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
+            if(!DBManager.registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
             //Loads Main Screen
             /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);

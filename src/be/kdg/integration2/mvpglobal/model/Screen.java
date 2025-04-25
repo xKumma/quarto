@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.model;
 
+import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
@@ -21,13 +22,11 @@ import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableView;
 
 import java.util.function.Supplier;
 
-/**
- * Enum representing different screens in the application.
- * Each screen is associated with a specific presenter, which is created using a supplier.
- */
 public enum Screen {
     GAME(() -> new GameScreenPresenter(new GameScreenView(), new GameSession())),
     GAME_SETUP(() -> new GameSetupPresenter(new GameSetupView(), new GameSetup())),
@@ -40,22 +39,13 @@ public enum Screen {
     ABOUT(() -> new AboutScreenPresenter(null, new AboutScreenView())),
     SETTINGS(() -> new SettingsPresenter(null, new SettingsView()));
 
+
     private final Supplier<BasePresenter> presenterSupplier;
 
-    /**
-     * Constructor for the Screen enum.
-     *
-     * @param presenterSupplier A supplier that provides the presenter for the screen.
-     */
     Screen(Supplier<BasePresenter> presenterSupplier) {
         this.presenterSupplier = presenterSupplier;
     }
 
-    /**
-     * Creates and returns the presenter associated with the screen.
-     *
-     * @return The presenter for the screen.
-     */
     public BasePresenter createPresenter() {
         return presenterSupplier.get();
     }

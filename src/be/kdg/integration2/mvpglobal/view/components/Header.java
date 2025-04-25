@@ -5,11 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-/**
- * A custom JavaFX `HBox` component wrapper that serves as the header for the application for easy re-use between screens.
- * It contains styled labels and layout configurations.
- */
 public class Header extends HBox {
+
     public Header() {
         super();
         setupComponent();
