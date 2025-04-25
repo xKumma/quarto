@@ -1,7 +1,7 @@
 package be.kdg.integration2.mvpglobal.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
-import be.kdg.integration2.mvpglobal.model.dataobjects.PlayerLeaderboardData;
+import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -322,7 +322,7 @@ public class DBManager {
         int losses=0;
         double averageMoves=0;
         double averageTime=0;
-        PlayerLeaderboardData.LeaderboardData.clear();
+        LeaderboardData.LeaderboardData.clear();
         for(int i=0;i<5;i++) {
             String checkString = "SELECT player_username,player_won FROM sessions WHERE is_finished = ? ORDER BY ? OFFSET ? LIMIT ?";
             try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
