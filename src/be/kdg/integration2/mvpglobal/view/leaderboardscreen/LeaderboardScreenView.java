@@ -44,7 +44,17 @@ public class LeaderboardScreenView extends BaseView {
         TableColumn<LeaderboardData,String> nameColumn = new TableColumn<>("Name");
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<LeaderboardData,Integer> rankColumn = new TableColumn<>("Rank");
-            rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        rankColumn.setCellFactory(col -> new TableCell<LeaderboardData, Integer>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         TableColumn<LeaderboardData,Integer> gameCountColumn = new TableColumn<>("Games Played");
             gameCountColumn.setCellValueFactory(new PropertyValueFactory<>("gamesPlayed"));
         TableColumn<LeaderboardData,Integer> winsColumn = new TableColumn<>("Wins");
@@ -63,7 +73,7 @@ public class LeaderboardScreenView extends BaseView {
         logoLabel.setStyle("-fx-font-size: 80px");
         headerLabel.setStyle("-fx-font-size: 30px");
         filterMB.getItems().addAll(winsMI, lossMI, avgMMI,avgTMI, ascMI, descMI);
-        HBox box0 = new HBox(30,mainButton,filterMB);
+        HBox box0 = new HBox(30,mainButton/*,filterMB*/);
         box0.setAlignment(Pos.CENTER);
         VBox box1 = new VBox(10,logoLabel, headerLabel,leaderboardTable, box0);
         box1.setAlignment(Pos.CENTER);

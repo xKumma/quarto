@@ -314,8 +314,9 @@ public class DBManager {
         return flag;
     }
 
-    public static void fillLeaderboard(String filter){
+    public static void fillLeaderboard(){
         System.out.println("called");
+        String tempName="Empty";
         String name="Empty";
         int gamesPlayed=8;
         int wins=4;
@@ -323,16 +324,55 @@ public class DBManager {
         double averageMoves=0;
         double averageTime=0;
         LeaderboardData.LeaderboardData.clear();
-        for(int i=0;i<5;i++) {
-            String checkString = "SELECT player_username,player_won FROM sessions WHERE is_finished = ? ORDER BY ? OFFSET ? LIMIT ?";
+
+        //General:
+
+        for(int i=0;i<30;i++) {
+            String checkString = "SELECT player_username,SUM(CASE WHEN player_won IS TRUE THEN 1 ELSE 0 END),COUNT(*) AS games_played FROM sessions WHERE is_finished = ? GROUP BY player_username OFFSET ? LIMIT ?";
             try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
-                ps1.setString(1, "true");
-                ps1.setString(2, filter);
-                ps1.setString(3, String.valueOf(i));
-                ps1.setString(4, "1");
+                ps1.setBoolean(1, true);
+                ps1.setInt(2, i);
+                ps1.setInt(3, 1);
+                try (ResultSet rs = ps1.executeQuery()) {
+                    if (rs.next()) {
+                        name=rs.getString(1);
+                        wins=rs.getInt(2);
+                        gamesPlayed=rs.getInt(3);
+                        losses=gamesPlayed-wins;
+                    }
+                }
+                catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+
+           // Average Moves:
+
+            String checkString2 = "SELECT COUNT(moveid),SUM(EXTRACT(EPOCH FROM move_end_time) - EXTRACT(EPOCH FROM move_start_time)) AS totalSeconds FROM moves WHERE was_ai = ? AND sessionid IN (SELECT sessionid FROM sessions WHERE player_username=? )";
+            try (PreparedStatement ps1 = connection.prepareStatement(checkString2)) {
+                ps1.setBoolean(1, false);
+                ps1.setString(2, name);
+                try (ResultSet rs = ps1.executeQuery()) {
+                    if (rs.next()) {
+                        double moves=rs.getInt(1);
+                        if(gamesPlayed!=0){averageMoves=moves/gamesPlayed;}
+                        else{averageMoves=0;}
+                        double seconds=rs.getInt(2);
+                        averageTime=seconds/moves;
+                    }
+                }
+                catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            if (name.equals(tempName)){break;} //To prevent loop from displaying same rows over and over
+            else{tempName=name;}
 
             LeaderboardData.LeaderboardData.add(new LeaderboardData(name,gamesPlayed,wins,losses,averageMoves,averageTime));
         }
