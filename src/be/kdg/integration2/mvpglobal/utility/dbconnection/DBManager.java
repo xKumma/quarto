@@ -2,6 +2,7 @@ package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -381,6 +382,11 @@ public class DBManager {
             LeaderboardData.LeaderboardData.add(new LeaderboardData(name,gamesPlayed,wins,losses,averageMoves,averageTime));
         }
     }
+
+    public void saveGameSession(GameSessionData session){
+
+    }
+
 
     public boolean isConnected() {
         try {
