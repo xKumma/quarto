@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -72,6 +71,7 @@ public class LoginScreenView extends BaseView {
     Button getLoginButton(){return loginButton;}
     TextField getNameField(){return nameField;}
     TextField getPasswordField(){return passwordField;}
+    Label getPasswordLabel(){return passwordLabel;}
     Button getRegisterButton(){return registerButton;}
 
 }

@@ -1,7 +1,7 @@
-package be.kdg.integration2.mvpglobal.dbconnection;
+package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
+import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
-import be.kdg.integration2.mvpglobal.model.dataobjects.PlayerLeaderboardData;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class DBManager {
             tables.close();
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Connection not successful. \nSQL error: " + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -278,6 +278,7 @@ public class DBManager {
             ps.execute();
             ps.close();
             System.out.println("Registering USER " + usernameData + " with password " + passwordData);
+            new HumanPlayer(usernameData);
             return true;
             }
         }
@@ -292,7 +293,8 @@ public class DBManager {
         try{
             if(userExists(usernameData)){
                 if(passwordCheck(usernameData, passwordData)){
-                    System.out.println("username there");
+                    System.out.println("Logging in USER " + usernameData + " with password " + passwordData);
+                    new HumanPlayer(usernameData);
                     return true;
                 }
                 else{
@@ -377,6 +379,14 @@ public class DBManager {
             }
 
             LeaderboardData.LeaderboardData.add(new LeaderboardData(name,gamesPlayed,wins,losses,averageMoves,averageTime));
+        }
+    }
+
+    public boolean isConnected() {
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException e) {
+            return false;
         }
     }
 }
