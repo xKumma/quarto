@@ -67,13 +67,13 @@ public final class StartScreenView extends BaseView {
         //geometry
         circle.radiusProperty().bind(this.heightProperty().divide(2.45));
         rectangle.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
-        rectangle.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
+        rectangle.widthProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
         rectangle1.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
         rectangle2.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
         rectangle3.heightProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
-        rectangle1.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
-        rectangle2.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
-        rectangle3.widthProperty().bind(this.widthProperty().divide(1.25*Math.sqrt(2)));
+        rectangle1.widthProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle2.widthProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
+        rectangle3.widthProperty().bind(this.heightProperty().divide(1.25*Math.sqrt(2)));
 
         BorderPane progressPane = new BorderPane();
         graphic = new StackPane();

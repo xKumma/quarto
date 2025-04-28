@@ -1,11 +1,8 @@
 package be.kdg.integration2.mvpglobal.view.aboutscreen;
 
 import be.kdg.integration2.mvpglobal.model.*;
-import be.kdg.integration2.mvpglobal.view.UISettings;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.rules.RulesView;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 public class AboutScreenPresenter extends BasePresenter<AboutScreenView, BaseModel> {
 
