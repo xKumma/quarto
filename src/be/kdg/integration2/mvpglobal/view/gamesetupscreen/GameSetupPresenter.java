@@ -2,8 +2,10 @@ package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
 import be.kdg.integration2.mvpglobal.model.BotDifficulty;
 import be.kdg.integration2.mvpglobal.model.GameSetup;
-import be.kdg.integration2.mvpglobal.model.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
+import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.utility.SaveManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.FileChooser;
@@ -40,11 +42,16 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
 
         view.getStartBtn().setOnAction(e -> startGame());
         view.getMenuBtn().setOnAction(e ->  goToMenu());
-        view.getLoadFileBtn().setOnAction(e -> openFileChooser());
+        view.getLoadFileBtn().setOnAction(e -> loadFromFile());
         view.getLoadDbBtn().setOnAction(e -> loadFromDB());
     }
 
-    private void openFileChooser() {
+    /**
+     * Opens a file chooser dialog to allow the user to select a game save file.
+     *
+     * @return The selected file, or `null` if no file was selected.
+     */
+    private File openFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Game Save File");
 
@@ -53,26 +60,34 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
-        if (selectedFile != null) {
-            System.out.println("Selected File: " + selectedFile.getAbsolutePath());
-            loadFromFile(selectedFile);
-        } else {
-            System.out.println("No file selected.");
-        }
-    }
+        if (selectedFile != null) return selectedFile;
 
-    private void loadFromFile(File file) {
-        System.out.println("Loading game from: " + file.getAbsolutePath());
+        System.out.println("No file selected.");
+        return null;
+    }
+/**
+     * Loads a game session from a file selected by the user.
+     * Opens a file chooser dialog to allow the user to select a game save file.<br>
+     * If a valid file is selected, it loads the game session data from the file
+     * and navigates to the game screen (starts the game) with the loaded session data.
+     */
+    private void loadFromFile() {
+        File file = openFileChooser();
+
+        if (file == null) return;
+
+        GameSessionData sessionData = SaveManager.loadFromFile(file);
+        Router.getInstance().goTo(Screen.GAME, sessionData);
     }
 
     private void loadFromDB() {
     }
 
     private void goToMenu() {
-        Router.Instance.goTo(Screen.MAIN_MENU);
+        Router.getInstance().goTo(Screen.MAIN_MENU);
     }
 
     private void startGame() {
-        Router.Instance.goTo(Screen.GAME, model.getSessionData());
+        Router.getInstance().goTo(Screen.GAME, model.getSessionData());
     }
 }
