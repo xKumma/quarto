@@ -10,32 +10,36 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
 
     public LeaderboardScreenPresenter(LeaderboardScreenView view, BaseModel model) {
         super(view, model);
+        DBManager.fillLeaderboard();
     }
 
     protected void addEventHandlers() {
+
         view.getMainButton().setOnAction(Event -> {
             Router.getInstance().goTo(Screen.MAIN_MENU);
         });
-
+/*
         view.getAscMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("player_username");
+            DBManager.fillLeaderboard();
         });
 
         view.getDescMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.fillLeaderboard();
         });
 
         view.getWinsMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.fillLeaderboard();
         });
 
         view.getLossMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.fillLeaderboard();
         });
 
         view.getAvgTMI().setOnAction(event -> {
-            DBManager.fillLeaderboard("ASC");
+            DBManager.fillLeaderboard();
         });
 
+
+ */
     }
 }

@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS PIECE_LOCATIONS (
 
 -- TABLE: MOVES
 CREATE TABLE IF NOT EXISTS MOVES (
-                                     moveID NUMERIC PRIMARY KEY,
+                                     moveID SERIAL PRIMARY KEY,
                                      sessionID SERIAL NOT NULL,
                                      move_start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
                                      move_end_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,

@@ -14,5 +14,6 @@
     <orderEntry type="library" name="javafx1" level="application" />
     <orderEntry type="library" name="lib" level="application" />
     <orderEntry type="library" name="postgresql-42.5.0 (1)" level="project" />
+    <orderEntry type="library" name="javafx-sdk-23.0" level="application" />
   </component>
 </module>

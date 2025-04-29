@@ -4,8 +4,9 @@ import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
-import be.kdg.integration2.mvpglobal.model.eventlisteners.GameSessionListener;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.utility.SaveManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.PieceButton;
@@ -29,13 +30,6 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         super.init(data);
         setUpBoard(model.getBoard().getPieces(), model.getUnusedPieces());
 
-        model.setListener(new GameSessionListener() {
-            @Override
-            public void onMoveSuccessful(Move move) {
-                //updateView(move);
-            }
-        });
-
         startTurn();
     }
 
@@ -44,6 +38,11 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         super.updateView();
     }
 
+    /**
+     * Updates the view with the details of the given move.
+     *
+     * @param move The move containing the piece and its new position.
+     */
     public void updateView(Move move) {
         view.update(new BoardUpdateData(
                 move.getPiece().toString(),
@@ -63,9 +62,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                     if (!model.isPlayersTurn() || !model.isActive()) return;
                     if (model.getTurnPhase() != TurnPhase.PICKING) return;
 
-                    System.out.println("Selecting piece: " + pieceBtn.toString());
                     if (model.selectPiece(pieceBtn.toString())) {
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         endTurn();
                     }
                 });
@@ -83,28 +80,34 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                             GridPane.getRowIndex(pieceBtn)
                     );
                     if (model.selectPosition(positionData)) {
-                        System.out.println("Selected position: " + positionData);
-                        System.out.println("Updating view with: " + model.getCurrentMove());
                         updateView(model.getCurrentMove());
                     }
                 });
             }
         }
+        view.getChosenPieceGrid().setOnMouseClicked(e -> SaveManager.saveToDB(model.getSessionData()));
     }
 
     private void goToMenu() {
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
 
-
+    /**
+     * Sets up the game board visuals by updating the view with the positions of all pieces.
+     *
+     * @param board        A 2D array representing the current state of the board, where each element is a `Piece`.
+     * @param unusedPieces A list of pieces that are not currently placed on the board for the unused pieces grid visual.
+     */
     private void setUpBoard(Piece[][] board, List<Piece> unusedPieces) {
         List<BoardUpdateData> updates = new ArrayList<>();
 
         for (int i = 0; i < unusedPieces.size(); i++) {
             Piece piece = unusedPieces.get(i);
 
-            int x = -(i/2)-1;
-            int y = -(i%2)-1;
+            // Calculate the x and y coordinates for the unused pieces GridPane.
+            // To use the same method as for the board, we make this calculations that are then reversed to get the actual position.
+            int x = -(i / 2) - 1;
+            int y = -(i % 2) - 1;
 
             updates.add(new BoardUpdateData(piece.toString(), x, y));
         }
@@ -112,13 +115,16 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         for (int x = 0; x < board.length; x++) {
             for (int y = 0; y < board[0].length; y++) {
                 Piece piece = board[x][y];
-                
-                if (piece == null) {continue;}
-                
+
+                if (piece == null) {
+                    continue; // Skip empty positions on the board.
+                }
+
                 updates.add(new BoardUpdateData(piece.toString(), x, y));
             }
         }
 
+        // Update the view with all the collected board/unusedPieces updates.
         for (BoardUpdateData updateData : updates) {
             view.update(updateData);
         }
@@ -128,7 +134,13 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     public void updateTurn(){
 
     }
-
+/**
+     * Starts a new turn in the game.<br>
+     * - Initializes the turn timer.<br>
+     * - Signals the model to start a new turn.<br>
+     * - Updates the view with the currently chosen piece.<br>
+     * - If it is not the player's turn, initiates the bot's move.
+     */
     public void startTurn() {
         startTimer();
         model.startNewTurn();
@@ -161,19 +173,22 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         endTurn();
     }
 
+    /**
+     * Ends the current turn in the game.<br>
+     * - Signals the model to end the turn.<br>
+     * - Stops the turn timer.<br>
+     * - Starts a new turn.
+     */
     public void endTurn() {
         model.endTurn();
-
         stopTimer();
-
         startTurn();
     }
 
-    /*
+    /**
     * TODO: Optimize, a lot
     *  Move timer operations solely to View or a separate thread
     */
-
     private void startTimer() {
         long startTime = System.nanoTime();
 

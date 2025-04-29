@@ -1,5 +1,7 @@
-package be.kdg.integration2.mvpglobal.model;
+package be.kdg.integration2.mvpglobal.utility;
 
+import be.kdg.integration2.mvpglobal.model.MVPModel;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;

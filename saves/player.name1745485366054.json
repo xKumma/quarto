@@ -1,0 +1,17 @@
+{
+  "playerName": "player.name",
+  "botDifficulty": "EASY",
+  "lastSelectedPiece": "square_big_hollow#blue",
+  "moveHistory": [
+    {"player":null,"x":2,"y":0,"pieceSlug":square_big_full#blue,"startTime":1745428731433, "endTime":1745428734334},
+    {"player":null,"x":3,"y":0,"pieceSlug":square_big_full#red,"startTime":1745428734335, "endTime":1745428734337},
+    {"player":null,"x":2,"y":2,"pieceSlug":square_small_hollow#blue,"startTime":1745428734338, "endTime":1745428736173},
+    {"player":null,"x":3,"y":1,"pieceSlug":square_small_full#blue,"startTime":1745428736173, "endTime":1745428736175},
+    {"player":null,"x":1,"y":1,"pieceSlug":square_big_hollow#red,"startTime":1745428736175, "endTime":1745428737311},
+    {"player":null,"x":2,"y":1,"pieceSlug":round_big_full#blue,"startTime":1745428737311, "endTime":1745428737313},
+    {"player":null,"x":1,"y":2,"pieceSlug":round_small_hollow#blue,"startTime":1745428737313, "endTime":1745428740986},
+    {"player":null,"x":3,"y":3,"pieceSlug":round_big_full#red,"startTime":1745428740986, "endTime":1745428740989},
+    {"player":null,"x":1,"y":0,"pieceSlug":round_big_hollow#blue,"startTime":1745485351249, "endTime":1745485363068},
+    {"player":null,"x":0,"y":2,"pieceSlug":square_small_full#red,"startTime":1745485363069, "endTime":1745485363071}
+  ]
+}
