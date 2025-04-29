@@ -26,7 +26,7 @@ public class GameSession implements BaseModel {
 
     public GameSession () {
         //this.board = new Board();
-        this.player = new HumanPlayer();
+        this.player = HumanPlayer.getInstance();
         this.computer = new ComputerPlayer();
         //...
     }
@@ -116,7 +116,7 @@ public class GameSession implements BaseModel {
          * and setting the turn phase to PLACING.
          */
     public void startNewTurn() {
-        currentMove = new Move(selectedPiece);
+        currentMove = new Move(isPlayersTurn ? player.getName() : "bot" ,selectedPiece);
         turnPhase = TurnPhase.PLACING;
     }
 
@@ -252,7 +252,7 @@ public class GameSession implements BaseModel {
     }
 
     public GameSessionData getSessionData() {
-        return new GameSessionData("player.name", computer.getDifficulty(), moves, selectedPiece);
+        return new GameSessionData(player.getName(), computer.getDifficulty(), moves, selectedPiece);
     }
 
     // endregion

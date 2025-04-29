@@ -32,7 +32,8 @@ public class Move {
         this.endTime = endTime;
     }
 
-    public Move(Piece selectedPiece) {
+    public Move(String player, Piece selectedPiece) {
+        this.player = player;
         this.piece = selectedPiece;
         this.startTime = System.currentTimeMillis();
     }
@@ -45,13 +46,15 @@ public class Move {
     // region Getters and Setters
     public long getTime() { return endTime - startTime; }
     public long getStartTime() { return startTime; }
+    public long getEndTime() { return endTime;}
 
     public String getPlayer() { return player; }
+
     public Piece getPiece() { return piece; }
 
     public PositionData getPosition() { return position; }
-
     public void setPlayer(Player player) { this.player = player.toString(); }
+
     public void setEndTime(long endTime) { this.endTime = endTime; }
 
     public void setPiece(Piece piece) { this.piece = piece;

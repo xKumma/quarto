@@ -19,8 +19,7 @@ public class GameSessionData implements Serializable {
     private int sessionID;
 
     // Loaded from a file
-    public GameSessionData(int sessionID, String playerName, String botDifficulty, List<Move> moveHistory, String lastSelectedPiece) {
-        this.sessionID = sessionID;
+    public GameSessionData(String playerName, String botDifficulty, List<Move> moveHistory, String lastSelectedPiece) {
         this.playerName = playerName;
         this.moveHistory = moveHistory;
         this.board = null;
@@ -29,8 +28,7 @@ public class GameSessionData implements Serializable {
     }
 
     // Loaded from DB
-    public GameSessionData(int sessionID, String playerName, String botDifficulty, String[][] board) {
-        this.sessionID = sessionID;
+    public GameSessionData(String playerName, String botDifficulty, String[][] board) {
         this.playerName = playerName;
         this.botDifficulty = BotDifficulty.valueOf(botDifficulty.toUpperCase());
         this.moveHistory = null;
@@ -89,7 +87,6 @@ public class GameSessionData implements Serializable {
     }
 
     //region Getters
-    public int getSessionID() { return sessionID; }
     public String getPlayerName() { return playerName; }
     public BotDifficulty getBotDifficulty() { return botDifficulty; }
     public List<Move> getMoveHistory() { return moveHistory; }
