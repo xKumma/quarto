@@ -27,13 +27,13 @@ public class DBManager {
         setupDatabase();
     }
 
-    public static void setupDatabase() {
+    public static void setupDatabase() throws SQLException {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             statement = connection.createStatement();
         }
         catch (SQLException e) {
-            e.printStackTrace();
+           System.out.println("Database connection failed");
         }
     }
 
@@ -147,6 +147,19 @@ public class DBManager {
         return rs.getString(1);
     }
 
+    public int getSessionid() throws SQLException {
+        String query = "SELECT sessionid FROM sessions order by sessionid desc LIMIT 1";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+
+                }
+            }
+        }
+        return 0;
+    }
+
 
     public double getTimeMove1(int sessionid , int moveid) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = true";
@@ -159,21 +172,21 @@ public class DBManager {
                 }
             }
         }
-        return 20; // Valore di default se non ci sono risultati
+        return 0; // Valore di default se non ci sono risultati
     }
 
-    public double getTimeMove2(int sessionid , int i) throws SQLException {
+    public double getTimeMove2(int sessionid , int moveid) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = false";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, sessionid);
-            ps.setInt(2, i);
+            ps.setInt(2, moveid);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
                 }
             }
         }
-        return 20; // Valore di default se non ci sono risultati
+        return 0; // Valore di default se non ci sono risultati
     }
 
 
@@ -206,7 +219,7 @@ public class DBManager {
     }
 
     public boolean isAI(int moveid) throws SQLException {
-        String query = "SELECT was_ai FROM  moves WHERE moveId = ? and was_ai = true order by moveid asc  ";
+        String query = "SELECT was_ai FROM  moves WHERE moveId = ?  order by moveid asc  ";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, moveid);
             try (ResultSet rs = ps.executeQuery()) {

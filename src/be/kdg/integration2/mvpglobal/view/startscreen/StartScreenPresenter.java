@@ -8,6 +8,7 @@ import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.loginscreen.LoginScreenView;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
@@ -16,9 +17,7 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
     public StartScreenPresenter(StartScreenView view, BaseModel model) {
         super(view, model);
         updateView();
-    }
-
-    protected void updateView() {
+        addEventHandlers();
     }
 
     protected void addEventHandlers() {
@@ -33,11 +32,16 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
 
         });
 
+
+
         // Skip the login screen for quicker testing
         //view.getTransition().setOnFinished(event -> {
         //    Router.getInstance().mainScreen();
         //});
     }
-
+    protected void updateView(){
+        Stage stage = (Stage) view.getScene().getWindow();
+        stage.setResizable(false);
+    }
 
 }

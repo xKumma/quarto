@@ -96,28 +96,12 @@ public final class StartScreenView extends BaseView {
         progressPane.setLeft(this.timeDisplay);
         BorderPane.setMargin(this.timeDisplay, new Insets(uiSettings.getInsetsMargin()));
         BorderPane.setMargin(this.timeProgress, new Insets(uiSettings.getInsetsMargin()));
-        /*
-        ImageView centralImage;
-        if (Files.exists(uiSettings.getStartScreenImagePath())) {
-           try {
-                centralImage = new ImageView(new Image(uiSettings.getStartScreenImagePath().toUri().toURL().toString()));
-                centralImage.setPreserveRatio(true);
-                centralImage.setFitHeight(ImageSize);
-                centralImage.setFitWidth(ImageSize);
-                centralImage.setSmooth(true);
-                this.setCenter(centralImage);
-            }
-            catch (MalformedURLException ex) {
-                // do nothing, if toURL-conversion fails, program can continue
-            }
-        } else { // do nothing, if StartScreenImage is not available, program can continue
-        }
-
-         */
         this.setBottom(progressPane);
 
-       // titolo.getStylesheets().(uiSettings.getStyleSheetPath());
-         titolo.setId("#label");
+        setMinHeight(500);
+        setMinWidth(500);
+        setMaxHeight(1000);
+        setMaxWidth(1900);
 
 
     }

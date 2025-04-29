@@ -9,17 +9,21 @@ import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseModel> {
 
     public LoginScreenPresenter(MVPModel model, LoginScreenView view) {
         super(view, model);
-        //updateView();
-        //addEventHandlers();
+        this.view = view;
+
+        addEventHandlers();
+        updateView();
+
     }
 
-    protected void updateView() {}
 
     protected void addEventHandlers() {
         view.getLoginButton().setOnAction(event -> {
@@ -60,6 +64,8 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
             msView.getScene().getWindow().setHeight(9 * uiSettings.getResY()/10);
             msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);*/
             Router.getInstance().goTo(Screen.MAIN_MENU);
+            Stage stage = (Stage) view.getScene().getWindow();
+            stage.setResizable(true);
         });
     }
 
@@ -74,5 +80,19 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
         }
         else {return true;}
     }
+
+
+
+    protected void updateView() {
+        if (view.getScene() == null) {
+         //   System.out.println("Scene is null, delaying updateView...");
+            Platform.runLater(this::updateView);
+            return;
+        }
+
+        Stage stage = (Stage) view.getScene().getWindow();
+        stage.setResizable(true);
+    }
+
 }
 

@@ -16,13 +16,13 @@ import java.sql.SQLException;
 
 public class MVPMain extends Application {
     @Override
-    public void start(Stage primaryStage) throws SQLException {
+    public void start(Stage primaryStage) {
         UISettings uiSettings = UISettings.getInstance();
-        DBManager.setupDatabase();
 
         StartScreenView view = new StartScreenView();
 
         Scene scene = new Scene(view);
+
         if (uiSettings.styleSheetAvailable()){
             try {
                 scene.getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
@@ -36,11 +36,9 @@ public class MVPMain extends Application {
         primaryStage.setHeight(uiSettings.getLowestRes() /2);
         primaryStage.setWidth(uiSettings.getLowestRes()/2);
         primaryStage.setTitle(uiSettings.getApplicationName());
-        primaryStage.setMinHeight(500);
-        primaryStage.setMinWidth(500);
-        primaryStage.setMaxHeight(1000);
-        primaryStage.setMaxWidth(1900);
-        primaryStage.setResizable(false);
+         new Router(primaryStage);
+
+
         if (Files.exists(uiSettings.getApplicationIconPath())) {
              try {
                  primaryStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
@@ -52,8 +50,6 @@ public class MVPMain extends Application {
         }
         StartScreenPresenter presenter = new StartScreenPresenter(view, null);
         presenter.init();
-        //presenter.windowsHandler();
-        new Router(primaryStage);
         primaryStage.show();
     }
 

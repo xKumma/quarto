@@ -1,261 +1,176 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
-import javafx.geometry.Pos;
+
+import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+import javafx.concurrent.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import static be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter.*;
+
+
 public class StatScreenView extends BaseView {
-
-    Button menuButton;
-     protected LineChart<Number, String> lineChart;;
-     private static final Double[] MAXIMA = {5.7, 6.6, 10.4, 14.2, 18.1, 20.6, 23.0, 22.6, 19.0, 14.7, 9.5, 6.1};
-     private static final Double[] MINIMA = {0.7, 0.7, 3.1, 5.3, 9.2, 11.9, 14.0, 13.6, 10.9, 7.8, 4.1, 1.6};
-     public Rectangle rectangle;
-     public Rectangle rectangle2;
-     public Rectangle rectangle3;
-     public Rectangle rectangle4;
-     //private static  Double[] serie1 = new Double[MAXIMA.length];
-    // private static  Double[] serie2 = new Double[MAXIMA.length];
-     protected  List<Double> serieA;
-    protected  List<Double> serieB;
-    protected  List<Double> serieC;
-
-    protected double QA1;
-     protected double QA2;
-     protected double QA3;
-     protected double QB1;
-     protected double QB2;
-     protected double QB3;
-
-
-      XYChart.Series<Number, String> series1;
-      XYChart.Series<Number, String> series3;
-     XYChart.Series<Number, String> series2;
-     XYChart.Series<Number, String> series4;
-
+private Button menuButton;
+    private LineChart<Number, String> lineChart;
+    private Rectangle rectangle1, rectangle2, rectangle3, rectangle4;
+    private Pane chartContainer;
+    private List<Double> serieC;
 
     public StatScreenView() {
-          super();
-         System.out.println("Fff");
-          getserieA();
-     }
+        super();
+        draw();
+    }
 
-
-
-     protected void layoutNodes() {
-          StackPane stackPane = new StackPane();
-
-          stackPane.getChildren().add(lineChart); // Add the chart first
-
-          rectangle = new Rectangle();
-          rectangle.setStroke(Color.MEDIUMVIOLETRED);
-          rectangle.setFill(Color.TRANSPARENT);
-       //   rectangle.setWidth(100);
-          rectangle.setHeight(50);
-        //  rectangle.setX(MAXIMA[8]);
-          rectangle2 = new Rectangle();
-          rectangle2.setStroke(Color.MEDIUMVIOLETRED);
-          rectangle2.setFill(Color.TRANSPARENT);
-        //  rectangle2.setWidth(100);
-          rectangle2.setHeight(50);
-         // rectangle2.setX(MAXIMA[8]);
-          rectangle3 = new Rectangle();
-          rectangle3.setStroke(Color.MEDIUMVIOLETRED);
-          rectangle3.setFill(Color.TRANSPARENT);
-          rectangle3.setWidth( 100);
-          rectangle3.setHeight(50);
-          rectangle4 = new Rectangle();
-          rectangle4.setStroke(Color.MEDIUMVIOLETRED);
-          rectangle4.setFill(Color.TRANSPARENT);
-          rectangle4.setWidth(100);
-          rectangle4.setHeight(50);
-
-          // Position the rectangle in the center
-          StackPane.setAlignment(rectangle, Pos.CENTER);
-          StackPane.setAlignment(rectangle2, Pos.CENTER);
-          StackPane.setAlignment(rectangle3, Pos.CENTER);
-          StackPane.setAlignment(rectangle4, Pos.CENTER);
-          rectangle.setTranslateX(QA1+64); // Spostamento orizzontale
-         // rectangle.setX(MAXIMA[1]);
-          rectangle.setTranslateY(MINIMA[1]+60);
-          // Spostamento verticale
-          rectangle2.setTranslateX(QA2+204); // Spostamento orizzontale
-          rectangle2.setTranslateY(MINIMA[1]+60);
-
-          rectangle3.setTranslateX(MAXIMA[1]-170); // Spostamento orizzontale
-          rectangle3.setTranslateY(MINIMA[1]-140);
-          rectangle4.setTranslateX(MAXIMA[1]-100); // Spostamento orizzontal
-          rectangle4.setTranslateY(MINIMA[1]-140);
-
-
-
-          stackPane.getChildren().addAll(rectangle , rectangle2 , rectangle3 , rectangle4); // Add the rectangle on top
-
-          setCenter(stackPane); // Set the StackPane as the center
-         setBottom(menuButton);
-     }
-
-     protected void initialiseNodes() {
+    @Override
+    protected void initialiseNodes() {
         menuButton = new Button("Menu");
-          series2 = new XYChart.Series<>();
-          series3 = new XYChart.Series<>();
-          series1 = new XYChart.Series<>();
-          series4 = new XYChart.Series<>();
-          lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
-          serieA = new ArrayList<Double>();
-          serieB = new ArrayList<>();
-          serieC = new ArrayList<>();
-
-          series1.setName("player");
-          series2.setName("ai");
-          series3.setName("b");
-
-          /*
-          for (int i = 0; i < 10; i++) {
-               series1.getData().add(new XYChart.Data<>(MINIMA[i], "bibi"));
-               series2.getData().add(new XYChart.Data<>(MAXIMA[i], "ai"));
-          }
-
-          lineChart.getData().addAll(series1, series2);
-          lineChart.setStyle("-fx-font-size: 20px;");
-
-           */
-     }
-
-     public LineChart<Number, String> getLineChart() {
-          return lineChart;
-     }
-
-     /*
-
-     public void getval(){
-          double sumA =0 ;
-          double sumB =0 ;
-          for (int i = 0; i < series1.getData().size(); i++) {
-               // Extracting the XValue (numeric value) from each data point in series1
-               // serie1[i] = (Double) series1.getData().get(i).getXValue();
-                serieA.add((Double) series1.getData().get(i).getXValue());
-
-                sumA = sumA + (Double) series1.getData().get(i).getXValue();
-
-          }
-          // calc avg
-          meanA = sumA/series1.getData().size();
-          //sort values in order to calculate the quartiles and stat
-          Collections.sort(serieA);
-          //find quartiles
-             p1 = ((serieA.size() )+1 );
-          // quartile1A = serieA.get(p1);
-        //  quartile3A = serieA.get(((series1.getData().size() +1 )*3)/4);
-        //  LoutlierA = quartile1A - (1.5 * (quartile3A - quartile1A));
-          if (series1.getData().size() %2 ==0){
-
-          }
-        //  UoutlierA = quartile1A + (1.5 * (quartile3A - quartile1A));
+        lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
+        lineChart.setAnimated(false);
+        lineChart.setMinSize(0, 0);
+        lineChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        serieC = new ArrayList<>();
 
 
-          for (int i = 0; i < series2.getData().size(); i++) {
-               // Extracting the XValue (numeric value) from each data point in series2
-              // serie2[i] = (Double) series2.getData().get(i).getXValue();
-               // Casting to Double as needed
-               serieB.add((Double) series2.getData().get(i).getXValue());// Casting to Double as needed
-               sumB = sumB + (Double) series2.getData().get(i).getXValue();
 
 
-          }
-          meanB = sumB/series2.getData().size();
-          //sort values in order to calculate the quartiles and stat
-          Collections.sort(serieB);
-          //find quartiles
-        //  quartile1B = serieB.get((series2.getData().size() +1 )/4);
-       //   quartile3B = serieB.get(((series2.getData().size() +1 )*3)/4);
-        //  LoutlierB = quartile1B - (1.5 * (quartile3B - quartile1B));
-        //  UoutlierB = quartile1B + (1.5 * (quartile3B - quartile1B));
+    }
 
-          }
+    @Override
+    protected void layoutNodes() {
+        // StackPane for responsiveness
+        StackPane stack = new StackPane();
 
-      */
+        // Overlay Pane for rectangles
+        chartContainer = new Pane();
+        chartContainer.setPickOnBounds(false); // Let mouse events pass through if needed
+        chartContainer.prefWidthProperty().bind(lineChart.widthProperty());
+        chartContainer.prefHeightProperty().bind(lineChart.heightProperty());
 
+        stack.getChildren().addAll(lineChart, chartContainer);
 
-          public  List<Double> getserieA() {
-               for (int i = 0; i < series1.getData().size(); i++) {
-                    // Extracting the XValue (numeric value) from each data point in series1
-                    // serie1[i] = (Double) series1.getData().get(i).getXValue();
-                    serieA.add((Double) series1.getData().get(i).getXValue());
+        // Create rectangles
+        rectangle1 = createRectangle();
+        rectangle2 = createRectangle();
+        rectangle3 = createRectangle();
+        rectangle4 = createRectangle();
 
-                    //sumA = sumA + (Double) series1.getData().get(i).getXValue();
+        chartContainer.getChildren().addAll(rectangle1, rectangle2, rectangle3, rectangle4);
 
-               }
-               //sort values in order to calculate the quartiles and stat
-               Collections.sort(serieA);
-               return serieA;
-          }
+        setCenter(stack);
+        setBottom(menuButton);
 
-          public  List<Double> getserieB() {
-               for (int i = 0; i < series2.getData().size(); i++) {
-                    // Extracting the XValue (numeric value) from each data point in series2
-                    // serie2[i] = (Double) series2.getData().get(i).getXValue();
-                    // Casting to Double as needed
-                    serieB.add((Double) series2.getData().get(i).getXValue());// Casting to Double as needed
-                   // sumB = sumB + (Double) series2.getData().get(i).getXValue();
+        // Keep rectangles in sync with chart size
+        lineChart.widthProperty().addListener((obs, o, n) -> updateAllRectangles());
+        lineChart.heightProperty().addListener((obs, o, n) -> updateAllRectangles());
+    }
 
+    private Rectangle createRectangle() {
+        Rectangle r = new Rectangle();
+        r.setHeight(40);
+        r.setStroke(Color.MEDIUMVIOLETRED);
+        r.setFill(Color.TRANSPARENT);
+        return r;
+    }
 
-               }
-               //sort values in order to calculate the quartiles and stat
-               Collections.sort(serieB);
-               return serieB;
-           }
+    public List<Double> draw() {
+        serieC.clear();
+        for (XYChart.Data<Number, String> d : series3.getData()) {
+            serieC.add(d.getXValue().doubleValue());
+        }
+        for (XYChart.Data<Number, String> d : series4.getData()) {
+            serieC.add(d.getXValue().doubleValue());
+        }
 
-          public  int statA (){
-           List<Double> serieA = getserieA();
-               /*
-               quartile1A = serieA.get(p1+1);
-               p1 = p1*3;
-                quartile3A = serieA.get(p1+1);
-                LoutlierA = quartile1A - (1.5 * (quartile3A - quartile1A));
-               if (series1.getData().size() %2 ==0){
+        lineChart.getData().addAll(series3, series4);
 
-               }
-               //  UoutlierA = quartile1A + (1.5 * (quartile3A - quartile1A));
-
-                */
-
-
-          return serieA.size();
-          }
-
-          public void getserieC(List<Double> serieA) {
-               serieC = serieA;
+        Platform.runLater(() -> {
+            styleSeries(series3, "green");
+            styleSeries(series4, "blue");
+            series1.setName("AI");
+            series2.setName("player");
+            series3.setName("AI quartiles");
+            series4.setName("AI outliers");
+            series5.setName("Player quartiles");
+            series6.setName("Player outliers");
 
 
-          }
+            updateAllRectangles();
+        });
 
-          public List<Double> getserie() {
-               return serieC;
-          }
+        return serieC;
+    }
 
-          public void draw(List<Double> stat){
-               QA1 = stat.get(0);
-               QA2 = stat.get(1);
-               QA3 = stat.get(2);
-               rectangle.setWidth((QA2-QA1)*40);
-               rectangle2.setWidth((QA3-QA2)*39.8);
+    private void styleSeries(XYChart.Series<Number, String> series, String color) {
+        if (series.getNode() != null) {
+            series.getNode().setStyle("-fx-stroke: transparent;");
+            for (XYChart.Data<Number, String> data : series.getData()) {
+                data.getNode().setStyle("-fx-background-color: " + color + ", white;");
+            }
+        }
+    }
 
-          }
+    private void updateAllRectangles() {
+        if (series3.getData().size() >= 3 && series4.getData().size() >= 3) {
+            updateRectangle(rectangle1, series3.getData().get(0), series3.getData().get(1), -15); // Up
+            updateRectangle(rectangle2, series3.getData().get(1), series3.getData().get(2), -15); // Up
+            updateRectangle(rectangle3, series4.getData().get(0), series4.getData().get(1), -15); // Down
+            updateRectangle(rectangle4, series4.getData().get(1), series4.getData().get(2), -15); // Down
+        }
+    }
 
+    private void updateRectangle(Rectangle rect, XYChart.Data<Number, String> start, XYChart.Data<Number, String> end, int offsetY) {
+        if (start.getNode() == null || end.getNode() == null) return;
+
+        Platform.runLater(() -> {
+            Bounds startScene = start.getNode().localToScene(start.getNode().getBoundsInLocal());
+            Bounds endScene = end.getNode().localToScene(end.getNode().getBoundsInLocal());
+
+            Bounds startLocal = chartContainer.sceneToLocal(startScene);
+            Bounds endLocal = chartContainer.sceneToLocal(endScene);
+
+            double x1 = startLocal.getMinX() + startLocal.getWidth() / 2;
+            double x2 = endLocal.getMinX() + endLocal.getWidth() / 2;
+            double centerY = (startLocal.getMinY() + endLocal.getMinY()) / 2 + offsetY;
+
+            rect.setLayoutX(Math.min(x1, x2));
+            rect.setLayoutY(centerY);
+            rect.setWidth(Math.abs(x2 - x1));
+        });
+    }
 
     public Button getMenuButton() {
         return menuButton;
     }
-}
+    private void hideSeriesFromLegend(XYChart.Series<Number, String> series) {
+        Platform.runLater(() -> {
+            Node chartLegend = lineChart.lookup(".chart-legend");
+            if (chartLegend != null) {
+                for (Node legendItem : chartLegend.lookupAll(".chart-legend-item")) {
+                    if (legendItem instanceof Label && ((Label) legendItem).getText().equals(series.getName())) {
+                        legendItem.setVisible(false);
+                        legendItem.setManaged(false);
+
+                    }
+                }
+            }
+        });
+    }
+
+    public LineChart<Number, String> getLineChart() {
+        return lineChart;
+    }
+   }

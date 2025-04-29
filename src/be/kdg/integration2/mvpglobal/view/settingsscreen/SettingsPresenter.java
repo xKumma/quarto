@@ -41,6 +41,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView, BaseModel> {
                 URI uri = selectedFile.toURI();
                 uiSettings.setStyleSheetPath(Paths.get(uri));
             }
+
             if (uiSettings.styleSheetAvailable()){
                 view.getScene().getStylesheets().removeAll();
                 try{
@@ -48,8 +49,14 @@ public class SettingsPresenter extends BasePresenter<SettingsView, BaseModel> {
                 } catch (MalformedURLException ex) {
                     // do nothing, if toURL-conversion fails, program can continue
                 }
+
+
             }
+
+
         });
+
+
 
         view.getOkButton().setOnMouseClicked(event -> handleCloseEvent(event));
     }

@@ -28,7 +28,6 @@ public class Router {
     public void goTo(Screen screenType, Object data){
         var presenter = screenType.createPresenter();
         UISettings uiSettings = UISettings.getInstance();
-
         presenter.init(data);
         if(screenType == Screen.GAME) {
             primaryStage.setMinHeight(560);

@@ -18,6 +18,8 @@ import be.kdg.integration2.mvpglobal.view.rules.RulesPresenter;
 import be.kdg.integration2.mvpglobal.view.rules.RulesView;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsPresenter;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsView;
+import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.startscreen.StartScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
@@ -37,7 +39,9 @@ public enum Screen {
     LOGIN(() -> new LoginScreenPresenter(null, new LoginScreenView())),
     TABLE(() -> new TablePresenter(null, new TabletView())),
     ABOUT(() -> new AboutScreenPresenter(null, new AboutScreenView())),
+    START(() ->new StartScreenPresenter(new StartScreenView() , null )),
     SETTINGS(() -> new SettingsPresenter(null, new SettingsView()));
+
 
 
     private final Supplier<BasePresenter> presenterSupplier;

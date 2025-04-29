@@ -26,7 +26,7 @@ public class SettingsView extends BaseView {
         this.cssButton = new Button("Select File");
         this.cssName = new TextField();
         this.cssName.setPrefWidth(uiSettings.getLowestRes() / 3);
-        this.cssName.setText(uiSettings.getStyleSheetPath().toString());
+     //   this.cssName.setText(uiSettings.getStyleSheetPath().toString());
         this.okButton = new Button("OK (quit)");
         menuButton = new Button("Menu");
     }
