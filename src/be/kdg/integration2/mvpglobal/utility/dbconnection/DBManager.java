@@ -1,4 +1,4 @@
-package be.kdg.integration2.mvpglobal.dbconnection;
+package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
@@ -36,6 +36,7 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+
 
     public void createPlayer (String username,String password) throws SQLException {
         String selectScore = "INSERT INTO human_players VALUES(?, ?)";
@@ -147,6 +148,18 @@ public class DBManager {
         return rs.getString(1);
     }
 
+    public int getSessionid() throws SQLException {
+        String query = "SELECT sessionid  FROM moves order by sessionid DESC LIMIT 1 ";
+        try (PreparedStatement ps = connection.prepareStatement(query) ) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 0;
+    }
 
     public double getTimeMove1(int sessionid , int moveid) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = true";
@@ -159,7 +172,7 @@ public class DBManager {
                 }
             }
         }
-        return 20; // Valore di default se non ci sono risultati
+        return 0;
     }
 
     public double getTimeMove2(int sessionid , int i) throws SQLException {
@@ -173,7 +186,7 @@ public class DBManager {
                 }
             }
         }
-        return 20; // Valore di default se non ci sono risultati
+        return 0; // Valore di default se non ci sono risultati
     }
 
 

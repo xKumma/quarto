@@ -10,12 +10,15 @@ import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
     public MainMenuPresenter(MainMenuView view, MVPModel model) {
         super(view, model);
-
+        /*
         if (!DBManager.getInstance().isConnected()) {
             view.getLeaderboardButton().setDisable(true);
             view.getStatisticsButton().setDisable(true);
             view.getTableButton().setDisable(true);
         }
+
+         */
+
     }
 
     protected void addEventHandlers() {
@@ -27,6 +30,7 @@ public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
         view.getStatisticsButton().setOnAction(e -> goToStatistics());
         view.getAboutButton().setOnAction(e -> goToAbout());
         view.getSettingsButton().setOnAction(e -> goToSettings());
+
     }
 
     private void goToAbout() {

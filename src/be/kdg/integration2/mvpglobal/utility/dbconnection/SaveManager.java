@@ -1,10 +1,11 @@
-package be.kdg.integration2.mvpglobal.utility;
+package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.Move;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
+
 
 import java.io.File;
 import java.io.FileWriter;
@@ -38,7 +39,7 @@ public class SaveManager {
             e.printStackTrace();
         }
     }
-
+/*
     public static void saveToDB(GameSessionData gameSessionData) {
         try {
             DBManager.getInstance().insertNewSession(

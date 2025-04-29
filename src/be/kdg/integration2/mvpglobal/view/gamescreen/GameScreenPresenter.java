@@ -6,7 +6,7 @@ import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.utility.Router;
-import be.kdg.integration2.mvpglobal.utility.SaveManager;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.SaveManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.PieceButton;
@@ -85,7 +85,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 });
             }
         }
-        view.getChosenPieceGrid().setOnMouseClicked(e -> SaveManager.saveToDB(model.getSessionData()));
+        //view.getChosenPieceGrid().setOnMouseClicked(e -> SaveManager.saveToDB(model.getSessionData()));
     }
 
     private void goToMenu() {

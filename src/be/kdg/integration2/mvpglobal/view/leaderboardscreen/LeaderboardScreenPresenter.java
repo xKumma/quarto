@@ -1,8 +1,8 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
-import be.kdg.integration2.mvpglobal.dbconnection.DBManager;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.Router;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
@@ -10,7 +10,7 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
 
     public LeaderboardScreenPresenter(LeaderboardScreenView view, BaseModel model) {
         super(view, model);
-        DBManager.fillLeaderboard();
+     //   DBManager.fillLeaderboard();
     }
 
     protected void addEventHandlers() {
