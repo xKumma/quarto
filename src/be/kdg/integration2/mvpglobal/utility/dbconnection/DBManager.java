@@ -2,6 +2,7 @@ package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class DBManager {
 //    static final String PASSWORD = "devpass";
 
     private static final Path DDL_PATH = Paths.get("src/be/kdg/integration2/mvpglobal/utility/dbconnection/DDL.sql");
+    private int currentSessionID = -1;
 
     private Connection connection;
     private Statement statement;
@@ -111,12 +113,20 @@ public class DBManager {
         return moves;
     }
 
-    public void insertNewMove(int sessionID, int moveID, boolean aiPlayer) throws SQLException {
-        String insertNewMove = "INSERT INTO moves VALUES(?, ?, CURRENT_TIMESTAMP, NULL, ?)";
+    public void insertNewMove(String player, String piece, int x, int y, long startTime, long endTime) throws SQLException {
+        String insertNewMove =
+                "INSERT INTO moves(sessionID, move_start_time, move_end_time, was_ai) VALUES(?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewMove);
-        ps.setInt(1, moveID);
-        ps.setInt(2, sessionID);
-        ps.setBoolean(3, aiPlayer);
+        ps.setInt(1, currentSessionID);
+
+        ps.setTimestamp(2, new Timestamp(startTime));
+        ps.setTimestamp(3, new Timestamp(endTime));
+
+        // We might not even need the piece related tables as we dont have to load a state from the DB
+
+        boolean wasAI = !player.equals(HumanPlayer.getInstance().getName());
+        ps.setBoolean(4, wasAI);
+
         ps.executeUpdate();
         ps.close();
     }
@@ -130,13 +140,23 @@ public class DBManager {
         ps.close();
     }
 
-    public void insertNewSession(int sessionID, String currentPlayer, String botPlayer) throws SQLException {
-        String insertNewSession = "INSERT INTO sessions VALUES(?, ?, ?, FALSE, NULL)";
-        PreparedStatement ps = connection.prepareStatement(insertNewSession);
-        ps.setInt(1, sessionID);
-        ps.setString(2, currentPlayer);
-        ps.setString(3, botPlayer);
+    public void insertNewSession(String currentPlayer, int difficulty) throws SQLException {
+        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, NULL)";
+        PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
+        System.out.println(currentPlayer);
+        ps.setString(1, currentPlayer);
+
+        String botPlayer = getBotNameFromDifficulty(difficulty);
+
+        ps.setString(2, botPlayer);
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            currentSessionID = rs.getInt(1);
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -174,7 +194,7 @@ public class DBManager {
     public String getBotNameFromDifficulty (int difficulty) throws SQLException {
         String selectBotName = "SELECT bot_name FROM bot_players WHERE bot_difficulty = ?";
         PreparedStatement ps = connection.prepareStatement(selectBotName);
-        ps.setInt(1, difficulty);
+        ps.setInt(1, difficulty+1);
         ResultSet rs = ps.executeQuery();
         rs.next();
         return rs.getString(1);
