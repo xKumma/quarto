@@ -4,6 +4,7 @@ import be.kdg.integration2.mvpglobal.model.Move;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,6 +13,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -34,6 +36,28 @@ public class SaveManager {
             out.println(gameSessionData.toJson());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void saveToDB(GameSessionData gameSessionData) {
+        try {
+            DBManager.getInstance().insertNewSession(
+                    gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal());
+
+            for (Move move : gameSessionData.getMoveHistory()) {
+                DBManager.getInstance().insertNewMove(
+                        move.getPlayer(),
+                        move.getPiece().toString(),
+                        move.getPosition().x(),
+                        move.getPosition().y(),
+                        move.getStartTime(),
+                        move.getEndTime()
+                );
+            }
+
+            System.out.println("Game session saved to database successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -73,7 +97,6 @@ public class SaveManager {
                 Move move = new Move(player, new Piece(slug), new PositionData(x, y), startTime, endTime);
                 moveHistory.add(move);
             }
-
 
             return new GameSessionData(playerName, botDifficulty, moveHistory, lastSelectedPiece);
         } catch (IOException e) {
