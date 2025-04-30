@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class DBManager {
     private static DBManager Instance;
-    public static DBManager dbManager = new DBManager();
 
     // LIVE DB
     static final String DB_URL = "jdbc:postgresql://10.134.178.12:5432/game";

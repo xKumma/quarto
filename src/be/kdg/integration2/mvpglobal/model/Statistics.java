@@ -42,14 +42,16 @@ public class Statistics implements BaseModel {
     protected  List <Double> timeList1 = new ArrayList<>();
     protected List <Double> timeList2 = new ArrayList<>();
     protected  List <Integer> numbermove = new ArrayList<>();
-   // private DBManager dbManager = new DBManager() ;
+    private DBManager dbManager = DBManager.getInstance();
 
 
     public Statistics()  {
 
+
     }
 
     public  void setValues() throws SQLException {
+
         if(dbManager.isAI(i)==false) {
            // System.out.println("sessione"+j + "\n");
            // System.out.println("move"+i + "\n");
@@ -236,7 +238,7 @@ time();
          outlier1A = quartile1A - 1.5*IQRA;
          outlier2A = quartile3A + 1.5*IQRA;
 
-         for (int i=0 ; i<timeList1.size(); i++){
+         for (int i=0 ; i<out1.size(); i++){
              if ( timeList1.get(i) <= outlier1A | timeList2.get(i) >= outlier2A){
                  out1.add(timeList1.get(i));
              }
@@ -251,7 +253,7 @@ time();
         outlier1B = quartile1B - 1.5*IQRB;
         outlier2B = quartile3B + 1.5*IQRB;
 
-        for (int i=0 ; i<timeList2.size(); i++){
+        for (int i=0 ; i<out2.size(); i++){
             if ( timeList2.get(i) <= outlier1B | timeList2.get(i) >= outlier2B){
                 out2.add(timeList2.get(i));
             }
