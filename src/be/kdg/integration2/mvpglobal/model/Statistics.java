@@ -36,15 +36,6 @@ public class Statistics implements BaseModel {
     protected  double time;
 
 
-    static {
-        try {
-            dbManager = new DBManager();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     protected static double[] time1 ;
     protected static double[] time2 ;
     protected  List <Double> timeList1 = new ArrayList<>();
