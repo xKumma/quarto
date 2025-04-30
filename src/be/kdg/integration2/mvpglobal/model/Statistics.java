@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager.dbManager;
 
 public class Statistics implements BaseModel {
     public static int i =1;
