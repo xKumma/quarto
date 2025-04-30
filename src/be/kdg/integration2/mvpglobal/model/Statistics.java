@@ -103,6 +103,8 @@ time();
 
     public void time(){
         Collections.sort(timeList1);
+        Collections.sort(timeList2);
+
         System.out.println("duration player moves"+timeList1);
         System.out.println("duration ai moves"+timeList2);
 
@@ -133,103 +135,86 @@ time();
 
 
     public void statA(){
-        double p1;
-         int j=1;
+
+        if (timeList1 == null || timeList1.isEmpty()) {
+            System.out.println("List is empty.");
+            return;
+        }
+
+
         Collections.sort(timeList1);
-        for(int i=0 ; i<timeList1.size(); i++) {
-           if (timeList1.size() % 2 == 0) {
-               p1= ((timeList1.size())*0.25);
-               int result = (int) Math.ceil(p1);
-               if (j == result) {
-                   quartile1A = timeList1.get(result - 1);
-                   stat1.add(quartile1A);
-               }
-               if (j == result * 2) {
-                   double a =timeList1.get((timeList1.size()/2-1));
-                   double b = timeList1.get((timeList1.size()/2));
-                   quartile2A = (a+b)*0.5;
-                   stat1.add(quartile2A);
-               }
+        stat1.clear();
+        int size = timeList1.size();
 
-               if (j == result * 3) {
-                   quartile3A = timeList1.get(result * 3 - 2);
-                   stat1.add(quartile3A);
-               }
-               j++;
-           }else{
-               p1= ((timeList1.size()+1)*0.25);
-               int result = (int) Math.ceil(p1);
+        if (size % 2 == 0) {
+            // EVEN size
+            int q1Pos = (int) Math.ceil(size * 0.25);
+            int q3Pos = (int) Math.ceil(size * 0.75);
 
+            quartile1A = timeList1.get(q1Pos - 1); // -1 because list is 0-based
+            quartile3A = timeList1.get(q3Pos - 1);
 
-               if (j == result) {
-                   quartile1A = timeList1.get(result - 1);
-                   stat1.add(quartile1A);
-               }
-               if (j == result * 2) {
-                   quartile2A = timeList1.get(result * 2 - 1);
-                   stat1.add(quartile2A);
+            double mid1 = timeList1.get(size / 2 - 1);
+            double mid2 = timeList1.get(size / 2);
+            quartile2A = (mid1 + mid2) / 2.0;
+        } else {
+            // ODD size
+            int q1Pos = (int) Math.ceil((size + 1) * 0.25);
+            int q2Pos = (int) Math.ceil((size + 1) * 0.5);
+            int q3Pos = (int) Math.ceil((size + 1) * 0.75);
 
-                   }
-               if (j == result * 3) {
-                   quartile3A = timeList1.get(result * 3 - 1);
-                   stat1.add(quartile3A);
-               }
-               j++;
+            quartile1A = timeList1.get(q1Pos - 1);
+            quartile2A = timeList1.get(q2Pos - 1);
+            quartile3A = timeList1.get(q3Pos - 1);
+        }
 
-           }
-       }
+        stat1.add(quartile1A);
+        stat1.add(quartile2A);
+        stat1.add(quartile3A);
 
-        System.out.println("quartiles\n"+ stat1);
+        System.out.println("quartiles\n" + stat1);
     }
 
 
     public void statB(){
-        double p1;
-        int j=1;
-        Collections.sort(timeList2);
-        for(int i=0 ; i<timeList2.size(); i++) {
-            if (timeList2.size() % 2 == 0) {
-                p1= ((timeList2.size())*0.25);
-                int result = (int) Math.ceil(p1);
-                if (j == result) {
-                    quartile1B = timeList2.get(result - 1);
-                    stat2.add(quartile1B);
-                }
-                if (j == result * 2) {
-                    double a =timeList2.get((timeList2.size()/2-1));
-                    double b = timeList2.get((timeList2.size()/2));
-                    quartile2B = (a+b)*0.5;
-                    stat2.add(quartile2B);
-                }
 
-                if (j == result * 3) {
-                    quartile3B = timeList2.get(result * 3 - 2);
-                    stat2.add(quartile3B);
-                }
-                j++;
-            }else{
-                p1= ((timeList2.size()+1)*0.25);
-                int result = (int) Math.ceil(p1);
-
-
-                if (j == result) {
-                    quartile1B = timeList2.get(result - 1);
-                    stat2  .add(quartile1B    );
-                }
-                if (j == result * 2) {
-                    quartile2B = timeList2.get(result * 2 - 1);
-                    stat2.add(quartile2B);
-
-                }
-                if (j == result * 3) {
-                    quartile3B = timeList2.get(result * 3 - 1);
-                    stat2.add(quartile3B);
-                }
-                j++;
-
-            }
+        if (timeList2 == null || timeList2.isEmpty()) {
+            System.out.println("List is empty.");
+            return;
         }
-        System.out.println("quartiles \n"+ stat2);
+
+        Collections.sort(timeList2);
+        stat2.clear();
+
+        int size = timeList2.size();
+
+        if (size % 2 == 0) {
+            // EVEN size
+            int q1Pos = (int) Math.ceil(size * 0.25);
+            int q3Pos = (int) Math.ceil(size * 0.75);
+
+            quartile1B = timeList2.get(q1Pos - 1);
+            quartile3B = timeList2.get(q3Pos - 1);
+
+            double mid1 = timeList2.get(size / 2 - 1);
+            double mid2 = timeList2.get(size / 2);
+            quartile2B = (mid1 + mid2) / 2.0;
+        } else {
+            // ODD size
+            int q1Pos = (int) Math.ceil((size + 1) * 0.25);
+            int q2Pos = (int) Math.ceil((size + 1) * 0.5);
+            int q3Pos = (int) Math.ceil((size + 1) * 0.75);
+
+            quartile1B = timeList2.get(q1Pos - 1);
+            quartile2B = timeList2.get(q2Pos - 1);
+            quartile3B = timeList2.get(q3Pos - 1);
+        }
+
+        stat2.add(quartile1B);
+        stat2.add(quartile2B);
+        stat2.add(quartile3B);
+
+        System.out.println("quartiles \n" + stat2);
     }
 
     public void outA(){
