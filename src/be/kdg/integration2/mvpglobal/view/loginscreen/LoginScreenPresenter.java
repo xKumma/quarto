@@ -1,15 +1,14 @@
 package be.kdg.integration2.mvpglobal.view.loginscreen;
 
+import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.model.BaseModel;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
-import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
-import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseModel> {
 
@@ -17,15 +16,25 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
         super(view, model);
         //updateView();
         //addEventHandlers();
+
+        if  (!DBManager.getInstance().isConnected()) {
+            view.getPasswordField().setDisable(true);
+            view.getPasswordLabel().setDisable(true);
+            view.getRegisterButton().setDisable(true);
+        }
     }
 
-    protected void updateView() {}
 
     protected void addEventHandlers() {
         view.getLoginButton().setOnAction(event -> {
             // Does not do anything if TextFields are empty
             if(!contentChecker()){return;}
-            if(!DBManager.loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
+            if (DBManager.getInstance().isConnected()) {
+                System.out.println("Connected to DB");
+                if(!DBManager.getInstance().loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
+}           else {
+                new HumanPlayer(view.getNameField().getText());
+            }
 
             /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
@@ -46,7 +55,7 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
             // Does not do anything if TextFields are empty
            if(!contentChecker()){return;}
            //Does not do anything if register fails
-            if(!DBManager.registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
+            if(!DBManager.getInstance().registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
             //Loads Main Screen
             /*MainScreenView msView = new MainScreenView();
             MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
@@ -64,7 +73,8 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
     }
 
     private Boolean contentChecker(){
-        if (view.getNameField().getText().trim().isEmpty()||view.getPasswordField().getText().trim().isEmpty()) {
+        if (view.getNameField().getText().trim().isEmpty()||
+                (DBManager.getInstance().isConnected()) && view.getPasswordField().getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input Error");
             alert.setHeaderText("Mandatory Field");
@@ -74,5 +84,19 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
         }
         else {return true;}
     }
+
+
+
+    protected void updateView() {
+        if (view.getScene() == null) {
+         //   System.out.println("Scene is null, delaying updateView...");
+            Platform.runLater(this::updateView);
+            return;
+        }
+
+        Stage stage = (Stage) view.getScene().getWindow();
+        stage.setResizable(true);
+    }
+
 }
 

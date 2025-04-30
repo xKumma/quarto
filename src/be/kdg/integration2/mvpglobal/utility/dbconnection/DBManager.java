@@ -1,13 +1,18 @@
 package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
-import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import javafx.scene.control.Alert;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DBManager {
+    private static DBManager Instance;
+
     // LIVE DB
     static final String DB_URL = "jdbc:postgresql://10.134.178.12:5432/game";
     static final String USER = "game";
@@ -15,22 +20,57 @@ public class DBManager {
 
 
     // USE FOR LOCAL TESTING WITHOUT VPN - change for your setup, dont push this!!
-    /*
-    static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
-    static final String USER = "devuser";
-    static final String PASSWORD = "devpass";
-    */
-    static Connection connection;
-    static Statement statement;
+//    static final String DB_URL = "jdbc:postgresql://localhost:5432/quarto";
+//    static final String USER = "devuser";
+//    static final String PASSWORD = "devpass";
 
-    public DBManager() throws SQLException {
+    private static final Path DDL_PATH = Paths.get("src/be/kdg/integration2/mvpglobal/utility/dbconnection/DDL.sql");
+    private int currentSessionID = -1;
+
+    private Connection connection;
+    private Statement statement;
+
+    private DBManager() {
         setupDatabase();
     }
 
-    public static void setupDatabase() {
+    public static DBManager getInstance() {
+        if (Instance == null) {
+            Instance = new DBManager();
+        }
+        return Instance;
+    }
+
+    private void setupDatabase() {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             statement = connection.createStatement();
+
+            // Check if there are any tables in the database
+            DatabaseMetaData meta = connection.getMetaData();
+            ResultSet tables = meta.getTables(null, null, "%", new String[] {"TABLE"});
+
+            boolean hasTables = tables.next(); // true if there's at least one table
+
+            if (!hasTables) {
+                System.out.println("No tables found. Initializing database schema...");
+
+                // Load and execute the DDL.sql file
+                System.out.println(DDL_PATH.toAbsolutePath().toString());
+                String ddlSql = Files.readString(DDL_PATH);
+                for (String sql : ddlSql.split(";")) {
+                    sql = sql.trim();
+                    if (!sql.isEmpty()) {
+                        statement.execute(sql);
+                    }
+                }
+
+                System.out.println("Database initialized successfully.");
+            } else {
+                System.out.println("Database already contains tables. Skipping initialization.");
+            }
+
+            tables.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -70,12 +110,20 @@ public class DBManager {
         return moves;
     }
 
-    public void insertNewMove(int sessionID, int moveID, boolean aiPlayer) throws SQLException {
-        String insertNewMove = "INSERT INTO moves VALUES(?, ?, CURRENT_TIMESTAMP, NULL, ?)";
+    public void insertNewMove(String player, String piece, int x, int y, long startTime, long endTime) throws SQLException {
+        String insertNewMove =
+                "INSERT INTO moves(sessionID, move_start_time, move_end_time, was_ai) VALUES(?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewMove);
-        ps.setInt(1, moveID);
-        ps.setInt(2, sessionID);
-        ps.setBoolean(3, aiPlayer);
+        ps.setInt(1, currentSessionID);
+
+        ps.setTimestamp(2, new Timestamp(startTime));
+        ps.setTimestamp(3, new Timestamp(endTime));
+
+        // We might not even need the piece related tables as we dont have to load a state from the DB
+
+        boolean wasAI = !player.equals(HumanPlayer.getInstance().getName());
+        ps.setBoolean(4, wasAI);
+
         ps.executeUpdate();
         ps.close();
     }
@@ -89,13 +137,23 @@ public class DBManager {
         ps.close();
     }
 
-    public void insertNewSession(int sessionID, String currentPlayer, String botPlayer) throws SQLException {
-        String insertNewSession = "INSERT INTO sessions VALUES(?, ?, ?, FALSE, NULL)";
-        PreparedStatement ps = connection.prepareStatement(insertNewSession);
-        ps.setInt(1, sessionID);
-        ps.setString(2, currentPlayer);
-        ps.setString(3, botPlayer);
+    public void insertNewSession(String currentPlayer, int difficulty) throws SQLException {
+        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, NULL)";
+        PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
+        System.out.println(currentPlayer);
+        ps.setString(1, currentPlayer);
+
+        String botPlayer = getBotNameFromDifficulty(difficulty);
+
+        ps.setString(2, botPlayer);
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            currentSessionID = rs.getInt(1);
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -133,7 +191,7 @@ public class DBManager {
     public String getBotNameFromDifficulty (int difficulty) throws SQLException {
         String selectBotName = "SELECT bot_name FROM bot_players WHERE bot_difficulty = ?";
         PreparedStatement ps = connection.prepareStatement(selectBotName);
-        ps.setInt(1, difficulty);
+        ps.setInt(1, difficulty+1);
         ResultSet rs = ps.executeQuery();
         rs.next();
         return rs.getString(1);
@@ -172,14 +230,14 @@ public class DBManager {
                 }
             }
         }
-        return 0;
+        return 20; // Valore di default se non ci sono risultati
     }
 
-    public double getTimeMove2(int sessionid , int i) throws SQLException {
+    public double getTimeMove2(int sessionid , int moveid) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = false";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, sessionid);
-            ps.setInt(2, i);
+            ps.setInt(2, moveid);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
@@ -219,7 +277,7 @@ public class DBManager {
     }
 
     public boolean isAI(int moveid) throws SQLException {
-        String query = "SELECT was_ai FROM  moves WHERE moveId = ? and was_ai = true order by moveid asc  ";
+        String query = "SELECT was_ai FROM  moves WHERE moveId = ?  order by moveid asc  ";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, moveid);
             try (ResultSet rs = ps.executeQuery()) {
@@ -231,7 +289,7 @@ public class DBManager {
         return false;
     }
 
-    public static Boolean registerUser(String usernameData, String passwordData){
+    public Boolean registerUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
                 System.out.println("username taken");
@@ -249,6 +307,7 @@ public class DBManager {
             ps.execute();
             ps.close();
             System.out.println("Registering USER " + usernameData + " with password " + passwordData);
+            new HumanPlayer(usernameData);
             return true;
             }
         }
@@ -259,11 +318,12 @@ public class DBManager {
         }
     }
 
-    public static Boolean loginUser(String usernameData, String passwordData){
+    public Boolean loginUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
                 if(passwordCheck(usernameData, passwordData)){
-                    System.out.println("username there");
+                    System.out.println("Logging in USER " + usernameData + " with password " + passwordData);
+                    new HumanPlayer(usernameData);
                     return true;
                 }
                 else{
@@ -285,7 +345,7 @@ public class DBManager {
         }
     }
 
-    public static Boolean userExists(String usernameData){
+    public Boolean userExists(String usernameData){
         Boolean flag=false;
         String checkString = "SELECT EXISTS (SELECT 1 FROM human_players WHERE username = ?)";
         try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
@@ -301,7 +361,7 @@ public class DBManager {
         return flag;
     }
 
-    public static Boolean passwordCheck(String usernameData,String passwordData){
+    public Boolean passwordCheck(String usernameData,String passwordData){
         Boolean flag=false;
         String checkString = "SELECT password FROM human_players WHERE username = ?";
         try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
@@ -327,8 +387,9 @@ public class DBManager {
         return flag;
     }
 
-    public static void fillLeaderboard(String filter){
+    public void fillLeaderboard(){
         System.out.println("called");
+        String tempName="Empty";
         String name="Empty";
         int gamesPlayed=8;
         int wins=4;
@@ -336,18 +397,65 @@ public class DBManager {
         double averageMoves=0;
         double averageTime=0;
         LeaderboardData.LeaderboardData.clear();
-        for(int i=0;i<5;i++) {
-            String checkString = "SELECT player_username,player_won FROM sessions WHERE is_finished = ? ORDER BY ? OFFSET ? LIMIT ?";
+
+        //General:
+
+        for(int i=0;i<30;i++) {
+            String checkString = "SELECT player_username,SUM(CASE WHEN player_won IS TRUE THEN 1 ELSE 0 END),COUNT(*) AS games_played FROM sessions WHERE is_finished = ? GROUP BY player_username OFFSET ? LIMIT ?";
             try (PreparedStatement ps1 = connection.prepareStatement(checkString)) {
-                ps1.setString(1, "true");
-                ps1.setString(2, filter);
-                ps1.setString(3, String.valueOf(i));
-                ps1.setString(4, "1");
+                ps1.setBoolean(1, true);
+                ps1.setInt(2, i);
+                ps1.setInt(3, 1);
+                try (ResultSet rs = ps1.executeQuery()) {
+                    if (rs.next()) {
+                        name=rs.getString(1);
+                        wins=rs.getInt(2);
+                        gamesPlayed=rs.getInt(3);
+                        losses=gamesPlayed-wins;
+                    }
+                }
+                catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
+           // Average Moves:
+
+            String checkString2 = "SELECT COUNT(moveid),SUM(EXTRACT(EPOCH FROM move_end_time) - EXTRACT(EPOCH FROM move_start_time)) AS totalSeconds FROM moves WHERE was_ai = ? AND sessionid IN (SELECT sessionid FROM sessions WHERE player_username=? )";
+            try (PreparedStatement ps1 = connection.prepareStatement(checkString2)) {
+                ps1.setBoolean(1, false);
+                ps1.setString(2, name);
+                try (ResultSet rs = ps1.executeQuery()) {
+                    if (rs.next()) {
+                        double moves=rs.getInt(1);
+                        if(gamesPlayed!=0){averageMoves=moves/gamesPlayed;}
+                        else{averageMoves=0;}
+                        double seconds=rs.getInt(2);
+                        averageTime=seconds/moves;
+                    }
+                }
+                catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            if (name.equals(tempName)){break;} //To prevent loop from displaying same rows over and over
+            else{tempName=name;}
+
             LeaderboardData.LeaderboardData.add(new LeaderboardData(name,gamesPlayed,wins,losses,averageMoves,averageTime));
+        }
+    }
+
+    public boolean isConnected() {
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException e) {
+            return false;
         }
     }
 }
