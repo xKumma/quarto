@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class DBManager {
     private static DBManager Instance;
+    public static DBManager dbManager = new DBManager();
 
     // LIVE DB
     static final String DB_URL = "jdbc:postgresql://10.134.178.12:5432/game";
@@ -213,7 +214,7 @@ public class DBManager {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getInt(1);
                 }
             }
         }
@@ -231,7 +232,7 @@ public class DBManager {
                 }
             }
         }
-        return 20; // Valore di default se non ci sono risultati
+        return 0; // Valore di default se non ci sono risultati
     }
 
     public double getTimeMove2(int sessionid , int moveid) throws SQLException {

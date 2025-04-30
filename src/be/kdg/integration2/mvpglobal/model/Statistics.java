@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager.dbManager;
+
 public class Statistics implements BaseModel {
-    public static DBManager dbManager;
     public static int i =1;
     public static int j =1;
 
@@ -41,27 +42,27 @@ public class Statistics implements BaseModel {
     protected  List <Double> timeList1 = new ArrayList<>();
     protected List <Double> timeList2 = new ArrayList<>();
     protected  List <Integer> numbermove = new ArrayList<>();
-
-
+   // private DBManager dbManager = new DBManager() ;
 
 
     public Statistics()  {
+
     }
 
     public  void setValues() throws SQLException {
         if(dbManager.isAI(i)==false) {
-            System.out.println("sessione"+j + "\n");
-            System.out.println("move"+i + "\n");
-            System.out.println(dbManager.isAI(i) + "\n" );
-            System.out.println("time"+dbManager.getTimeMove2(j, i)+ "\n");
+           // System.out.println("sessione"+j + "\n");
+           // System.out.println("move"+i + "\n");
+           // System.out.println(dbManager.isAI(i) + "\n" );
+           // System.out.println("time"+dbManager.getTimeMove2(j, i)+ "\n");
             timeList1.add(dbManager.getTimeMove2(j, i));
             numbermove.add( i);
             i++;
         } else {
-            System.out.println("sessione"+j + "\n");
-            System.out.println(dbManager.isAI(i) + "\n" );
-            System.out.println("initial move"+i + "\n");
-            System.out.println("time"+dbManager.getTimeMove1(j, i)+ "\n");
+          //  System.out.println("sessione"+j + "\n");
+         //   System.out.println(dbManager.isAI(i) + "\n" );
+          //  System.out.println("initial move"+i + "\n");
+         //   System.out.println("time"+dbManager.getTimeMove1(j, i)+ "\n");
             timeList2.add(dbManager.getTimeMove1(j , i ));
             numbermove.add( i);
 
@@ -73,17 +74,21 @@ public class Statistics implements BaseModel {
 
 
     public void launch() throws SQLException {
+        if (dbManager.isConnected() == false) {
+            throw new SQLException("Database connection is not initialized.");
+        }else{
         j= dbManager.getSessionid();
         i=dbManager.getMoveID1(j);
-        System.out.println("sessione"+j + "\n");
-        System.out.println("initial move"+i + "\n");
+       // System.out.println("sessione"+j + "\n");
+       //    System.out.println("initial move"+i + "\n");
 
-        for (int i = dbManager.getMoveID1(j); i <= dbManager.getMoveID2(j ); i ++){
-                try {
-                    setValues();
-                    System.out.println("ciao");
-                } catch (SQLException e) {
-                }
+        for (int i = dbManager.getMoveID1(j); i <= dbManager.getMoveID2(j ); i ++) {
+            try {
+                setValues();
+               // System.out.println("ciao");
+            } catch (SQLException e) {
+            }
+        }
             }
 
 
@@ -96,25 +101,22 @@ time();
     }
 
     public void time(){
-
-        //  System.out.println(dbManager.getTimeMove1(1, j));
-        //  System.out.println(dbManager.getTimeMove2(1,j));
         Collections.sort(timeList1);
-        System.out.println(timeList1);
-        System.out.println(timeList2);
+        System.out.println("duration player moves"+timeList1);
+        System.out.println("duration ai moves"+timeList2);
 
         time1 = new double[timeList1.size()];
         time2 = new double[timeList2.size()];
 
         for(int i=0 ; i<timeList1.size(); i++){
             time1 [i] = timeList1.get(i);
-            System.out.println(time1[i]);
+            //  System.out.print(time1[i]);
 
         }
 
         for(int i=0 ; i<timeList2.size(); i++){
             time2 [i] = timeList2.get(i);
-            System.out.println(time2[i]);
+          //  System.out.println(time2[i]);
         }
          statA();
         statB();
@@ -176,7 +178,7 @@ time();
            }
        }
 
-        System.out.println(stat1);
+        System.out.println("quartiles\n"+ stat1);
     }
 
 
@@ -226,7 +228,7 @@ time();
 
             }
         }
-        System.out.println(stat2);
+        System.out.println("quartiles \n"+ stat2);
     }
 
     public void outA(){
@@ -240,7 +242,7 @@ time();
              }
          }
 
-         System.out.println(out1);
+         System.out.println("outliers \n " + out1);
 
     }
 
@@ -254,7 +256,7 @@ time();
                 out2.add(timeList2.get(i));
             }
         }
-        System.out.println(out2);
+        System.out.println("outliers \n" + out2);
 
     }
 
