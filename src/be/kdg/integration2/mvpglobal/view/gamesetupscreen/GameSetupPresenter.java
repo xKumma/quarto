@@ -5,7 +5,7 @@ import be.kdg.integration2.mvpglobal.model.GameSetup;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.utility.Router;
-import be.kdg.integration2.mvpglobal.utility.dbconnection.SaveManager;
+import be.kdg.integration2.mvpglobal.utility.SaveManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.FileChooser;

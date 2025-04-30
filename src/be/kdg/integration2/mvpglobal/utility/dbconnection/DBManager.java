@@ -4,6 +4,7 @@ import be.kdg.integration2.mvpglobal.model.HumanPlayer;
 import be.kdg.integration2.mvpglobal.model.LeaderboardData;
 import javafx.scene.control.Alert;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -72,7 +73,7 @@ public class DBManager {
 
             tables.close();
         }
-        catch (SQLException e) {
+        catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
