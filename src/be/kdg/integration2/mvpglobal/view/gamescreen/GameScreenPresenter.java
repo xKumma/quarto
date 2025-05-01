@@ -31,11 +31,13 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         setUpBoard(model.getBoard().getPieces(), model.getUnusedPieces());
 
         startTurn();
+
     }
 
     @Override
     public void updateView() {
         super.updateView();
+
     }
 
     /**
@@ -48,7 +50,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 move.getPiece().toString(),
                 move.getPosition().x(),
                 move.getPosition().y()
+
         ));
+        if(!model.isActive()){
+            System.out.println("WIN");
+            gowin();
+        }
     }
 
     @Override
@@ -60,10 +67,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
             if (pieceBtn instanceof PieceButton) {
                 pieceBtn.setOnMouseClicked(e -> {
                     if (!model.isPlayersTurn() || !model.isActive()) {
-                        if(!model.isActive()){
-                            System.out.println("WIN");
-                            gowin();
-                        }
+
                         return;}
                     if (model.getTurnPhase() != TurnPhase.PICKING) return;
 
@@ -174,7 +178,10 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
         if (!model.isActive()) return;
         success = false;
-
+        if(!model.isActive()){
+            System.out.println("WIN");
+            gowin();
+        }
 
         while (!success) {
             success = model.selectPiece(model.getComputerPlayer().getPiece(model));
@@ -193,6 +200,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         model.endTurn();
         stopTimer();
         startTurn();
+
     }
 
     /**
