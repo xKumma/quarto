@@ -33,11 +33,11 @@ public class MainMenuView extends BaseView {
         rulesButton = new Button("Rules");
         leaderboardButton = new Button("Leaderboard");
         quitButton = new Button("Quit");
-        statisticsButton = new Button("Statistics");
-        tableButton = new Button("Table");
+        statisticsButton = new Button("Statistics (temp)");
+        tableButton = new Button("Table (temp)");
         header = new Header();
-        aboutButton = new Button("About");
-        settingsButton = new Button("Settings");
+        aboutButton = new Button("About (temp)");
+        settingsButton = new Button("Settings (temp)");
 
     }
 
