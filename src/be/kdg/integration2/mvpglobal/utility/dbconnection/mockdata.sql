@@ -13,24 +13,24 @@ VALUES
 ;
 
 
-INSERT INTO pieces(pieceID, type, size, shape, color)
+INSERT INTO pieces(pieceID, type, size, shape, color , abstract)
 VALUES
-    (1, 'full', 'big', 'square', 'red'),
-    (2, 'full', 'small', 'square', 'red'),
-    (3, 'hollow', 'small', 'square', 'blue'),
-    (4, 'full', 'small', 'round', 'blue'),
-    (5, 'hollow', 'big', 'round', 'red'),
-    (6, 'full', 'big', 'round', 'red'),
-    (7, 'hollow', 'big', 'round', 'blue'),
-    (8, 'hollow', 'small', 'round', 'blue'),
-    (9, 'hollow', 'big', 'square', 'red'),
-    (10, 'hollow', 'small', 'round', 'red'),
-    (11, 'full', 'big', 'round', 'blue'),
-    (12, 'full', 'small', 'square', 'blue'),
-    (13, 'full', 'small', 'round', 'red'),
-    (14, 'hollow', 'small', 'square', 'red'),
-    (15, 'full', 'big', 'square', 'blue'),
-    (16, 'hollow', 'big', 'square', 'blue')
+    (0, 'full', 'big', 'square', 'red', 0000),
+    (1, 'full', 'small', 'square', 'red', 0001),
+    (2, 'hollow', 'small', 'square', 'blue',0010),
+    (3, 'full', 'small', 'round', 'blue',0011),
+    (4, 'hollow', 'big', 'round', 'red',0100),
+    (5, 'full', 'big', 'round', 'red',0101),
+    (6, 'hollow', 'big', 'round', 'blue',0110),
+    (7, 'hollow', 'small', 'round', 'blue',0111),
+    (8, 'hollow', 'big', 'square', 'red',1000),
+    (9, 'hollow', 'small', 'round', 'red',1001),
+    (10, 'full', 'big', 'round', 'blue',1010),
+    (11, 'full', 'small', 'square', 'blue',1011),
+    (12, 'full', 'small', 'round', 'red',1100),
+    (13, 'hollow', 'small', 'square', 'red',1101),
+    (14, 'full', 'big', 'square', 'blue',1110),
+    (15, 'hollow', 'big', 'square', 'blue',1111)
 ;
 
 INSERT INTO bot_players(bot_name, bot_difficulty)

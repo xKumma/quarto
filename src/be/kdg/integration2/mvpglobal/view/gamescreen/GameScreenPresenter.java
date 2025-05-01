@@ -59,7 +59,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         for (Node pieceBtn : view.getUnusedPieces().getChildren()) {
             if (pieceBtn instanceof PieceButton) {
                 pieceBtn.setOnMouseClicked(e -> {
-                    if (!model.isPlayersTurn() || !model.isActive()) return;
+                    if (!model.isPlayersTurn() || !model.isActive()) {
+                        if(!model.isActive()){
+                            System.out.println("WINNIE");
+                            gowin();
+                        }
+                        return;}
                     if (model.getTurnPhase() != TurnPhase.PICKING) return;
 
                     if (model.selectPiece(pieceBtn.toString())) {
@@ -89,8 +94,13 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     }
 
     private void goToMenu() {
+
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
+    private void gowin() {
+        Router.getInstance().goTo(Screen.END_SCREEN, null);
+    }
+
 
     /**
      * Sets up the game board visuals by updating the view with the positions of all pieces.

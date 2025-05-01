@@ -3,6 +3,7 @@ package be.kdg.integration2.mvpglobal.model;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
+import be.kdg.integration2.mvpglobal.model.rulebasedsystem.InferenceEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,10 @@ public class GameSession implements BaseModel {
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
         computer.setDifficulty(sessionData.getBotDifficulty());
+        InferenceEngine engine = new InferenceEngine();
+
+
+
 
         if (sessionData.getStartingPlayer() == 0) {
             isPlayersTurn = new Random().nextBoolean();
@@ -49,11 +54,19 @@ public class GameSession implements BaseModel {
         createPieces();
 
         moves = (sessionData.getMoveHistory() != null) ? sessionData.getMoveHistory() : new ArrayList<>();
+
+        engine.determineFacts(board);
+        engine.applyRules(board , currentMove);
+
+
         if (!moves.isEmpty()) {
             playMoves(moves);
             selectedPiece = sessionData.getSelectedPiece();
         }
-        else selectedPiece = getUnusedPieces().get(new Random().nextInt(unusedPieces.size()));
+        else {
+
+            selectedPiece = getUnusedPieces().get(new Random().nextInt(unusedPieces.size()));
+        }
 
         active = true;
     }
@@ -81,7 +94,13 @@ public class GameSession implements BaseModel {
 
         board.movePiece(move);
         unusedPieces.remove(move.getPiece());
-        if (unusedPieces.isEmpty()) endGame();
+        if (RuleChecker.fourInARow( board)) {
+            System.out.println("Four in a row");
+            endGame();
+        }else{
+        if (unusedPieces.isEmpty())
+
+            endGame();}
         return true;
     }
 
@@ -91,6 +110,9 @@ public class GameSession implements BaseModel {
         // determine move AI:
         //Move move = computer.getMove(this);
         // ...
+
+
+
     }
 
     /**

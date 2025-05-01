@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS PIECES (
                                       type VARCHAR(10) NOT NULL,
                                       size VARCHAR(10) NOT NULL,
                                       shape VARCHAR(10) NOT NULL,
-                                      color VARCHAR(10) NOT NULL
+                                      color VARCHAR(10) NOT NULL,
+                                       abstract INTEGER NOT NULL
 );
 
 -- TABLE: PIECE LOCATIONS

@@ -79,10 +79,22 @@ public class Piece {
         }
     }
 
+
+
+    public void piecesAbstraction(){
+
+    }
+
+
+
+
+
     @Override
     public String toString() {
         return String.format(
                 "%s_%s_%s#%s", shape.toString(), size.toString(), type.toString(), color.toString()
         ).toLowerCase();
     }
+
+
 }

@@ -24,16 +24,24 @@ public class Board  {
 
     // region AI
     public boolean endMoveAIPossible() {
+
         return false;
     }
     public boolean endMovePlayerPossible() {
+
+
         return false;
     }
-    public boolean otherFactPossible() { return false;}
+    public boolean otherFactPossible() {
+
+        return false;
+    }
     public boolean endWinningPositionAIPossible() {
+
         return false;
     }
     public boolean endWinningPositionPlayerPossible() {
+
         return false;
     }
     public void determineBlockEndMove (Move move) {

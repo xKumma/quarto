@@ -12,97 +12,67 @@ public final class RuleChecker {
     }
 
     public static boolean hasWon(Piece[] pieces) {
+        if (pieces == null || pieces.length != 4) return false;
+
         PieceAttribute[] t = PieceAttribute.values();
+
         for (int i = 0; i < 4; i++) {
-            if (pieces[0].getOneAttribute(t[i]) == pieces[1].getOneAttribute(t[i]) && pieces[0].getOneAttribute(t[i]) == pieces[2].getOneAttribute(t[i]) && pieces[0].getOneAttribute(t[i]) == pieces[3].getOneAttribute(t[i])) {
-                return true;
+            if (pieces[0] != null && pieces[1] != null && pieces[2] != null && pieces[3] != null) {
+                boolean attr0 = Boolean.parseBoolean(pieces[0].getOneAttribute(t[i]));
+                boolean attr1 = Boolean.parseBoolean(pieces[1].getOneAttribute(t[i]));
+                boolean attr2 = Boolean.parseBoolean(pieces[2].getOneAttribute(t[i]));
+                boolean attr3 = Boolean.parseBoolean(pieces[3].getOneAttribute(t[i]));
+
+                if (attr0 == attr1 && attr0 == attr2 && attr0 == attr3) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public static boolean fourInARow(Board board) {
-        //
         Piece[] fourInARow = new Piece[4];
-        boolean fourInARowFound = false;
+        boolean fourInARowFound;
 
-        //check if there are four pieces in a row diagonal1
+        // Diagonal 1
+        fourInARowFound = true;
         for (int i = 0; i < 4; i++) {
-            if (board.getPieces()[i][i] != null) {
-                fourInARow[i] = board.getPieces()[i][i];
-                if (i == 3) fourInARowFound = true;
-            } else {
-                fourInARowFound = false;
-                break;
+            fourInARow[i] = board.getPieces()[i][i];
+            if (fourInARow[i] == null) fourInARowFound = false;
+        }
+        if (fourInARowFound && hasWon(fourInARow)) return true;
+
+        // Diagonal 2
+        fourInARowFound = true;
+        for (int i = 0; i < 4; i++) {
+            fourInARow[i] = board.getPieces()[i][3 - i];
+            if (fourInARow[i] == null) fourInARowFound = false;
+        }
+        if (fourInARowFound && hasWon(fourInARow)) return true;
+
+        // Rows
+        for (int row = 0; row < 4; row++) {
+            fourInARowFound = true;
+            for (int col = 0; col < 4; col++) {
+                fourInARow[col] = board.getPieces()[row][col];
+                if (fourInARow[col] == null) fourInARowFound = false;
             }
-        }
-        if (fourInARowFound) {
-            if(hasWon(fourInARow)) return true;
-        }
-
-        //reset temp values
-        for (int i = 0; i < 4; i++) {
-            fourInARow[i] = null;
-        }
-
-        //check if four in a row diagonal2
-        for (int i = 0; i < 4; i++) {
-            if (board.getPieces()[i][3-i] != null) {
-                fourInARow[i] = board.getPieces()[i][3-i];
-                if (i == 3) fourInARowFound = true;
-            } else {
-                fourInARowFound = false;
-                break;
-            }
-        }
-        if (fourInARowFound) {
-            if(hasWon(fourInARow)) return true;
+            if (fourInARowFound && hasWon(fourInARow)) return true;
         }
 
-        //reset temp values
-        for (int i = 0; i < 4; i++) {
-            fourInARow[i] = null;
+        // Columns
+        for (int col = 0; col < 4; col++) {
+            fourInARowFound = true;
+            for (int row = 0; row < 4; row++) {
+                fourInARow[row] = board.getPieces()[row][col];
+                if (fourInARow[row] == null) fourInARowFound = false;
+            }
+            if (fourInARowFound && hasWon(fourInARow)) return true;
         }
 
-        //check four in a row in rows
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (board.getPieces()[i][j] != null) {
-                    fourInARow[i] = board.getPieces()[i][j];
-                    if (i == 3) fourInARowFound = true;
-                } else {
-                    fourInARowFound = false;
-                    break;
-                }
-            }
-            if (fourInARowFound) {
-                if(hasWon(fourInARow)) return true;
-            }
-            //reset temp values
-            for (int k = 0; i < 4; i++) {
-                fourInARow[k] = null;
-            }
-        }
-
-        //check four in a row in columns
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (board.getPieces()[j][i] != null) {
-                    fourInARow[i] = board.getPieces()[j][i];
-                    if (i == 3) fourInARowFound = true;
-                } else {
-                    fourInARowFound = false;
-                    break;
-                }
-            }
-            if (fourInARowFound) {
-                if (hasWon(fourInARow)) return true;
-            }
-            //reset temp values
-            for (int k = 0; i < 4; i++) {
-                fourInARow[k] = null;
-            }
-        }
         return false;
     }
+
+
 }
