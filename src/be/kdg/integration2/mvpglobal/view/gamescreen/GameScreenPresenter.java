@@ -61,7 +61,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 pieceBtn.setOnMouseClicked(e -> {
                     if (!model.isPlayersTurn() || !model.isActive()) {
                         if(!model.isActive()){
-                            System.out.println("WINNIE");
+                            System.out.println("WIN");
                             gowin();
                         }
                         return;}
