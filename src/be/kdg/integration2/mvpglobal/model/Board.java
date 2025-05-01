@@ -41,6 +41,12 @@ public class Board  {
         return false;
     }
     public boolean endWinningPositionPlayerPossible() {
+        for(int i=0 ; i<4 ; i++) {
+            for(int j=0 ; j<4 ; j++) {
+
+
+            }
+        }
 
         return false;
     }

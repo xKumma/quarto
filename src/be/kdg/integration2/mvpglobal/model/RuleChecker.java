@@ -18,12 +18,12 @@ public final class RuleChecker {
 
         for (int i = 0; i < 4; i++) {
             if (pieces[0] != null && pieces[1] != null && pieces[2] != null && pieces[3] != null) {
-                boolean attr0 = Boolean.parseBoolean(pieces[0].getOneAttribute(t[i]));
-                boolean attr1 = Boolean.parseBoolean(pieces[1].getOneAttribute(t[i]));
-                boolean attr2 = Boolean.parseBoolean(pieces[2].getOneAttribute(t[i]));
-                boolean attr3 = Boolean.parseBoolean(pieces[3].getOneAttribute(t[i]));
+                String attr0 = (pieces[0].getOneAttribute(t[i]));
+                String attr1 = (pieces[1].getOneAttribute(t[i]));
+                String attr2 = (pieces[2].getOneAttribute(t[i]));
+                String attr3 = (pieces[3].getOneAttribute(t[i]));
 
-                if (attr0 == attr1 && attr0 == attr2 && attr0 == attr3) {
+                if (attr0.equals(attr1)  && attr0.equals(attr2) && attr0.equals(attr3)) {
                     return true;
                 }
             }

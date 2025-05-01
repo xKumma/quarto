@@ -11,6 +11,7 @@ public class RuleBlockWinningPositionPlayer extends Rule{
 
     @Override
     public boolean conditionRule(FactsHandler facts) {
+
         System.out.println("Condition RuleBlockWinningPositionPlayer executed"); // Test code - to be removed!
         return facts.factAvailable(FactValues.WINNINGPOSITIONPLAYER);
     }
