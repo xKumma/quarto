@@ -3,7 +3,6 @@ package be.kdg.integration2.mvpglobal.model;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
-import be.kdg.integration2.mvpglobal.model.rulebasedsystem.InferenceEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,9 @@ public class GameSession implements BaseModel {
     public GameSession () {
         //this.board = new Board();
         this.player = HumanPlayer.getInstance();
+        if (player == null) {
+            player = new HumanPlayer("player");
+        }
         this.computer = new ComputerPlayer();
         //...
     }
@@ -36,10 +38,6 @@ public class GameSession implements BaseModel {
     public void init(Object data) {
         GameSessionData sessionData = (GameSessionData) data;
         computer.setDifficulty(sessionData.getBotDifficulty());
-        InferenceEngine engine = new InferenceEngine();
-
-
-
 
         if (sessionData.getStartingPlayer() == 0) {
             isPlayersTurn = new Random().nextBoolean();
@@ -55,10 +53,6 @@ public class GameSession implements BaseModel {
 
         moves = (sessionData.getMoveHistory() != null) ? sessionData.getMoveHistory() : new ArrayList<>();
 
-        engine.determineFacts(board);
-        engine.applyRules(board , currentMove);
-
-
         if (!moves.isEmpty()) {
             playMoves(moves);
             selectedPiece = sessionData.getSelectedPiece();
@@ -71,6 +65,12 @@ public class GameSession implements BaseModel {
         active = true;
     }
 
+    /**
+     * Plays a list of moves on the board.
+     * This method iterates through the provided moves and executes each one.
+     *
+     * @param moves The list of moves to be played.
+     */
     private void playMoves(List<Move> moves) {
         for (Move move : moves) {
             movePiece(move);
@@ -94,25 +94,20 @@ public class GameSession implements BaseModel {
 
         board.movePiece(move);
         unusedPieces.remove(move.getPiece());
-        if (RuleChecker.fourInARow( board)) {
-            System.out.println("Four in a row");
-            endGame();
-        }else{
-        if (unusedPieces.isEmpty())
 
-            endGame();}
+        checkGameOver();
+
         return true;
     }
 
-    public void play(){
-        //...
-
-        // determine move AI:
-        //Move move = computer.getMove(this);
-        // ...
-
-
-
+    /**
+     * Checks if the game is over by verifying win conditions or if all pieces are used.
+     * If a win condition is met or no unused pieces remain, the game ends.
+     */
+    private void checkGameOver() {
+        if (RuleChecker.fourInARow( board) || unusedPieces.isEmpty()) {
+            endGame();
+        }
     }
 
     /**
@@ -192,14 +187,15 @@ public class GameSession implements BaseModel {
 
     /**
      * Selects a position on the board for the current move.
-     * Updates the position of the current move and attempts to execute it.
-     * If the move is invalid, the method returns false.
+     * Updates the position of the current move and attempts to execute it.<br>
+     * If the move is invalid or no position was provided, the method returns false.
      * If the move is valid, the turn phase is updated to PICKING.
      *
      * @param positionData The position data containing x and y coordinates.
      * @return true if the move is valid and successfully executed, false otherwise.
      */
     public boolean selectPosition(PositionData positionData) {
+        if (positionData == null) return false;
         currentMove.setPosition(positionData.x(), positionData.y());
 
         if (!movePiece(currentMove)) return false;
@@ -276,6 +272,5 @@ public class GameSession implements BaseModel {
     public GameSessionData getSessionData() {
         return new GameSessionData(player.getName(), computer.getDifficulty(), moves, selectedPiece);
     }
-
     // endregion
 }

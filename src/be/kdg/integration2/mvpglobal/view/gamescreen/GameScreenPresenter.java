@@ -165,26 +165,23 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     }
 
     private void botPlay() {
+        Move botMove;
 
         boolean success = false;
 
         while (!success) {
-            PositionData positionData = model.getComputerPlayer().getPosition(model);
-            System.out.println("Trying: " + positionData);
-            success = model.selectPosition(positionData);
+            botMove = model.getComputerPlayer().getMove(model);
+            success = model.selectPosition(botMove.getPosition());
         }
 
         updateView(model.getCurrentMove());
 
         if (!model.isActive()) return;
-        success = false;
-        if(!model.isActive()){
-            System.out.println("WIN");
-            gowin();
-        }
 
+        success = false;
         while (!success) {
-            success = model.selectPiece(model.getComputerPlayer().getPiece(model));
+            botMove = model.getComputerPlayer().getMove(model);
+            success = model.selectPiece(botMove.getPiece().toString());
         }
 
         endTurn();

@@ -22,5 +22,4 @@ public class HumanPlayer extends Player{
     public static HumanPlayer getInstance() {
         return Instance;
     }
-
 }
