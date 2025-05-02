@@ -1,9 +1,8 @@
 package be.kdg.integration2.mvpglobal.view.mainscreen;
 
-import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.MVPModel;
-import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
@@ -37,10 +36,6 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
 
 
     protected void addEventHandlers() {
-        view.getTestButton().setOnAction (event -> {
-            GameSession gameSession = new GameSession();
-            gameSession.play();
-        }); // just test code, needs another proper place in your code!!
 
         view.getSettingsItem().setOnAction(event -> {
                 SettingsView settingsView = new SettingsView();
