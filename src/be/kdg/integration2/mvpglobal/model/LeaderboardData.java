@@ -6,6 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Used to group retrieved data from the DB into on objects to be displayed in the leaderboard
+ */
 public class LeaderboardData {
     private SimpleStringProperty name;
     private SimpleIntegerProperty rank; // test, will be added automatically

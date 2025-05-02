@@ -241,11 +241,11 @@ public class DBManager {
             ps.setInt(2, moveid);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
 
@@ -290,10 +290,17 @@ public class DBManager {
         return false;
     }
 
+    /**
+     * If the user does not exist in the DB it will create this user in the database with his chosen password
+     * @param usernameData
+     * Name that the user has entered
+     * @param passwordData
+     * Password that the user has entered
+     * @return
+     */
     public Boolean registerUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
-                System.out.println("username taken");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Username Taken");
                 alert.setHeaderText("This username is already taken");
@@ -307,23 +314,29 @@ public class DBManager {
             ps.setString(2, passwordData);
             ps.execute();
             ps.close();
-            System.out.println("Registering USER " + usernameData + " with password " + passwordData);
             new HumanPlayer(usernameData);
             return true;
             }
         }
         catch(Exception e){
-            System.out.println("Error");
             System.out.println(e.getMessage());
             return false;
         }
     }
 
+    /**
+     * returns true if user is in the database and the passwords are matching.
+     * If the user is not in the DB it will show an alert saying that the user does not exist.
+     * @param usernameData
+     * Name that the user has entered
+     * @param passwordData
+     * Password that the user has entered
+     * @return
+     */
     public Boolean loginUser(String usernameData, String passwordData){
         try{
             if(userExists(usernameData)){
                 if(passwordCheck(usernameData, passwordData)){
-                    System.out.println("Logging in USER " + usernameData + " with password " + passwordData);
                     new HumanPlayer(usernameData);
                     return true;
                 }
@@ -332,7 +345,6 @@ public class DBManager {
                 }
             }
             else{
-                System.out.println("username not in database");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Username does not exist");
                 alert.setHeaderText("This username is not in the database");
@@ -341,11 +353,16 @@ public class DBManager {
             }
         }
         catch(Exception e){
-            System.out.println("Error at login");
             return false;
         }
     }
 
+    /**
+     * Checks if the entered username already exists in the database
+     * @param usernameData
+     * Name that the user has entered
+     * @return
+     */
     public Boolean userExists(String usernameData){
         Boolean flag=false;
         String checkString = "SELECT EXISTS (SELECT 1 FROM human_players WHERE username = ?)";
@@ -362,6 +379,15 @@ public class DBManager {
         return flag;
     }
 
+
+    /**
+     * Returns true if the password given is matching the password of the given username.
+     * If not it will show an alert saying that the password is wrong.
+     * @param usernameData
+     * Name that the user has entered
+     * @param passwordData
+     * Password that the user has entered
+     */
     public Boolean passwordCheck(String usernameData,String passwordData){
         Boolean flag=false;
         String checkString = "SELECT password FROM human_players WHERE username = ?";
@@ -373,7 +399,6 @@ public class DBManager {
                         flag= true;
                     }
                     else{
-                        System.out.println("Password incorrect");
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Wrong Password");
                         alert.setHeaderText("The password is incorrect");
@@ -388,12 +413,16 @@ public class DBManager {
         return flag;
     }
 
+    /**
+     * Will first clear the current leaderboard and then fill it with fresh data.
+     * It will create a row with name,gamesPlayed,wins,losses,averageMoves,averageTime for each user
+     *
+     */
     public void fillLeaderboard(){
-        System.out.println("called");
         String tempName="Empty";
         String name="Empty";
         int gamesPlayed=8;
-        int wins=4;
+        int wins=0;
         int losses=0;
         double averageMoves=0;
         double averageTime=0;
@@ -422,7 +451,7 @@ public class DBManager {
                 throw new RuntimeException(e);
             }
 
-           // Average Moves:
+           // Average Moves/ Time:
 
             String checkString2 = "SELECT COUNT(moveid),SUM(EXTRACT(EPOCH FROM move_end_time) - EXTRACT(EPOCH FROM move_start_time)) AS totalSeconds FROM moves WHERE was_ai = ? AND sessionid IN (SELECT sessionid FROM sessions WHERE player_username=? )";
             try (PreparedStatement ps1 = connection.prepareStatement(checkString2)) {

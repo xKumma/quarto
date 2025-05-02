@@ -15,8 +15,6 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
 
     public LoginScreenPresenter(MVPModel model, LoginScreenView view) {
         super(view, model);
-        //updateView();
-        //addEventHandlers();
 
         if  (!DBManager.getInstance().isConnected()) {
             view.getPasswordField().setDisable(true);
@@ -25,54 +23,32 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
         }
     }
 
-
+    /**
+     * Calls login and register methods from DBManager when the user is trying to access the game
+     */
     protected void addEventHandlers() {
         view.getLoginButton().setOnAction(event -> {
-            // Does not do anything if TextFields are empty
             if(!contentChecker()){return;}
             if (DBManager.getInstance().isConnected()) {
-                System.out.println("Connected to DB");
                 if(!DBManager.getInstance().loginUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
 }           else {
                 new HumanPlayer(view.getNameField().getText());
             }
-
-            /*MainScreenView msView = new MainScreenView();
-            MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
-            view.getScene().setRoot(msView);
-            try {
-                msView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-            } catch (MalformedURLException ex) {}
-            msView.getScene().getWindow().sizeToScene();
-            msView.getScene().getWindow().setX(uiSettings.getResX()/20);
-            msView.getScene().getWindow().setY(uiSettings.getResY()/20);
-            msView.getScene().getWindow().setHeight(9 * uiSettings.getResY()/10);
-            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);*/
             Router.getInstance().goTo(Screen.MAIN_MENU);
 
         });
 
         view.getRegisterButton().setOnAction(event -> {
-            // Does not do anything if TextFields are empty
            if(!contentChecker()){return;}
-           //Does not do anything if register fails
             if(!DBManager.getInstance().registerUser(view.getNameField().getText(),view.getPasswordField().getText())){return;}
-            //Loads Main Screen
-            /*MainScreenView msView = new MainScreenView();
-            MainScreenPresenter msPresenter = new MainScreenPresenter(msView, model);
-            view.getScene().setRoot(msView);
-            try {
-                msView.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-            } catch (MalformedURLException ex) {}
-            msView.getScene().getWindow().sizeToScene();
-            msView.getScene().getWindow().setX(uiSettings.getResX()/20);
-            msView.getScene().getWindow().setY(uiSettings.getResY()/20);
-            msView.getScene().getWindow().setHeight(9 * uiSettings.getResY()/10);
-            msView.getScene().getWindow().setWidth(9 * uiSettings.getResX()/10);*/
             Router.getInstance().goTo(Screen.MAIN_MENU);
         });
     }
 
+    /**
+     * Checks if Name and Password field are filled in, if not it will throw an error alert
+     * @return
+     */
     private Boolean contentChecker(){
         if (view.getNameField().getText().trim().isEmpty()||
                 (DBManager.getInstance().isConnected()) && view.getPasswordField().getText().trim().isEmpty()) {
@@ -90,7 +66,6 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
 
     protected void updateView() {
         if (view.getScene() == null) {
-         //   System.out.println("Scene is null, delaying updateView...");
             Platform.runLater(this::updateView);
             return;
         }

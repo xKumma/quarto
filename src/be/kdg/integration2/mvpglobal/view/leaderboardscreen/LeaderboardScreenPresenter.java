@@ -8,9 +8,14 @@ import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
 public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenView, BaseModel> {
 
+    /**
+     * When the leaderboard screen is opened, the table will be filled with data from the DB
+     * @param view
+     * @param model
+     */
     public LeaderboardScreenPresenter(LeaderboardScreenView view, BaseModel model) {
         super(view, model);
-     //   DBManager.fillLeaderboard();
+        DBManager.getInstance().fillLeaderboard();
     }
 
     protected void addEventHandlers() {
@@ -18,28 +23,6 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
         view.getMainButton().setOnAction(Event -> {
             Router.getInstance().goTo(Screen.MAIN_MENU);
         });
-/*
-        view.getAscMI().setOnAction(event -> {
-            DBManager.fillLeaderboard();
-        });
 
-        view.getDescMI().setOnAction(event -> {
-            DBManager.fillLeaderboard();
-        });
-
-        view.getWinsMI().setOnAction(event -> {
-            DBManager.fillLeaderboard();
-        });
-
-        view.getLossMI().setOnAction(event -> {
-            DBManager.fillLeaderboard();
-        });
-
-        view.getAvgTMI().setOnAction(event -> {
-            DBManager.fillLeaderboard();
-        });
-
-
- */
     }
 }

@@ -45,6 +45,11 @@ public class LeaderboardScreenView extends BaseView {
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<LeaderboardData,Integer> rankColumn = new TableColumn<>("Rank");
         rankColumn.setCellFactory(col -> new TableCell<LeaderboardData, Integer>() {
+            /**
+             * Makes sure that the entries have a continues rank in the first column no matter the order
+             * @param item
+             * @param empty
+             */
             @Override
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
