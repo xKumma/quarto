@@ -2,10 +2,12 @@ package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.model.Statistics;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 public class TabletView extends BaseView {
 
@@ -14,6 +16,7 @@ public class TabletView extends BaseView {
     TableColumn score;
     TableColumn time ;
     Button menuButton;
+    Button backButton;
 
 
 
@@ -27,6 +30,7 @@ public class TabletView extends BaseView {
         table= new TableView<Statistics>();
         name = new TableColumn<Statistics , String>("Name");
         menuButton = new Button("Menu");
+        backButton = new Button("Back");
 
         score = new TableColumn<Statistics , Double>("score");
         time = new TableColumn<Statistics , Double >("time");
@@ -41,7 +45,14 @@ public class TabletView extends BaseView {
 
     @Override
     protected void layoutNodes() {
-        setBottom(menuButton);
+        HBox buttons = new HBox(backButton, menuButton);
+        buttons.setSpacing(15);
+        buttons.setPadding(new Insets(15));
+        setBottom(buttons);
+    }
+
+    public Button getBackButton() {
+        return backButton;
     }
 
     public Button getMenuButton() {

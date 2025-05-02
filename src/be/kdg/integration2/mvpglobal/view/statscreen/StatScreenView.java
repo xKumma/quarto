@@ -5,6 +5,7 @@ import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -12,6 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,7 +26,8 @@ import static be.kdg.integration2.mvpglobal.view.statscreen.StatScreenPresenter.
 
 
 public class StatScreenView extends BaseView {
-private Button menuButton;
+    private Button menuButton;
+    private Button backButton;
     private LineChart<Number, String> lineChart;
     private Rectangle rectangle1, rectangle2, rectangle3, rectangle4;
     private Pane chartContainer;
@@ -38,6 +41,7 @@ private Button menuButton;
     @Override
     protected void initialiseNodes() {
         menuButton = new Button("Menu");
+        backButton = new Button("Back");
         lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
         lineChart.setAnimated(false);
         lineChart.setMinSize(0, 0);
@@ -71,7 +75,11 @@ private Button menuButton;
         chartContainer.getChildren().addAll(rectangle1, rectangle2, rectangle3, rectangle4);
 
         setCenter(stack);
-        setBottom(menuButton);
+
+        HBox buttons = new HBox(backButton, menuButton);
+        buttons.setSpacing(15);
+        buttons.setPadding(new Insets(15));
+        setBottom(buttons);
 
         // Keep rectangles in sync with chart size
         lineChart.widthProperty().addListener((obs, o, n) -> updateAllRectangles());
@@ -168,6 +176,14 @@ private Button menuButton;
                 }
             }
         });
+    }
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
+    public void setBackButton(Button backButton) {
+        this.backButton = backButton;
     }
 
     public LineChart<Number, String> getLineChart() {

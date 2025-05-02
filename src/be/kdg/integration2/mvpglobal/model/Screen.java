@@ -3,6 +3,8 @@ package be.kdg.integration2.mvpglobal.model;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import be.kdg.integration2.mvpglobal.view.endscreen.EndScreenPresenter;
+import be.kdg.integration2.mvpglobal.view.endscreen.EndScreenView;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.gamescreen.GameScreenView;
 import be.kdg.integration2.mvpglobal.view.gamesetupscreen.GameSetupPresenter;
@@ -35,10 +37,11 @@ public enum Screen {
     GAME_SETUP(() -> new GameSetupPresenter(new GameSetupView(), new GameSetup())),
     MAIN_MENU(() -> new MainMenuPresenter(new MainMenuView(), null)),
     LEADERBOARD(() -> new LeaderboardScreenPresenter(new LeaderboardScreenView(), null)),
-    END_SCREEN(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
+    END_SCREEN(() -> new EndScreenPresenter(new EndScreenView(), null)),
     RULES(() -> new RulesPresenter(new RulesView(), null)),
     LOGIN(() -> new LoginScreenPresenter(null, new LoginScreenView())),
     TABLE(() -> new TablePresenter(null, new TabletView())),
+    GRAPH(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
     ABOUT(() -> new AboutScreenPresenter(null, new AboutScreenView())),
     START(() ->new StartScreenPresenter(new StartScreenView() , null )),
     SETTINGS(() -> new SettingsPresenter(null, new SettingsView()));

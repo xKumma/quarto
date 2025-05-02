@@ -41,11 +41,17 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
 
 
     protected void addEventHandlers() {
+
         view.getMenuButton().setOnAction(e -> goToMenu());
+        view.getBackButton().setOnAction(e -> goToWin());
     }
 
     private void goToMenu() {
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
+    }
+
+    private void goToWin() {
+        Router.getInstance().goTo(Screen.END_SCREEN, null);
     }
 
 

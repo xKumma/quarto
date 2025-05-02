@@ -9,6 +9,10 @@
 }
 /*Fonts dont work on my end, not sure if its just local*/
 
+.label {
+    -fx-font-size: 24px;
+}
+
 .header {
     -fx-padding: 48px;
     -fx-font-size: 64px;
