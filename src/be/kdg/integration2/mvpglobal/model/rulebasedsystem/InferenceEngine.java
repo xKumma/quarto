@@ -1,7 +1,9 @@
 package be.kdg.integration2.mvpglobal.model.rulebasedsystem;
 
 import be.kdg.integration2.mvpglobal.model.Board;
+import be.kdg.integration2.mvpglobal.model.GameSession;
 import be.kdg.integration2.mvpglobal.model.Move;
+import be.kdg.integration2.mvpglobal.model.TurnPhase;
 import be.kdg.integration2.mvpglobal.model.rulebasedsystem.facts.FactValues;
 import be.kdg.integration2.mvpglobal.model.rulebasedsystem.facts.FactsHandler;
 import be.kdg.integration2.mvpglobal.model.rulebasedsystem.rules.RulesHandler;
@@ -15,34 +17,34 @@ public class InferenceEngine {
         currentRules = new RulesHandler();
         ruleFired = false;
     }
-    public void determineFacts (Board board) {
+    public void determineFacts (GameSession session) {
+        Board board = session.getBoard();
         currentFacts.resetFacts();
         currentFacts.setFactsEvolved(false);
         // Determine which FactValues are currently present on the given board
-        if (board.endMoveAIPossible()) {
-            currentFacts.addFact(FactValues.ENDMOVEAI);
+        if (session.getTurnPhase() == TurnPhase.PLACING ) {
+            currentFacts.addFact(FactValues.AIPLACING);
+            if (board.endWinningPositionPossible(session.getSelectedPiece())) {
+                currentFacts.addFact(FactValues.WINNINGPOSITIONAI);
+            }
+            if (board.centerPositionPossible()) {
+                currentFacts.addFact(FactValues.CENTERAVAILABLE);
+            }
         }
-        if (board.endMovePlayerPossible()) {
-            currentFacts.addFact(FactValues.ENDMOVEPLAYER);
+        else {
+            currentFacts.addFact(FactValues.AIPICKING);
+            board.setPieceScores(session.getUnusedPieces());
         }
-        if (board.otherFactPossible()) {
-            currentFacts.addFact(FactValues.OTHERFACT);
+
+        if (session.getMoves().size() < 4) {
+            currentFacts.addFact(FactValues.EARLYGAME);
         }
-        if (board.endWinningPositionAIPossible()) {
-            currentFacts.addFact(FactValues.WINNINGPOSITIONAI);
-        }
-        if (board.endWinningPositionPlayerPossible()) {
-            currentFacts.addFact(FactValues.WINNINGPOSITIONPLAYER);
-        }
-        // Test code - examples - to be removed :
-        currentFacts.addFact(FactValues.WINNINGPOSITIONAI);
-        currentFacts.addFact(FactValues.OTHERFACT);
     }
 
     /**
      *   rules are ordered - stops when a rule has been fired and starts re-evaluating the rules when the facts have been changed.
      */
-    public void applyRules (Board board, Move move) {
+    public void applyRules (GameSession session, Move move) {
         if (currentFacts.factsObserved()) {
             ruleFired = false;
             int i;
@@ -51,17 +53,16 @@ public class InferenceEngine {
                 i = 0;
                 while (i < currentRules.numberOfRules() && !ruleFired && !currentFacts.factsChanged()) {
                     if (currentRules.checkConditionRule(i, currentFacts)) {
-                        ruleFired = currentRules.fireActionRule(i, currentFacts, board, move);
+                        ruleFired = currentRules.fireActionRule(i, currentFacts, session.getBoard(), move);
                     }
                     i++;
                 }
             } while (i < currentRules.numberOfRules() && !ruleFired);
             if (!ruleFired) {
-                System.out.println("No rules were fired!!"); // Test code - to be removed!
-                board.determineRandomMove(move);
+                if (currentFacts.factsChanged()) applyRules(session, move);
             }
         } else {
-            board.determineRandomMove(move);
+            session.getBoard().determineRandomMove(move);
         }
     }
 

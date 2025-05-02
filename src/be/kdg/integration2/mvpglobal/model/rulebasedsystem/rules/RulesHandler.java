@@ -12,23 +12,30 @@ public class RulesHandler {
     private List<Rule> rules = new ArrayList<>();
 
     /**
-     * Order of the rules:
-     * 1. if the AI can end the game
-     *    -> the AI makes this move
-     * 2. if the player can end the game in his/her next move
-     *    -> the AI blocks -if possible- that potential move
-     * 3. if the AI can make a move to obtain a winning position
-     *    -> the AI makes this move
-     * 4. if the player could obtain in his/her next move a winning position
-     *    -> the AI blocks that potential move
-     * 5. the AI makes a good move -eg tries to create potential winning position(s)-
+     * Order of the rules:<br>
+     * PLACING:<br>
+     * 1. if the AI can win
+     *    -> the AI makes this move<br>
+     * 2. if the AI can place a piece in the center
+     *    -> the AI makes this move<br>
+     * 3. if none of the above
+     *    -> the AI makes a random move<br>
+     * <br>
+     * PICKING:<br>
+     * 4. if the player would win with the selected piece
+     *   -> the AI tries to pick a different piece<br>
+     * 5. if the game is in the early stages
+     *   -> the AI tries to pick a risky piece with a high score<br>
+     * 6. if none of the above
+     *  -> the AI picks a safe piece<br>
      */
     public RulesHandler (){
-        rules.add (0, new RuleEndMoveAI());
-        rules.add (1, new RuleBlockEndMovePlayer());
-        rules.add (2, new RuleWinningPositionAI());
-        rules.add (3, new RuleBlockWinningPositionPlayer());
-        rules.add (4, new RuleGoodMove());
+        rules.add (0, new RuleWinningPositionAI());
+        rules.add (1, new RuleCenterPlacementAI());
+        rules.add (2, new RulePlacementAI());
+        rules.add (3, new RulePreventPlayerWin());
+        rules.add (4, new RuleEarlyEndMoveAI());
+        rules.add (5, new RuleEndMoveAI());
     }
     public boolean checkConditionRule (int index, FactsHandler facts) {
         return rules.get(index).conditionRule(facts);
