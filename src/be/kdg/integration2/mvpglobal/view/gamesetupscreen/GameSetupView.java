@@ -2,6 +2,7 @@ package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -72,13 +73,17 @@ public class GameSetupView extends BaseView {
 
         HBox loadButtons = new HBox(loadFileBtn, loadDbBtn);
         loadButtons.setAlignment(Pos.CENTER);
-        loadButtons.setSpacing(10);
+        loadButtons.setSpacing(15);
+        loadButtons.setPadding(new Insets(15));
 
         VBox startingPlayerOptions = new VBox(new Label("Starting Player"));
         startingPlayerOptions.getChildren().addAll(startingPlayerButtons);
+        startingPlayerOptions.setSpacing(15);
+        //startingPlayerOptions.setPadding(new Insets(15));
 
         VBox difficultyOptions = new VBox(new Label("Difficulty"));
         difficultyOptions.getChildren().addAll(difficultyButtons);
+        difficultyOptions.setSpacing(15);
 
         HBox setupOptions = new HBox(startingPlayerOptions, difficultyOptions);
         setupOptions.setSpacing(32);
@@ -93,7 +98,8 @@ public class GameSetupView extends BaseView {
         HBox bottomContainer = new HBox(startBtn,menuBtn);
         bottomContainer.getStyleClass().add("container");
         bottomContainer.setAlignment(Pos.CENTER);
-        bottomContainer.setSpacing(10);
+        bottomContainer.setSpacing(15);
+        bottomContainer.setPadding(new Insets(15));
 
         setBottom(bottomContainer);
     }

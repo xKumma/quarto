@@ -26,10 +26,13 @@ public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
         view.getLeaderboardButton().setOnAction(e ->  goToLeaderboard());
         view.getRulesButton().setOnAction(e -> goToRules());
         view.getStartGameButton().setOnAction(e -> goToGameSetup());
+        /* --- buttons for testing ---
         view.getTableButton().setOnAction(e -> goToTable());
         view.getStatisticsButton().setOnAction(e -> goToStatistics());
         view.getAboutButton().setOnAction(e -> goToAbout());
         view.getSettingsButton().setOnAction(e -> goToSettings());
+
+         */
 
     }
 

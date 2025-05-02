@@ -35,6 +35,8 @@ public final class RuleChecker {
         Piece[] fourInARow = new Piece[4];
         boolean fourInARowFound;
 
+        //System.out.println("checking if four in a row\n");
+
         // Diagonal 1
         fourInARowFound = true;
         for (int i = 0; i < 4; i++) {

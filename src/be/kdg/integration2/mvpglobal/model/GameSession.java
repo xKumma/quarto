@@ -96,7 +96,7 @@ public class GameSession implements BaseModel {
         board.movePiece(move);
         unusedPieces.remove(move.getPiece());
         if (RuleChecker.fourInARow( board)) {
-            System.out.println("Four in a row");
+            //System.out.println("Four in a row");
             endGame();
         }else{
         if (unusedPieces.isEmpty())

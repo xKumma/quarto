@@ -13,15 +13,18 @@ import javafx.scene.shape.Rectangle;
 
 public class MainMenuView extends BaseView {
 
+    private Header header;
     private Button startGameButton;
     private Button rulesButton;
     private Button leaderboardButton;
     private Button quitButton;
+    /* --- buttons for testing ---
     private Button statisticsButton;
     private Button tableButton;
-    private Header header;
     private Button aboutButton;
     private Button settingsButton;
+    */
+
     //add aboutscreen and settings screen
 
     public MainMenuView() {
@@ -29,16 +32,17 @@ public class MainMenuView extends BaseView {
     }
 
     protected void initialiseNodes() {
+        header = new Header();
         startGameButton = new Button("Start Game");
         rulesButton = new Button("Rules");
         leaderboardButton = new Button("Leaderboard");
         quitButton = new Button("Quit");
+        /* --- buttons for testing ---
         statisticsButton = new Button("Statistics (temp)");
         tableButton = new Button("Table (temp)");
-        header = new Header();
         aboutButton = new Button("About (temp)");
         settingsButton = new Button("Settings (temp)");
-
+        */
     }
 
     protected void layoutNodes() {
@@ -47,11 +51,12 @@ public class MainMenuView extends BaseView {
         rulesButton.setPrefSize(110, 20);
         leaderboardButton.setPrefSize(110, 20);
         quitButton.setPrefSize(110, 20);
+        /* --- buttons for testing ---
         statisticsButton.setPrefSize(110, 20);
         tableButton.setPrefSize(110, 20);
         aboutButton.setPrefSize(110, 20);
         settingsButton.setPrefSize(110, 20);
-
+        */
 
 
         //rectangle
@@ -62,7 +67,7 @@ public class MainMenuView extends BaseView {
         rectangle.setRotate(45);
 
         //buttons vbox
-        VBox buttons = new VBox(header,new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton, statisticsButton, tableButton, aboutButton, settingsButton);
+        VBox buttons = new VBox(header,new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton);
         buttons.setSpacing(4);
         buttons.setAlignment(Pos.CENTER);
         buttons.setMaxWidth(400);
@@ -83,7 +88,7 @@ public class MainMenuView extends BaseView {
     Header getHeader() {
         return header;
     }
-
+    /* --- buttons for testing ---
     public Button getSettingsButton() {
         return settingsButton;
     }
@@ -99,7 +104,7 @@ public class MainMenuView extends BaseView {
     Button getStatisticsButton() {
         return statisticsButton;
     }
-
+    */
     Button getQuitButton() {
         return quitButton;
     }
