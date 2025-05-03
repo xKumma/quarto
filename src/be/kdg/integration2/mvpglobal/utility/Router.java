@@ -1,10 +1,7 @@
 package be.kdg.integration2.mvpglobal.utility;
 
-import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.UISettings;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenPresenter;
-import be.kdg.integration2.mvpglobal.view.mainscreen.MainScreenView;
 import javafx.stage.Stage;
 
 public class Router {
@@ -30,6 +27,8 @@ public class Router {
     public void goTo(Screen screenType, Object data){
         var presenter = screenType.createPresenter();
         UISettings uiSettings = UISettings.getInstance();
+        primaryStage.setOnCloseRequest(null);
+
         presenter.init(data);
         if(screenType == Screen.GAME) {
             primaryStage.setMinHeight(560);
@@ -47,8 +46,7 @@ public class Router {
         primaryStage.getScene().setRoot(presenter.getView());
     }
 
-    public void mainScreen() {
-        MainScreenPresenter presenter = new MainScreenPresenter(new MainScreenView(), new MVPModel());
-        primaryStage.getScene().setRoot(presenter.getView());
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

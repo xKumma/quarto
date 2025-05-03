@@ -53,7 +53,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
         ));
         if(!model.isActive()){
-            System.out.println("WIN");
+            SaveManager.saveToDB(model.getSessionData());
             gowin();
         }
     }

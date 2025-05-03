@@ -3,7 +3,6 @@ package be.kdg.integration2.mvpglobal.model;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.pieces.*;
-import be.kdg.integration2.mvpglobal.utility.Router;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,9 +148,6 @@ public class GameSession implements BaseModel {
 
         currentMove.setEndTime(System.currentTimeMillis());
         moves.add(currentMove);
-
-        if (RuleChecker.fourInARow(board)) Router.getInstance().goTo(Screen.END_SCREEN, null);
-        currentMove = new Move();
     }
 
     /**
@@ -221,6 +217,7 @@ public class GameSession implements BaseModel {
      * such as when all pieces have been used or a win condition is met.
      */
     private void endGame() {
+        endMove();
         active = false;
     }
 

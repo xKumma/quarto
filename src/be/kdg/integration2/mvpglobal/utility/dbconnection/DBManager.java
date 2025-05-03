@@ -29,7 +29,6 @@ public class DBManager {
     private int currentSessionID = -1;
 
     private Connection connection;
-    private Statement statement;
 
     private DBManager() {
         setupDatabase();
@@ -45,7 +44,7 @@ public class DBManager {
     private void setupDatabase() {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
 
             // Check if there are any tables in the database
             DatabaseMetaData meta = connection.getMetaData();
@@ -54,27 +53,22 @@ public class DBManager {
             boolean hasTables = tables.next(); // true if there's at least one table
 
             if (!hasTables) {
-                System.out.println("No tables found. Initializing database schema...");
-
                 // Load and execute the DDL.sql file
                 System.out.println(DDL_PATH.toAbsolutePath().toString());
                 String ddlSql = Files.readString(DDL_PATH);
                 for (String sql : ddlSql.split(";")) {
                     sql = sql.trim();
                     if (!sql.isEmpty()) {
-                        statement.execute(sql);
+                        if (statement != null) {
+                            statement.execute(sql);
+                        }
                     }
                 }
-
-                System.out.println("Database initialized successfully.");
-            } else {
-                System.out.println("Database already contains tables. Skipping initialization.");
             }
-
             tables.close();
         }
         catch (SQLException | IOException e) {
-            e.printStackTrace();
+            System.err.println("Error setting up database: " + e.getMessage());
         }
     }
 
@@ -138,15 +132,17 @@ public class DBManager {
         ps.close();
     }
 
-    public void insertNewSession(String currentPlayer, int difficulty) throws SQLException {
-        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, NULL)";
+    public void insertNewSession(String currentPlayer, int difficulty, boolean playerWon) throws SQLException {
+        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
-        System.out.println(currentPlayer);
+
         ps.setString(1, currentPlayer);
 
         String botPlayer = getBotNameFromDifficulty(difficulty);
-
         ps.setString(2, botPlayer);
+
+        ps.setBoolean(3, playerWon);
+
         ps.executeUpdate();
 
         ResultSet rs = ps.getGeneratedKeys();

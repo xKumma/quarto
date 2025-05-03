@@ -17,20 +17,17 @@ public class GameSessionData implements Serializable {
     private Piece lastSelectedPiece;
 
     // Loaded from a file
-    public GameSessionData(String playerName, String botDifficulty, List<Move> moveHistory, String lastSelectedPiece) {
+    public GameSessionData(String playerName,
+                           String botDifficulty,
+                           List<Move> moveHistory,
+                           String lastSelectedPiece,
+                           int startingPlayer) {
         this.playerName = playerName;
         this.moveHistory = moveHistory;
         this.board = null;
         this.botDifficulty = BotDifficulty.valueOf(botDifficulty.toUpperCase());
         this.lastSelectedPiece = new Piece(lastSelectedPiece);
-    }
-
-    // Loaded from DB
-    public GameSessionData(String playerName, String botDifficulty, String[][] board) {
-        this.playerName = playerName;
-        this.botDifficulty = BotDifficulty.valueOf(botDifficulty.toUpperCase());
-        this.moveHistory = null;
-        this.board = new Board(board);
+        this.startingPlayer = startingPlayer;
     }
 
     // PreGame

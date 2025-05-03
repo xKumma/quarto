@@ -13,7 +13,7 @@ public class ComputerPlayer extends Player{
 
     public Move getMove (GameSession gameSession){
         InferenceEngine engine = new InferenceEngine();
-        Move move = gameSession.getCurrentMove();
+        Move move = new Move("bot", gameSession.getSelectedPiece());
         engine.determineFacts(gameSession);
         engine.applyRules(gameSession, move);
 

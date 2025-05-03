@@ -39,10 +39,17 @@ public class SaveManager {
         }
     }
 
+    /**
+     * Saves the provided GameSessionData object to a database.<br>
+     * The method inserts a new session and its associated moves into the database.
+     *
+     * @param gameSessionData The GameSessionData object to be saved. This object
+     *                        contains all the necessary information about the game session.
+     */
     public static void saveToDB(GameSessionData gameSessionData) {
         try {
             DBManager.getInstance().insertNewSession(
-                    gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal());
+                    gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal(), !gameSessionData.getMoveHistory().getLast().getPlayer().equals("bot"));
 
             for (Move move : gameSessionData.getMoveHistory()) {
                 DBManager.getInstance().insertNewMove(
@@ -54,10 +61,8 @@ public class SaveManager {
                         move.getEndTime()
                 );
             }
-
-            System.out.println("Game session saved to database successfully.");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error saving to DB");;
         }
     }
 
@@ -80,14 +85,16 @@ public class SaveManager {
             String movesRaw = extractArray(json, "moveHistory");
 
             Pattern movePattern = Pattern.compile(
-                    "\\{\\s*\"player\":(?:\"([^\"]+)\"|null),\\s*\"x\":(\\d+),\\s*\"y\":(\\d+),\\s*\"pieceSlug\":([a-z_]+#[a-z]+),\\s*\"startTime\":(\\d+),\\s*\"endTime\":(\\d+)\\s*}"
+                    "\\{\\s*\"player\":(\\w+|null),\\s*\"x\":(\\d+),\\s*\"y\":(\\d+),\\s*\"pieceSlug\":([a-z_]+#[a-z]+),\\s*\"startTime\":(\\d+),\\s*\"endTime\":(\\d+)\\s*}"
             );
 
 
             Matcher matcher = movePattern.matcher(movesRaw);
 
+            int startingPlayer = 0;
             while (matcher.find()) {
                 String player = matcher.group(1);
+                startingPlayer = player.equals("bot") ? 1 : 2;
                 int x = Integer.parseInt(matcher.group(2));
                 int y = Integer.parseInt(matcher.group(3));
                 String slug = matcher.group(4);
@@ -98,7 +105,7 @@ public class SaveManager {
                 moveHistory.add(move);
             }
 
-            return new GameSessionData(playerName, botDifficulty, moveHistory, lastSelectedPiece);
+            return new GameSessionData(playerName, botDifficulty, moveHistory, lastSelectedPiece, startingPlayer);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

@@ -22,7 +22,6 @@ public class GameSetupView extends BaseView {
 
     private Button startBtn;
     private Button loadFileBtn;
-    private Button loadDbBtn;
     private Button menuBtn;
 
     public GameSetupView() {
@@ -39,7 +38,6 @@ public class GameSetupView extends BaseView {
                 )
         );
         ToggleGroup playerGroup;
-        ToggleGroup difficultyGroup;
 
         playerGroup = new ToggleGroup();
         for (ToggleButton button : startingPlayerButtons) {
@@ -47,23 +45,8 @@ public class GameSetupView extends BaseView {
         }
         playerGroup.selectToggle(startingPlayerButtons.getFirst());
 
-        difficultyButtons = new ArrayList<>(
-                Arrays.asList(
-                    new ToggleButton("Easy"),
-                    new ToggleButton("Medium"),
-                    new ToggleButton("Hard")
-                )
-        );
-
-        difficultyGroup = new ToggleGroup();
-        for (ToggleButton button : difficultyButtons) {
-            button.setToggleGroup(difficultyGroup);
-        }
-        difficultyGroup.selectToggle(difficultyButtons.getFirst());
-
         startBtn = new Button("Start");
         loadFileBtn = new Button("Load from file");
-        loadDbBtn = new Button("Load last from Database");
         menuBtn = new Button("Menu");
     }
 
@@ -71,7 +54,7 @@ public class GameSetupView extends BaseView {
     protected void layoutNodes() {
         setTop(new Header());
 
-        HBox loadButtons = new HBox(loadFileBtn, loadDbBtn);
+        HBox loadButtons = new HBox(loadFileBtn);
         loadButtons.setAlignment(Pos.CENTER);
         loadButtons.setSpacing(15);
         loadButtons.setPadding(new Insets(15));
@@ -79,13 +62,8 @@ public class GameSetupView extends BaseView {
         VBox startingPlayerOptions = new VBox(new Label("Starting Player"));
         startingPlayerOptions.getChildren().addAll(startingPlayerButtons);
         startingPlayerOptions.setSpacing(15);
-        //startingPlayerOptions.setPadding(new Insets(15));
 
-        VBox difficultyOptions = new VBox(new Label("Difficulty"));
-        difficultyOptions.getChildren().addAll(difficultyButtons);
-        difficultyOptions.setSpacing(15);
-
-        HBox setupOptions = new HBox(startingPlayerOptions, difficultyOptions);
+        HBox setupOptions = new HBox(startingPlayerOptions);
         setupOptions.setSpacing(32);
         setupOptions.setAlignment(Pos.CENTER);
         setupOptions.getStyleClass().addAll("setup-options");
@@ -105,10 +83,6 @@ public class GameSetupView extends BaseView {
     }
 
     //region Getters
-    List<ToggleButton> getDifficultyButtons() {
-        return difficultyButtons;
-    }
-
     List<ToggleButton> getStartingPlayerButtons() {
         return startingPlayerButtons;
     }
@@ -119,10 +93,6 @@ public class GameSetupView extends BaseView {
 
     Button getLoadFileBtn() {
         return loadFileBtn;
-    }
-
-    Button getLoadDbBtn() {
-        return loadDbBtn;
     }
 
     Button getMenuBtn() {

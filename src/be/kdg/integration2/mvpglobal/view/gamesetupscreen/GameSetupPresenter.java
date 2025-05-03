@@ -1,6 +1,5 @@
 package be.kdg.integration2.mvpglobal.view.gamesetupscreen;
 
-import be.kdg.integration2.mvpglobal.model.BotDifficulty;
 import be.kdg.integration2.mvpglobal.model.GameSetup;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
@@ -32,18 +31,10 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
             });
         }
 
-        List<ToggleButton> difficultyButtons = view.getDifficultyButtons();
-        for (int i = 0; i < difficultyButtons.size(); i++) {
-            BotDifficulty difficulty = BotDifficulty.values()[i];
-            difficultyButtons.get(i).setOnAction(e -> {
-                model.setDifficulty(difficulty);
-            });
-        }
 
         view.getStartBtn().setOnAction(e -> startGame());
         view.getMenuBtn().setOnAction(e ->  goToMenu());
         view.getLoadFileBtn().setOnAction(e -> loadFromFile());
-        view.getLoadDbBtn().setOnAction(e -> loadFromDB());
     }
 
     /**
@@ -62,7 +53,7 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
 
         if (selectedFile != null) return selectedFile;
 
-        System.out.println("No file selected.");
+        System.err.println("File selection was cancelled or no file was selected.");
         return null;
     }
 /**
@@ -78,9 +69,6 @@ public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> 
 
         GameSessionData sessionData = SaveManager.loadFromFile(file);
         Router.getInstance().goTo(Screen.GAME, sessionData);
-    }
-
-    private void loadFromDB() {
     }
 
     private void goToMenu() {
