@@ -3,23 +3,28 @@ package be.kdg.integration2.mvpglobal.view.gamescreen;
 import be.kdg.integration2.mvpglobal.model.*;
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
-import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.RoundUpdateData;
 import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.utility.SaveManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.PieceButton;
-import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSession> {
 
-    private AnimationTimer timer;
+    private GameTimer gameTimer;
 
     public GameScreenPresenter(BaseView view, BaseModel model) {
         super((GameScreenView)  view,(GameSession)  model);
@@ -30,14 +35,24 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         super.init(data);
         setUpBoard(model.getBoard().getPieces(), model.getUnusedPieces());
 
-        startTurn();
+        Router.getInstance().getPrimaryStage().setOnCloseRequest(event -> {
+            event.consume(); // cancel default close
 
+            boolean confirmed = confirmSaveBeforeExit();
+            if (confirmed) {
+                Platform.exit();
+            }
+        });
+
+
+        gameTimer = new GameTimer(timeData -> view.update(timeData));
+
+        startTurn();
     }
 
     @Override
     public void updateView() {
         super.updateView();
-
     }
 
     /**
@@ -66,9 +81,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         for (Node pieceBtn : view.getUnusedPieces().getChildren()) {
             if (pieceBtn instanceof PieceButton) {
                 pieceBtn.setOnMouseClicked(e -> {
-                    if (!model.isPlayersTurn() || !model.isActive()) {
-
-                        return;}
+                    if (!model.isPlayersTurn() || !model.isActive()) return;
                     if (model.getTurnPhase() != TurnPhase.PICKING) return;
 
                     if (model.selectPiece(pieceBtn.toString())) {
@@ -98,6 +111,8 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     }
 
     private void goToMenu() {
+        boolean shouldContinue = confirmSaveBeforeExit();
+        if (!shouldContinue) return;
 
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
@@ -119,7 +134,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
             Piece piece = unusedPieces.get(i);
 
             // Calculate the x and y coordinates for the unused pieces GridPane.
-            // To use the same method as for the board, we make this calculations that are then reversed to get the actual position.
+            // To use the same method as for the board, we make this calculation that is then reversed to get the actual position.
             int x = -(i / 2) - 1;
             int y = -(i % 2) - 1;
 
@@ -146,7 +161,9 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
 
     public void updateTurn(){
-
+        RoundUpdateData updateData =
+                new RoundUpdateData(model.getCurrentMove().getPlayer(), model.getMoves().size()+1, "");
+        view.update(updateData);
     }
 /**
      * Starts a new turn in the game.<br>
@@ -159,6 +176,9 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         startTimer();
         model.startNewTurn();
         view.setChosenPiece(model.getCurrentMove().getPiece().toString());
+
+        updateTurn();
+
         if (model.isPlayersTurn()) return;
 
         botPlay();
@@ -200,28 +220,46 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
     }
 
-    /**
-    * TODO: Optimize, a lot
-    *  Move timer operations solely to View or a separate thread
-    */
     private void startTimer() {
-        long startTime = System.nanoTime();
-
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                long elapsedNano = now - startTime;
-                long turnTime = elapsedNano / 1_000_000;
-                long totalTime = model.getTotalElapsedTime() + turnTime;
-                view.update(new TimeUpdateData(totalTime, turnTime));
-            }
-        };
-        timer.start();
+        gameTimer.start();
     }
 
     private void stopTimer() {
-        if (timer != null) {
-            timer.stop();
+        gameTimer.pause();
+    }
+
+    private void resumeTimer() {
+        gameTimer.resume();
+    }
+
+
+    private boolean confirmSaveBeforeExit() {
+        stopTimer();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(Router.getInstance().getPrimaryStage());
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle("Exit Game");
+        alert.setHeaderText("Do you want to save the game before exiting?");
+        alert.setContentText("Choose an option:");
+
+        ButtonType saveAndExit = new ButtonType("Save and Exit");
+        ButtonType exitWithoutSaving = new ButtonType("Exit Without Saving");
+        ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(saveAndExit, exitWithoutSaving, cancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+        if (result.isEmpty() || result.get() == cancel) {
+            resumeTimer();
+            return false; // stay on screen
         }
+
+        if (result.get() == saveAndExit) {
+            SaveManager.saveToFile(model.getSessionData());
+        }
+
+        return true;
     }
 }
