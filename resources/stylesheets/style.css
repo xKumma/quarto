@@ -7,11 +7,7 @@
     font-family: "Source Sans Pro Bold";
     src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
 }
-/*Fonts dont work on my end, not sure if its just local*/
 
-.label {
-    -fx-font-size: 24px;
-}
 
 .header {
     -fx-padding: 48px;

@@ -9,6 +9,8 @@ public abstract class BaseView extends BorderPane {
     public BaseView() {
         uiSettings = UISettings.getInstance();
 
+        this.getStylesheets().add(uiSettings.getStyleSheetPath().toString());
+
         initialiseNodes();
         layoutNodes();
     }

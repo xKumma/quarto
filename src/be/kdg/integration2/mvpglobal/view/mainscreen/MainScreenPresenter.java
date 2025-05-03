@@ -264,7 +264,6 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
         view.getMenuMI().setOnAction(event -> {
             Router.getInstance().goTo(Screen.MAIN_MENU);
         });
-        view.getStylesheets().add("be/kdg/integration2/mvpglobal/view/base/style.css");
     }
 
     public void windowsHandler() {
