@@ -1,11 +1,16 @@
 package be.kdg.integration2.mvpglobal.view.components;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -38,6 +43,9 @@ public class PieceButton extends Button {
         updateImage();
     }
 
+    /**
+     * Updates the button's graphic with the piece image and applies a lighting effect.
+     */
     private void updateImage() {
         if (pieceImagePath == null || color == null || color.isEmpty() || pieceImagePath.isEmpty()) {
             setGraphic(null);
@@ -56,6 +64,38 @@ public class PieceButton extends Button {
         imageView.setEffect(lighting);
 
         setGraphic(imageView);
+    }
+
+    /**
+     * Plays a flash animation on the button's graphic.
+     * @param onFinished A callback to be executed after the animation finishes.
+     */
+    public void playFlashAnimation(Runnable onFinished) {
+        Node graphic = getGraphic();
+        if (graphic == null) return;
+
+        // Simple scale + fade combo
+        ScaleTransition scale = new ScaleTransition(Duration.millis(150), graphic);
+        scale.setToX(1.2);
+        scale.setToY(1.2);
+        scale.setAutoReverse(true);
+        scale.setCycleCount(8);
+
+        FadeTransition fade = new FadeTransition(Duration.millis(150), graphic);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.3);
+        fade.setAutoReverse(true);
+        fade.setCycleCount(8);
+
+        ParallelTransition flash = new ParallelTransition(scale, fade);
+        flash.setOnFinished(e -> {
+            graphic.setOpacity(1.0); // restore full opacity
+            graphic.setScaleX(1.0);  // restore original scale
+            graphic.setScaleY(1.0);
+            if (onFinished != null) onFinished.run();
+        });
+
+        flash.play();
     }
 
     @Override

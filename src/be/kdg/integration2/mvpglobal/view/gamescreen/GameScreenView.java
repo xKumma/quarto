@@ -1,6 +1,7 @@
 package be.kdg.integration2.mvpglobal.view.gamescreen;
 
 import be.kdg.integration2.mvpglobal.model.dataobjects.BoardUpdateData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.PositionData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.RoundUpdateData;
 import be.kdg.integration2.mvpglobal.model.dataobjects.TimeUpdateData;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
@@ -164,6 +165,17 @@ public class GameScreenView extends BaseView {
 
         if (x >= 0 && y >= 0) setBoardPiece(updateData.imageName(), updateData.color(), x, y);
         else setUnusedPiece(updateData.imageName(), updateData.color(), x, y);
+    }
+
+    public void highlightWinningMove(PositionData position, Runnable onFinished) {
+        for (Node node : board.getChildren()) {
+            Integer column = GridPane.getColumnIndex(node);
+            Integer row = GridPane.getRowIndex(node);
+
+            if (column != position.x() || row != position.y()) continue;
+
+            ((PieceButton) node).playFlashAnimation(onFinished);
+        }
     }
 
     /**

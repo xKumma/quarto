@@ -69,7 +69,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         ));
         if(!model.isActive()){
             SaveManager.saveToDB(model.getSessionData());
-            goToWon();
+            view.highlightWinningMove(model.getMoves().getLast().getPosition(),this::goToEndScreen);
         }
     }
 
@@ -116,8 +116,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
-    private void goToWon() {
-
+    private void goToEndScreen() {
         Router.getInstance().goTo(Screen.END_SCREEN, null);
     }
 
@@ -166,7 +165,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 new RoundUpdateData(model.getCurrentMove().getPlayer(), model.getMoves().size()+1, "");
         view.update(updateData);
     }
-/**
+    /**
      * Starts a new turn in the game.<br>
      * - Initializes the turn timer.<br>
      * - Signals the model to start a new turn.<br>
