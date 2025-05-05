@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.endscreen;
 
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ public class EndScreenView extends BaseView {
     private Button tableButton;
     private Button graphButton;
     private Label winnerTextLabel;
+    private String winnerName;
 
 
     public EndScreenView() {
@@ -33,7 +35,11 @@ public class EndScreenView extends BaseView {
         menuButton = new Button("Menu");
         tableButton = new Button("Table");
         graphButton = new Button("Graph");
-        winnerTextLabel = new Label("Player x won!");
+        try {
+            winnerTextLabel = new Label(DBManager.getInstance().getWinnerName() + " won!");
+        } catch (Exception e) {
+            winnerTextLabel = new Label("Player x won!");
+        }
 
 
 
@@ -93,10 +99,19 @@ public class EndScreenView extends BaseView {
 
     public void setWinnerTextLabel(Label winnerTextLabel) {
         this.winnerTextLabel = winnerTextLabel;
+
     }
 
     public Button getGraphButton() {
         return graphButton;
+    }
+
+    public String getWinnerName() {
+        return winnerName;
+    }
+
+    public void setWinnerName(String winnerName) {
+        this.winnerName = winnerName;
     }
 
     public void setGraphButton(Button graphButton) {

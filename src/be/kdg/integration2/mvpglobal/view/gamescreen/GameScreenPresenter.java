@@ -69,7 +69,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         ));
         if(!model.isActive()){
             SaveManager.saveToDB(model.getSessionData());
-            gowin();
+            goToWon();
         }
     }
 
@@ -116,7 +116,8 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
 
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
-    private void gowin() {
+    private void goToWon() {
+
         Router.getInstance().goTo(Screen.END_SCREEN, null);
     }
 

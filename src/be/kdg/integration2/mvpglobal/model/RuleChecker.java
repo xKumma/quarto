@@ -8,6 +8,11 @@ public final class RuleChecker {
         return board.getPieces()[move.getPosition().x()][move.getPosition().y()] == null;
     }
 
+    /**
+     * checks if the given 4 pieces share an attribute
+     * @param pieces 4 pieces that were found in a row
+     * @return true if the 4 pieces have a common attribute
+     */
     public static boolean hasWon(Piece[] pieces) {
         if (pieces == null || pieces.length != 4) return false;
 
@@ -28,11 +33,18 @@ public final class RuleChecker {
         return false;
     }
 
+
+    /**
+     * Goes through all rows, columns and diagonals to check whether there are four pieces
+     * in that row/column/diagonal, if it does it calls the hasWon() method to check if
+     * the four pieces have an attribute in common
+     * @param board the current board and the pieces that have been placed on it
+     * @return true if four pieces have been found that have a common attribute
+     */
     public static boolean fourInARow(Board board) {
         Piece[] fourInARow = new Piece[4];
         boolean fourInARowFound;
 
-        //System.out.println("checking if four in a row\n");
 
         // Diagonal 1
         fourInARowFound = true;

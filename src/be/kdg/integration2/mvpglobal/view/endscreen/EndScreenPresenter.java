@@ -1,13 +1,13 @@
 package be.kdg.integration2.mvpglobal.view.endscreen;
 
 import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.Player;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import be.kdg.integration2.mvpglobal.view.mainmenu.MainMenuView;
-import be.kdg.integration2.mvpglobal.view.rules.RulesView;
 
 public class EndScreenPresenter extends BasePresenter<EndScreenView, BaseModel> {
+
 
     public EndScreenPresenter(EndScreenView endScreenView, BaseModel model) {
         super(endScreenView, model);

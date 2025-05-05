@@ -213,6 +213,17 @@ public class DBManager {
         return rs.getString(1);
     }
 
+    public String getWinnerName () throws SQLException {
+        String selectWasAI = "SELECT was_ai FROM moves WHERE sessionID = ? ORDER BY moveID DESC LIMIT 1";
+        PreparedStatement ps = connection.prepareStatement(selectWasAI);
+        ps.setInt(1, getSessionid());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        if (rs.getBoolean(1)) return "bot";
+        else return HumanPlayer.getInstance().getName();
+
+    }
+
     public int getSessionid() throws SQLException {
         String query = "SELECT sessionid  FROM moves order by sessionid DESC LIMIT 1 ";
         try (PreparedStatement ps = connection.prepareStatement(query) ) {
