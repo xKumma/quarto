@@ -49,7 +49,7 @@ public class UISettings {
 
     public Path getStyleSheetPath () {return this.styleSheetPath;}
 
-        public void setStyleSheetPath (Path styleSheetPath) {this.styleSheetPath = styleSheetPath;}
+    public void setStyleSheetPath (Path styleSheetPath) {this.styleSheetPath = styleSheetPath;}
 
     public String getHomeDir () {return this.homeDir;}
 

@@ -72,6 +72,16 @@ public class DBManager {
         }
     }
 
+    public void closeConnection() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing database connection: " + e.getMessage());
+        }
+    }
+
 
     public void createPlayer (String username,String password) throws SQLException {
         String selectScore = "INSERT INTO human_players VALUES(?, ?)";

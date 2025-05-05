@@ -33,8 +33,8 @@ public class MVPMain extends Application {
         }
 
         primaryStage.setScene(scene);
-        primaryStage.setHeight(uiSettings.getResY());
-        primaryStage.setWidth(uiSettings.getResX());
+        primaryStage.setHeight(uiSettings.getResY()/2);
+        primaryStage.setWidth(uiSettings.getResX()/2);
         primaryStage.setTitle(uiSettings.getApplicationName());
         primaryStage.setMinHeight(720);
         primaryStage.setMinWidth(1080);
@@ -60,5 +60,11 @@ public class MVPMain extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        DBManager.getInstance().closeConnection();
+        super.stop();
     }
 }
