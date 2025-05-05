@@ -216,6 +216,16 @@ public class DBManager {
         return 0;
     }
 
+    public String getUserNameFromSession (int sessionID) throws SQLException {
+        String selectBotName = "SELECT player_username FROM sessions WHERE sessionID = ?";
+        PreparedStatement ps = connection.prepareStatement(selectBotName);
+        ps.setInt(1, sessionID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString(1);
+    }
+
+
     public double getTimeMove1(int sessionid , int moveid) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))  FROM moves WHERE sessionId = ? and moveId = ? AND was_ai = true";
         try (PreparedStatement ps = connection.prepareStatement(query)) {

@@ -64,7 +64,7 @@ public class Statistics implements BaseModel {
          //   System.out.println(dbManager.isAI(i) + "\n" );
           //  System.out.println("initial move"+i + "\n");
          //   System.out.println("time"+dbManager.getTimeMove1(j, i)+ "\n");
-            timeList2.add(dbManager.getTimeMove1(j , i ));
+            timeList2.add(dbManager.getTimeMove1(j , i )*100);
             numbermove.add( i);
 
             i++;
@@ -219,11 +219,16 @@ time();
 
     public void outA(){
         IQRA = quartile3A-quartile1A;
-         outlier1A = quartile1A - 1.5*IQRA;
-         outlier2A = quartile3A + 1.5*IQRA;
+        System.out.println("IQRA\n" + IQRA);
 
-         for (int i=0 ; i<out1.size(); i++){
-             if ( timeList1.get(i) <= outlier1A | timeList2.get(i) >= outlier2A){
+        outlier1A = quartile1A - (1.5*IQRA);
+         outlier2A = quartile3A + (1.5*IQRA);
+        System.out.println("treshold a-\n" + outlier1A );
+        System.out.println("treshold a+\n" + outlier2A );
+
+
+        for (int i=0 ; i<timeList1.size(); i++){
+             if ( timeList1.get(i) <= outlier1A | timeList1.get(i) >= outlier2A){
                  out1.add(timeList1.get(i));
              }
          }
@@ -234,10 +239,13 @@ time();
 
     public void outB(){
         IQRB = quartile3B-quartile1B;
-        outlier1B = quartile1B - 1.5*IQRB;
-        outlier2B = quartile3B + 1.5*IQRB;
+        System.out.println("IQRB\n" + IQRB);
+        outlier1B = quartile1B - (1.5*IQRB);
+        outlier2B = quartile3B + (1.5*IQRB);
+        System.out.println("treshold b-\n" + outlier1B);
+        System.out.println("treshold b+\n" + outlier2B );
 
-        for (int i=0 ; i<out2.size(); i++){
+        for (int i=0 ; i<timeList2.size(); i++){
             if ( timeList2.get(i) <= outlier1B | timeList2.get(i) >= outlier2B){
                 out2.add(timeList2.get(i));
             }

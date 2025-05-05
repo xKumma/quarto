@@ -3,6 +3,7 @@ package be.kdg.integration2.mvpglobal.view.statscreen;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.Statistics;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.scene.chart.XYChart;
 
@@ -25,7 +26,7 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     protected double[] values2;
     int size2;
     protected double[] xAxis;
-    protected String player = "bibi";
+    protected String player = "player";
     protected String player2 = "ai";
     protected List<Double> val1;
     protected List<Double> val2;
@@ -38,6 +39,8 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     protected static XYChart.Series<Number, String> series3 = new XYChart.Series<>();
     protected static  XYChart.Series<Number, String> series4 = new XYChart.Series<>();
     protected static  XYChart.Series<Number, String> series5 = new XYChart.Series<>();
+    private DBManager dbManager = DBManager.getInstance();
+
 
 
     protected void addEventHandlers() {
@@ -76,7 +79,10 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        try {
+            player = dbManager.getUserNameFromSession(dbManager.getSessionid());
+        } catch (SQLException e) {
+        }
         size1 = model.getTime1().length;
         values1 = new double[size1];
         size2 = model.getTime2().length;

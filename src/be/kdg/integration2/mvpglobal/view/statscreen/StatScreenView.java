@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 
 import javafx.application.Platform;
@@ -32,6 +33,8 @@ public class StatScreenView extends BaseView {
     private Rectangle rectangle1, rectangle2, rectangle3, rectangle4;
     private Pane chartContainer;
     private List<Double> serieC;
+    private DBManager dbManager = DBManager.getInstance();
+
 
     public StatScreenView() {
         super();
@@ -108,12 +111,13 @@ public class StatScreenView extends BaseView {
         Platform.runLater(() -> {
             styleSeries(series3, "green");
             styleSeries(series4, "blue");
-            series1.setName("AI");
-            series2.setName("player");
-            series3.setName("AI quartiles");
-            series4.setName("AI outliers");
-            series5.setName("Player quartiles");
-            series6.setName("Player outliers");
+            series1.setName("TimeP(s)");
+            series2.setName("TimeAI(cs)");
+            series3.setName("P Qs (s)");
+            series4.setName("P Os (s)");
+            series5.setName("AI Qs (cs)");
+            series6.setName("AI Os (cs)");
+            lineChart.setTitle("MOVES STATISTICS");
 
 
             updateAllRectangles();
