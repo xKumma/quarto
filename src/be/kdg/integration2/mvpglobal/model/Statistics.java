@@ -78,7 +78,7 @@ public class Statistics implements BaseModel {
         if (dbManager.isConnected() == false) {
             throw new SQLException("Database connection is not initialized.");
         }else{
-        j= dbManager.getSessionid();
+        j= dbManager.getSessionID();
         i=dbManager.getMoveID1(j);
        // System.out.println("sessione"+j + "\n");
        //    System.out.println("initial move"+i + "\n");

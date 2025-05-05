@@ -82,40 +82,7 @@ public class DBManager {
         }
     }
 
-
-    public void createPlayer (String username,String password) throws SQLException {
-        String selectScore = "INSERT INTO human_players VALUES(?, ?)";
-        PreparedStatement ps = connection.prepareStatement(selectScore);
-        ps.setString(1, username);
-        ps.setString(2, password);
-        ps.executeUpdate();
-        ps.close();
-    }
-
-    public String getpassword (String username) throws SQLException {
-        String querypassword = "SELECT password FROM human_players WHERE username = ?";
-        PreparedStatement ps = connection.prepareStatement(querypassword);
-        ps.setString(1, username);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        return rs.getString(1);
-    }
-
-    public ArrayList<Time> getAllSessionMoveTime(int sessionID) throws SQLException {
-        String selectMovetime = "SELECT ( CAST( move_end_time AS TIMESTAMP)   - CAST( move_start_time AS TIMESTAMP) ) FROM moves WHERE sessionID = ? AND was_ai = FALSE";
-        PreparedStatement ps = connection.prepareStatement(selectMovetime);
-        ps.setInt(1, sessionID);
-        ResultSet rs = ps.executeQuery();
-        ArrayList<Time> moves = new ArrayList<>();
-        while (rs.next()) {
-            Time moveTime = rs.getTime(1);
-            moves.add(moveTime);
-        }
-        ps.close();
-        return moves;
-    }
-
-    public void insertNewMove(String player, String piece, int x, int y, long startTime, long endTime) throws SQLException {
+    public void insertNewMove(String player, int x, int y, long startTime, long endTime) throws SQLException {
         String insertNewMove =
                 "INSERT INTO moves(sessionID, move_start_time, move_end_time, was_ai) VALUES(?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewMove);
@@ -124,8 +91,6 @@ public class DBManager {
         ps.setTimestamp(2, new Timestamp(startTime));
         ps.setTimestamp(3, new Timestamp(endTime));
 
-        // We might not even need the piece related tables as we dont have to load a state from the DB
-
         boolean wasAI = !player.equals(HumanPlayer.getInstance().getName());
         ps.setBoolean(4, wasAI);
 
@@ -133,15 +98,14 @@ public class DBManager {
         ps.close();
     }
 
-    public void updateMoveEndTime(int sessionID, int moveID) throws SQLException {
-        String updateMoveEndTime = "UPDATE moves SET move_end_time = CURRENT_TIMESTAMP WHERE sessionID = ? AND moveID = ?";
-        PreparedStatement ps = connection.prepareStatement(updateMoveEndTime);
-        ps.setInt(1, sessionID);
-        ps.setInt(2, moveID);
-        ps.executeUpdate();
-        ps.close();
-    }
-
+    /**
+     * Inserts a new game session into the database.
+     *
+     * @param currentPlayer The username of the current player.
+     * @param difficulty The difficulty level of the bot (used to determine the bot's name).
+     * @param playerWon A boolean indicating whether the player won the session.
+     * @throws SQLException If a database access error occurs.
+     */
     public void insertNewSession(String currentPlayer, int difficulty, boolean playerWon) throws SQLException {
         String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
@@ -161,37 +125,6 @@ public class DBManager {
         }
 
         rs.close();
-        ps.close();
-    }
-
-    public void insertPieceLocation(int sessionID, int pieceID, int x, int y) throws SQLException {
-        String insertPieceLocation = "INSERT INTO piece_locations VALUES(?, ?, ?, ?)";
-        PreparedStatement ps = connection.prepareStatement(insertPieceLocation);
-        ps.setInt(1, sessionID);
-        ps.setInt(2, pieceID);
-        ps.setInt(3, x);
-        ps.setInt(4, y);
-        ps.executeUpdate();
-        ps.close();
-    }
-
-    public void updatePieceLocation(int sessionID, int pieceID, int x, int y) throws SQLException {
-        String updatePieceLocation = "UPDATE piece_locations SET position_x = ?, position_y = ? WHERE sessionID = ? AND pieceID = ?";
-        PreparedStatement ps = connection.prepareStatement(updatePieceLocation);
-        ps.setInt(1, x);
-        ps.setInt(2, y);
-        ps.setInt(3, sessionID);
-        ps.setInt(4, pieceID);
-        ps.executeUpdate();
-        ps.close();
-    }
-
-    public void updateSession (int sessionID, String winningPlayer) throws SQLException {
-        String updateSession = "UPDATE sessions SET player_won = ?, is_finished = TRUE WHERE sessionID = ?";
-        PreparedStatement ps = connection.prepareStatement(updateSession);
-        ps.setString(1, winningPlayer);
-        ps.setInt(2, sessionID);
-        ps.executeUpdate();
         ps.close();
     }
 
@@ -216,7 +149,7 @@ public class DBManager {
     public String getWinnerName () throws SQLException {
         String selectWasAI = "SELECT was_ai FROM moves WHERE sessionID = ? ORDER BY moveID DESC LIMIT 1";
         PreparedStatement ps = connection.prepareStatement(selectWasAI);
-        ps.setInt(1, getSessionid());
+        ps.setInt(1, getSessionID());
         ResultSet rs = ps.executeQuery();
         rs.next();
         if (rs.getBoolean(1)) return "bot";
@@ -224,17 +157,8 @@ public class DBManager {
 
     }
 
-    public int getSessionid() throws SQLException {
-        String query = "SELECT sessionid  FROM moves order by sessionid DESC LIMIT 1 ";
-        try (PreparedStatement ps = connection.prepareStatement(query) ) {
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        }
-        return 0;
+    public int getSessionID() throws SQLException {
+        return currentSessionID;
     }
 
     public String getUserNameFromSession (int sessionID) throws SQLException {

@@ -80,7 +80,7 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
             throw new RuntimeException(e);
         }
         try {
-            player = dbManager.getUserNameFromSession(dbManager.getSessionid());
+            player = dbManager.getUserNameFromSession(dbManager.getSessionID());
         } catch (SQLException e) {
         }
         size1 = model.getTime1().length;

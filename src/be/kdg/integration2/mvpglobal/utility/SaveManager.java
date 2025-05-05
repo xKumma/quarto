@@ -54,7 +54,6 @@ public class SaveManager {
             for (Move move : gameSessionData.getMoveHistory()) {
                 DBManager.getInstance().insertNewMove(
                         move.getPlayer(),
-                        move.getPiece().toString(),
                         move.getPosition().x(),
                         move.getPosition().y(),
                         move.getStartTime(),
