@@ -33,14 +33,14 @@ public class MVPMain extends Application {
         }
 
         primaryStage.setScene(scene);
-        primaryStage.setHeight(uiSettings.getLowestRes() /2);
-        primaryStage.setWidth(uiSettings.getLowestRes()/2);
+        primaryStage.setHeight(uiSettings.getResY());
+        primaryStage.setWidth(uiSettings.getResX());
         primaryStage.setTitle(uiSettings.getApplicationName());
-        primaryStage.setMinHeight(500);
-        primaryStage.setMinWidth(500);
-        primaryStage.setMaxHeight(1000);
-        primaryStage.setMaxWidth(1900);
-        primaryStage.setResizable(false);
+        primaryStage.setMinHeight(720);
+        primaryStage.setMinWidth(1080);
+        primaryStage.setMaxHeight(1440);
+        primaryStage.setMaxWidth(2560);
+        primaryStage.setResizable(true);
         if (Files.exists(uiSettings.getApplicationIconPath())) {
              try {
                  primaryStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));

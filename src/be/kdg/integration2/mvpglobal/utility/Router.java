@@ -30,18 +30,6 @@ public class Router {
         primaryStage.setOnCloseRequest(null);
 
         presenter.init(data);
-        if(screenType == Screen.GAME) {
-            primaryStage.setMinHeight(560);
-            primaryStage.setMinWidth(1030);
-            primaryStage.setWidth(1070);
-            primaryStage.setHeight(700);
-        } else {
-            primaryStage.setMinHeight(500);
-            primaryStage.setMinWidth(500);
-            primaryStage.setHeight(uiSettings.getLowestRes() /2);
-            primaryStage.setWidth(uiSettings.getLowestRes()/2);
-            primaryStage.setResizable(true);
-        }
 
         primaryStage.getScene().setRoot(presenter.getView());
     }

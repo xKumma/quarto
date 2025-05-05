@@ -29,7 +29,7 @@ public final class StartScreenPresenter extends BasePresenter<StartScreenView, B
     }
     protected void updateView(){
         Stage stage = (Stage) view.getScene().getWindow();
-        stage.setResizable(false);
+        //stage.setResizable(false);
     }
 
 }
