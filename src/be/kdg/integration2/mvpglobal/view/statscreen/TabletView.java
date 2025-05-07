@@ -65,6 +65,8 @@ public class TabletView extends BaseView {
         Tp.setCellValueFactory(cellData->cellData.getValue().Tp.asObject());
 
         table.getItems().addAll(data);
+        table.fixedCellSizeProperty().bind(table.widthProperty());
+        table.setMinSize(50,50);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         this.setCenter(pane);
         pane.setCenter(table);

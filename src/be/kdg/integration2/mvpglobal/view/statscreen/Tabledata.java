@@ -35,35 +35,37 @@ public class Tabledata {
     }
     public void geTIME() throws SQLException {
         Double timep = dbManager.getTimeFIN(dbManager.getSessionID()) - dbManager.getTimeIN(dbManager.getSessionID());
-        this.time.set(timep);
-        System.out.println(time);
+        this.time.set(truncateTo2Decimals(timep));
+        System.out.println(truncateTo2Decimals(timep));
 
     }
 
     public void getNMAI() throws SQLException {
         Double movesaip= (double) dbManager.getNMovesAI(dbManager.getSessionID());
         this.movesai.set(movesaip);
-        System.out.println(movesai);
+        System.out.println(truncateTo2Decimals(movesaip));
     }
     public void getNMpl() throws SQLException {
         Double movespp= (double) dbManager.getNMovesPL(dbManager.getSessionID());
-        this.movesp.set(movespp);
-        System.out.println(movesp);
+        this.movesp.set(truncateTo2Decimals(movespp));
+        System.out.println(truncateTo2Decimals(movespp));
 
     }
 
     public void getTai() throws SQLException {
         Double taiprovvisory = (double) (dbManager.getTMAIf(dbManager.getSessionID())- dbManager.getTMAIs(dbManager.getSessionID()))/ dbManager.getNMovesAI(dbManager.getSessionID());
-        this.Tai.set(taiprovvisory);
+        this.Tai.set(truncateTo2Decimals(taiprovvisory));
         System.out.println(taiprovvisory);
     }
 
     public void getTPL() throws SQLException {
         Double tplprovvisory = (double) (dbManager.getTMPf(dbManager.getSessionID())- dbManager.getTMPs(dbManager.getSessionID()))/ dbManager.getNMovesPL(dbManager.getSessionID());
-        this.Tp.set(tplprovvisory);
+        this.Tp.set(truncateTo2Decimals(tplprovvisory));
         System.out.println(tplprovvisory);
     }
 
-
+    public static double truncateTo2Decimals(double value) {
+        return Math.floor(value * 100) / 100.0;
+    }
 
 }
