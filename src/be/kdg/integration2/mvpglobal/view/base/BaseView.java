@@ -3,6 +3,8 @@ package be.kdg.integration2.mvpglobal.view.base;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import javafx.scene.layout.BorderPane;
 
+import java.sql.SQLException;
+
 public abstract class BaseView extends BorderPane {
     protected UISettings uiSettings;
 
@@ -11,12 +13,16 @@ public abstract class BaseView extends BorderPane {
 
         this.getStylesheets().add(uiSettings.getStyleSheetPath().toString());
 
-        initialiseNodes();
+        try {
+            initialiseNodes();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         layoutNodes();
     }
 
 
-    protected abstract void initialiseNodes();
+    protected abstract void initialiseNodes() throws SQLException;
     protected abstract void layoutNodes();
 }
 

@@ -1,11 +1,20 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.model.BaseModel;
+import be.kdg.integration2.mvpglobal.model.Statistics;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+
 
 public class TablePresenter extends BasePresenter<TabletView, BaseModel> {
+
+
 
     public TablePresenter(BaseModel model, TabletView tableView) {
         super(tableView, model);
@@ -22,4 +31,7 @@ public class TablePresenter extends BasePresenter<TabletView, BaseModel> {
     }
 
     private void goToWin() { Router.getInstance().goTo(Screen.END_SCREEN, null); }
+
+
+
 }

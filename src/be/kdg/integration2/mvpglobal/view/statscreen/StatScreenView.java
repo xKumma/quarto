@@ -33,7 +33,6 @@ public class StatScreenView extends BaseView {
     private Rectangle rectangle1, rectangle2, rectangle3, rectangle4;
     private Pane chartContainer;
     private List<Double> serieC;
-    private DBManager dbManager = DBManager.getInstance();
 
 
     public StatScreenView() {
