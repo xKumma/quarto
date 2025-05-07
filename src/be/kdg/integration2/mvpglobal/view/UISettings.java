@@ -18,7 +18,7 @@ public class UISettings {
     private String defaultCss = "Style.css";
     private Path styleSheetPath = Paths.get("resources"+FILE_SEPARATOR+ "stylesheets" +FILE_SEPARATOR+defaultCss);
     private Path AboutImagePath = Paths.get("resources"+FILE_SEPARATOR+"images"+FILE_SEPARATOR+"AboutImage.png");
-    private Path applicationIconPath = Paths.get("resources"+FILE_SEPARATOR+"images"+FILE_SEPARATOR+"iconn.png");
+    private Path applicationIconPath = Paths.get("resources"+FILE_SEPARATOR+"images"+FILE_SEPARATOR+"icon.png");
     private Path startScreenImagePath = Paths.get("resources"+FILE_SEPARATOR+"images"+FILE_SEPARATOR+"icon.png");
     private Path infoTextPath = Paths.get("resources"+FILE_SEPARATOR+"other"+FILE_SEPARATOR+"info.txt");
 

@@ -5,17 +5,19 @@ import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 
 public class TabletView extends BaseView {
     Tabledata data;
-
-
+    BorderPane pane;
     TableView<Tabledata> table ;
     TableColumn <Tabledata, String>name;
     TableColumn <Tabledata, Double>time ;
@@ -36,6 +38,9 @@ public class TabletView extends BaseView {
     @Override
     protected void initialiseNodes() throws SQLException {
         table = new TableView();
+        pane=new BorderPane();
+        Label title = new Label("game stats");
+        Label logoLabel = new Label("\uD83C\uDD40uarto");
         name = new TableColumn<>("winner");
         menuButton = new Button("Menu");
         backButton = new Button("Back");
@@ -47,6 +52,9 @@ public class TabletView extends BaseView {
         //ScoreAI= new TableColumn<>("score ai ");
         //ScoreP= new TableColumn<>("score P");
         table.getColumns().addAll(name, time ,movesai,movesp,Tai,Tp);
+        table.setStyle("-fx-text-inner-color: black");
+        table.getStyleClass().add("table");
+
         data = new Tabledata();
        // name.setCellValueFactory (new PropertyValueFactory<>("name"));
         name.setCellValueFactory(cellData -> cellData.getValue().name);
@@ -58,7 +66,19 @@ public class TabletView extends BaseView {
 
         table.getItems().addAll(data);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        setCenter(table);
+        this.setCenter(pane);
+        pane.setCenter(table);
+        BorderPane panepane = new BorderPane();
+        title.setPadding(new Insets(20, 50, 50, 440));
+        title.getStyleClass().add("title");
+        logoLabel.setPadding(new Insets(50, 50, 50, 420));
+        logoLabel.getStyleClass().add("logo");
+
+        VBox box1 = new VBox(logoLabel, title);
+        panepane.setCenter(box1);
+        pane.setTop(panepane);
+
+
     }
 
     @Override

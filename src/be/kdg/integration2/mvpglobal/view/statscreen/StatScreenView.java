@@ -118,6 +118,8 @@ public class StatScreenView extends BaseView {
             series5.setName("AI Qs (cs)");
             series6.setName("AI Os (cs)");
             lineChart.setTitle("MOVES STATISTICS");
+            lineChart.getStyleClass().add("linetitle");
+
 
 
             updateAllRectangles();

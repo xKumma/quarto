@@ -80,3 +80,39 @@
 }
 
 
+.label {
+    -fx-text-fill: white;        /* Text color */
+    -fx-font-size: 18px;         /* Font size */
+
+}
+
+.title{
+    -fx-font-size: 40px;
+
+}
+
+.logo {
+
+    -fx-font-size: 80px;
+}
+
+.table{
+    -fx-text-fill: black;
+    -fx-text-inner-color:black;
+
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: black;
+}
+
+.chart-legend .label {
+    -fx-text-fill: black;
+}
+
+.chart-title{
+    -fx-text-fill: white;        /* Text color */
+    -fx-font-size: 30px;
+
+
+}
