@@ -49,6 +49,7 @@ public class StatScreenView extends BaseView {
         lineChart.setMinSize(0, 0);
         lineChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         serieC = new ArrayList<>();
+        lineChart.getStyleClass().add("box_plot");
 
 
 

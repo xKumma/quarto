@@ -1,0 +1,8 @@
+{
+  "playerName": "Bella",
+  "botDifficulty": "EASY",
+  "lastSelectedPiece": "round_small_hollow#red",
+  "moveHistory": [
+    {"player":bot,"x":1,"y":2,"pieceSlug":round_small_full#red,"startTime":1746625907205, "endTime":1746625907218}
+  ]
+}

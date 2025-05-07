@@ -45,8 +45,17 @@
     -fx-border-width: 1px;
     -fx-border-style: dashed;
 }
+.box_plot{
+    -fx-text-fill: white;
+    -fx-text-inner-color: white;
 
-.board-button { }
+}
+
+.board-button {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-style: dashed;
+}
 
 .unused-button { }
 
@@ -57,4 +66,17 @@
 .setup-container {
     -fx-font-size: 21px;
 }
+
+.chart-title {
+    -fx-text-fill: white;
+}
+
+.axis-label {
+    -fx-text-fill: white;
+}
+
+.axis {
+    -fx-tick-label-fill: white;
+}
+
 
