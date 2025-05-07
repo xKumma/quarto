@@ -137,8 +137,8 @@ public class StatScreenView extends BaseView {
 
     private void updateAllRectangles() {
         if (series3.getData().size() >= 3 && series4.getData().size() >= 3) {
-            updateRectangle(rectangle1, series3.getData().get(0), series3.getData().get(1), -12);
-            updateRectangle(rectangle2, series3.getData().get(1), series3.getData().get(2), -12);
+            updateRectangle(rectangle1, series3.getData().get(0), series3.getData().get(1), -10);
+            updateRectangle(rectangle2, series3.getData().get(1), series3.getData().get(2), -10);
             updateRectangle(rectangle3, series4.getData().get(0), series4.getData().get(1), -12);
             updateRectangle(rectangle4, series4.getData().get(1), series4.getData().get(2), -12);
         }
