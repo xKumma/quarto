@@ -40,6 +40,7 @@
     -fx-font-family: "Source Sans Pro Bold";
 }
 
+
 .piece-button {
     -fx-border-color: black;
     -fx-border-width: 1px;
@@ -51,13 +52,26 @@
 
 }
 
+.button{
+    -fx-padding: 10px 25px; /* top-bottom left-right */
+    -fx-font-size: 14px;
+    -fx-background-color: black;
+    -fx-text-fill: white;
+
+}
+
 .board-button {
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-border-width: 1px;
     -fx-border-style: dashed;
 }
 
-.unused-button { }
+
+.unused-button {
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-style: dashed;
+}
 
 .container {
     -fx-padding: 48px;
@@ -115,4 +129,13 @@
     -fx-font-size: 30px;
 
 
+}
+
+.table-row-cell {
+    -fx-cell-size: 40px;         /* Adjust row height (default is ~24px) */
+}
+
+.table-cell {
+    -fx-padding: 8px;            /* Space inside each cell */
+    -fx-font-size: 16px;         /* Font size inside the cells */
 }

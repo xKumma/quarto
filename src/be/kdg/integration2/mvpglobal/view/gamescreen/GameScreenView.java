@@ -38,6 +38,7 @@ public class GameScreenView extends BaseView {
             for (int y = 0; y < 4; y++) {
                 PieceButton boardBtn = new PieceButton(null, null);
                 boardBtn.getStyleClass().add("board-button");
+
                 board.add(boardBtn, x, y);
             }
         }
@@ -50,6 +51,7 @@ public class GameScreenView extends BaseView {
             for (int y = 0; y < 2; y++) {
                 PieceButton unusedBtn = new PieceButton( null, null);
                 unusedBtn.getStyleClass().add("unused-button");
+
                 unusedPieces.add(unusedBtn, x, y);
             }
         }
@@ -78,7 +80,9 @@ public class GameScreenView extends BaseView {
         //new boxes with chosenpiece included
         GridPane chosenPieceGrid = new GridPane();
         chosenPieceGrid.add(chosenPieceLabel, 0, 0);
+
         chosenPieceGrid.add(chosenPieceButton, 1, 0);
+        chosenPieceButton.getStyleClass().add("board-button");
         VBox labels = new VBox(roundInfoLbl, timeLbl);
         labels.setSpacing(32);
         HBox allLabels = new HBox(labels, chosenPieceGrid);
