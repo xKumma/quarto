@@ -184,6 +184,62 @@ public class DBManager {
         return 0; // Valore di default se non ci sono risultati
     }
 
+     public double getTMAIs(int sessionid ) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM ( move_start_time  ))  FROM moves WHERE sessionId = ? AND was_ai = TRUE ORDER BY moveID ASC LIMIT 1  ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 0; // Valore di default se non ci sono risultati
+    }
+
+    public double getTMAIf(int sessionid ) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM ( move_end_time  ))  FROM moves WHERE sessionId = ? AND was_ai = TRUE ORDER BY moveID DESC LIMIT 1  ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 0; // Valore di default se non ci sono risultati
+    }
+
+    public double getTMPs(int sessionid ) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM ( move_start_time  ))  FROM moves WHERE sessionId = ? AND was_ai = FALSE ORDER BY moveID ASC LIMIT 1  ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 0; // Valore di default se non ci sono risultati
+    }
+
+    public double getTMPf(int sessionid ) throws SQLException {
+        String query = "SELECT EXTRACT(EPOCH FROM ( move_end_time  ))  FROM moves WHERE sessionId = ? AND was_ai = FALSE ORDER BY moveID DESC LIMIT 1  ";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, sessionid);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                }
+            }
+        }
+        return 0; // Valore di default se non ci sono risultati
+    }
+
     public double getTimeFIN(int sessionid ) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM (move_end_time ))  FROM moves WHERE sessionId = ? ORDER BY moveID DESC LIMIT 1  ";
         try (PreparedStatement ps = connection.prepareStatement(query)) {

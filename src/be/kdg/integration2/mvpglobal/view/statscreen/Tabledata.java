@@ -25,6 +25,8 @@ public class Tabledata {
         geTIME();
         getNMAI();
         getNMpl();
+        getTai();
+        getTPL();
     }
 
 
@@ -50,5 +52,19 @@ public class Tabledata {
         System.out.println(movesp);
 
     }
+
+    public void getTai() throws SQLException {
+        Double taiprovvisory = (double) (dbManager.getTMAIf(dbManager.getSessionID())- dbManager.getTMAIs(dbManager.getSessionID()))/ dbManager.getNMovesAI(dbManager.getSessionID());
+        this.Tai.set(taiprovvisory);
+        System.out.println(taiprovvisory);
+    }
+
+    public void getTPL() throws SQLException {
+        Double tplprovvisory = (double) (dbManager.getTMPf(dbManager.getSessionID())- dbManager.getTMPs(dbManager.getSessionID()))/ dbManager.getNMovesPL(dbManager.getSessionID());
+        this.Tp.set(tplprovvisory);
+        System.out.println(tplprovvisory);
+    }
+
+
 
 }

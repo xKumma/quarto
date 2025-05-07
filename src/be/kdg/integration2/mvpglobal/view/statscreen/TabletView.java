@@ -25,8 +25,8 @@ public class TabletView extends BaseView {
     TableColumn<Tabledata, Double> movesp;
     TableColumn<Tabledata, Double> Tai;
     TableColumn<Tabledata, Double> Tp;
-    TableColumn<Tabledata, Double> ScoreAI;
-    TableColumn<Tabledata, Double> ScoreP;
+    //TableColumn<Tabledata, Double> ScoreAI;
+    //TableColumn<Tabledata, Double> ScoreP;
 
 
     public TabletView()  {
@@ -42,17 +42,21 @@ public class TabletView extends BaseView {
         time = new TableColumn<>("time played (s)");
         movesai = new TableColumn<>("moves ai");
         movesp = new TableColumn<>("moves p");
-        Tai = new TableColumn<>("T(cs) mvs ai ");
+        Tai = new TableColumn<>("T(s) mvs ai ");
         Tp = new TableColumn<>("T(s) mvs p");
-        ScoreAI= new TableColumn<>("score ai ");
-        ScoreP= new TableColumn<>("score P");
-        table.getColumns().addAll(name, time ,movesai,movesp,Tai,Tp,ScoreAI,ScoreP);
+        //ScoreAI= new TableColumn<>("score ai ");
+        //ScoreP= new TableColumn<>("score P");
+        table.getColumns().addAll(name, time ,movesai,movesp,Tai,Tp);
         data = new Tabledata();
        // name.setCellValueFactory (new PropertyValueFactory<>("name"));
         name.setCellValueFactory(cellData -> cellData.getValue().name);
         time.setCellValueFactory(cellData-> cellData.getValue().time.asObject());
         movesai.setCellValueFactory(cellData->cellData.getValue().movesai.asObject());
         movesp.setCellValueFactory(cellData->cellData.getValue().movesp.asObject());
+        Tai.setCellValueFactory(cellData->cellData.getValue().Tai.asObject());
+        Tp.setCellValueFactory(cellData->cellData.getValue().Tp.asObject());
+
+
 
         // time.setCellValueFactory(new PropertyValueFactory<>("time"));
 
