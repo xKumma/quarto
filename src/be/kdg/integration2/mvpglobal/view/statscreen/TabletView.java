@@ -56,22 +56,7 @@ public class TabletView extends BaseView {
         Tai.setCellValueFactory(cellData->cellData.getValue().Tai.asObject());
         Tp.setCellValueFactory(cellData->cellData.getValue().Tp.asObject());
 
-
-
-        // time.setCellValueFactory(new PropertyValueFactory<>("time"));
-
-        //movesai.setCellValueFactory(new PropertyValueFactory<>("movesai"));
-       // movesp.setCellValueFactory(new PropertyValueFactory<>("movesp"));
         table.getItems().addAll(data);
-
-         /*
-        Tai.setCellValueFactory(new PropertyValueFactory<>("score"));
-        Tp.setCellValueFactory(new PropertyValueFactory<>("score"));
-        ScoreAI.setCellValueFactory(new PropertyValueFactory<>("score"));
-        ScoreP.setCellValueFactory(new PropertyValueFactory<>("score"));
-
-         */
-
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setCenter(table);
     }

@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class Tabledata {
 
-
     protected StringProperty name = new SimpleStringProperty();
     protected DoubleProperty time = new SimpleDoubleProperty() ;
     protected DoubleProperty movesai = new SimpleDoubleProperty() ;
