@@ -1,8 +1,16 @@
-.root {
-    -fx-background-color: khaki;
-    -fx-font-size: 20px;
-    bright-green: rgb(39, 203, 66);
+.root{
+
+    -fx-background-radius: 8px;
+    -fx-background-color: radial-gradient(
+            focus-distance 0%,
+            center 50% 50%,
+            radius 55%,
+            #D4D4D4,
+            black
+    );
 }
+
+
 
 .num-pad {
     -fx-padding: 15px;

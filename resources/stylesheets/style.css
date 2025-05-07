@@ -7,7 +7,17 @@
     font-family: "Source Sans Pro Bold";
     src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
 }
+.root{
 
+    -fx-background-radius: 8px;
+    -fx-background-color: radial-gradient(
+            focus-distance 0%,
+            center 50% 50%,
+            radius 55%,
+            #D4D4D4,
+            black
+    );
+}
 
 .header {
     -fx-padding: 48px;
@@ -47,3 +57,4 @@
 .setup-container {
     -fx-font-size: 21px;
 }
+
