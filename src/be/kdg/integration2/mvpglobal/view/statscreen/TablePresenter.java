@@ -20,7 +20,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
 
-
+/**
+ * fills the data from the class model dataTable and give them to the viewTable
+ * data provided:
+ * winner
+ * moves played by both bot and player separately
+ * the average time taken to make a move for both bot and player
+ */
 public class TablePresenter extends BasePresenter<TabletView, Tabledata> {
 
 

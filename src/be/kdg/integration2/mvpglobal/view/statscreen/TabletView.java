@@ -12,7 +12,12 @@ import javafx.scene.layout.VBox;
 import be.kdg.integration2.mvpglobal.model.Tabledata;
 
 import java.sql.SQLException;
-
+/**
+ * Present in a tabular form main data from latest match played
+ * winner
+ * moves played by both bot and player separately
+ * the average time taken to make a move for both bot and player
+ */
 public class TabletView extends BaseView {
     BorderPane pane;
     TableView<Tabledata.Data> table  ;

@@ -4,8 +4,19 @@ import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import javafx.beans.property.*;
 
 import java.sql.SQLException;
-
+/**
+ * model class related to the table statistic at the end of a match:
+ * retrives data from the database assigning them to the attributes that will be filled into the tableview
+ * data provided:
+ * winner
+ * moves played by both bot and player separately
+ * the average time taken to make a move for both bot and player
+ */
 public class Tabledata {
+    /**
+     * Inner Class that provides the attributes needed to fill the Tableview columns
+     *
+     */
     public static class Data{
         private StringProperty  name  = new SimpleStringProperty();
         private DoubleProperty time = new SimpleDoubleProperty() ;
