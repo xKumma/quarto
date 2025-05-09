@@ -34,7 +34,9 @@ public class StartScreenTransition extends Transition {
 
 
     }
-
+    /**
+     * set duration , starting point and ending point of the RotateTransition obj for every node passed as parameter
+     */
     public void transition(Rectangle rn , RotateTransition rtn , double fromAngle){
         rtn = new RotateTransition(Duration.seconds(maxDuration), rn);
         rtn.setInterpolator(Interpolator.LINEAR);

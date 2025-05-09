@@ -9,7 +9,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * layout of the first screen of the application, creation and alignement of the nodes in the scene
+ */
 public final class StartScreenView extends BaseView {
 
     private Label timeDisplay;

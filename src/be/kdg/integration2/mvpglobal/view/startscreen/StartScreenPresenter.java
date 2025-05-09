@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
     public StartScreenPresenter(StartScreenView view, BaseModel model) {
+
         super(view, model);
         updateView();
         addEventHandlers();
