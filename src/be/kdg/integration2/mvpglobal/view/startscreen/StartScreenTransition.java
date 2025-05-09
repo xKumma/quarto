@@ -6,7 +6,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
+/**
+ * Animates the nodes created in the View Start screen
+ */
 public class StartScreenTransition extends Transition {
 
     private final StartScreenView view;
@@ -51,7 +53,5 @@ public class StartScreenTransition extends Transition {
     }
 
 
-/**
- * Animates the nodes created in the View Start screen
- */
+
 }
