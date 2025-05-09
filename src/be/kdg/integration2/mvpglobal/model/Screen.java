@@ -26,6 +26,7 @@ import be.kdg.integration2.mvpglobal.view.statscreen.StatScreenView;
 import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
 import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 
+import java.sql.SQLException;
 import java.util.function.Supplier;
 
 /**
@@ -40,7 +41,14 @@ public enum Screen {
     END_SCREEN(() -> new EndScreenPresenter(new EndScreenView(), null)),
     RULES(() -> new RulesPresenter(new RulesView(), null)),
     LOGIN(() -> new LoginScreenPresenter(null, new LoginScreenView())),
-    TABLE(() -> new TablePresenter(null, new TabletView())),
+    TABLE(() -> {
+        try {
+            return new TablePresenter( new TabletView() , new Tabledata());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }),
     GRAPH(() -> new StatScreenPresenter(new StatScreenView(), new Statistics())),
     ABOUT(() -> new AboutScreenPresenter(null, new AboutScreenView())),
     START(() ->new StartScreenPresenter(new StartScreenView() , null )),

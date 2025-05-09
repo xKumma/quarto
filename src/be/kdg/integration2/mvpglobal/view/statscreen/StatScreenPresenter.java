@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistics> {
-    /*
-    ObservableList<LineChart.Data> lineChartData =
-            FXCollections.observableArrayList();
 
-     */
 
     protected double[] values1;
     int size1;

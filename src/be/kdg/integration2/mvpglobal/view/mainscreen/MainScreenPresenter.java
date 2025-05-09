@@ -2,6 +2,7 @@ package be.kdg.integration2.mvpglobal.view.mainscreen;
 
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.model.Tabledata;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.List;
 
@@ -208,54 +210,7 @@ public class MainScreenPresenter extends BasePresenter<MainScreenView, MVPModel>
         });
 
 
-        view.getTableItem().setOnAction(event -> {
-            TabletView tableView = null;
 
-            tableView = new TabletView();
-
-
-            TablePresenter statPresenter = new TablePresenter(model, tableView);
-
-
-            Stage tableStage = new Stage();
-            tableStage.setTitle("table");
-            tableStage.initOwner(view.getScene().getWindow());
-            tableStage.initModality(Modality.APPLICATION_MODAL);
-            Scene scene2 = new Scene(tableView);
-            tableStage.setScene(scene2);
-            tableStage.setTitle(uiSettings.getApplicationName() + " - table");
-            tableStage.setX(view.getScene().getWindow().getX() + uiSettings.getResX() / 10);
-            tableStage.setY(view.getScene().getWindow().getY() + uiSettings.getResY() / 10);
-            //   statStage.setHeight(uiSettings.getResY()/2);
-            //    statStage.setWidth(uiSettings.getResX()/2);
-            if (Files.exists(uiSettings.getApplicationIconPath())) {
-                try {
-                    tableStage.getIcons().add(new Image(uiSettings.getApplicationIconPath().toUri().toURL().toString()));
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            } else { // do nothing, if ApplicationIconImage is not available, program can continue
-            }
-            tableStage.getScene().getWindow().setHeight(7 * uiSettings.getResY() / 10);
-            tableStage.getScene().getWindow().setWidth(7 * uiSettings.getResX() / 10);
-            if (uiSettings.styleSheetAvailable()) {
-                tableStage.getScene().getStylesheets().removeAll();
-                try {
-                    tableStage.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-            tableStage.showAndWait();
-            if (uiSettings.styleSheetAvailable()) {
-                view.getScene().getStylesheets().removeAll();
-                try {
-                    view.getScene().getStylesheets().add(uiSettings.getStyleSheetPath().toUri().toURL().toString());
-                } catch (MalformedURLException ex) {
-                    // do nothing, if toURL-conversion fails, program can continue
-                }
-            }
-        });
 
         view.getGameSetupMI().setOnAction(event -> {
             Router.getInstance().goTo(Screen.GAME_SETUP);
