@@ -11,14 +11,7 @@ public class StartScreenTransition extends Transition {
 
     private final StartScreenView view;
     private int maxDuration;
-
-    RotateTransition rt ;
-    RotateTransition rt1 ;
-    RotateTransition rt2 ;
-    RotateTransition rt3 ;
-
-
-
+    private RotateTransition rt , rt1 , rt2 , rt3  ;
 
     public StartScreenTransition(StartScreenView view, int maxDuration) {
         this.view = view;
@@ -27,49 +20,38 @@ public class StartScreenTransition extends Transition {
         this.setCycleCount(1);
         this.setInterpolator(Interpolator.LINEAR);
 
-
-
-
     }
 
     public void sqaretransition(Rectangle re1 , Rectangle re2 , Rectangle re3 , Rectangle re4  ) {
-        rt= new RotateTransition(Duration.seconds(maxDuration), re1);
-        rt.setFromAngle(45);
-        rt.setToAngle(360);
-        rt.setInterpolator(Interpolator.LINEAR);
 
-        rt1= new RotateTransition(Duration.seconds(maxDuration), re2);
-        rt1.setFromAngle(110);
-        rt1.setToAngle(360);
-        rt1.setInterpolator(Interpolator.LINEAR);
-        rt2= new RotateTransition(Duration.seconds(maxDuration), re3);
-        rt2.setFromAngle(155);
-        rt2.setToAngle(360);
-        rt2.setInterpolator(Interpolator.LINEAR);
-        rt3= new RotateTransition(Duration.seconds(maxDuration), re4);
-        rt3.setFromAngle(0);
-        rt3.setToAngle(360);
-        rt3.setInterpolator(Interpolator.LINEAR);
+        transition(re1 , rt , 0);
+        transition(re2 , rt1 , 45);
+        transition(re3 , rt2 , 110);
+        transition(re4 , rt3 , 155);
 
-        rt.play();
-        rt1.play();
-        rt2.play();
-        rt3.play();
 
 
     }
 
+    public void transition(Rectangle rn , RotateTransition rtn , double fromAngle){
+        rtn = new RotateTransition(Duration.seconds(maxDuration), rn);
+        rtn.setInterpolator(Interpolator.LINEAR);
+        rtn.setFromAngle(fromAngle);
+        rtn.setToAngle(360);
+        rtn.play();
+    }
+
     @Override
-    protected void interpolate(double frac) {
+    protected void interpolate(double frac)
+    {
         this.view.getTimeDisplay().setStyle(" -fx-text-fill: white ; -fx-font-size: 15px;");
         this.view.getTimeDisplay().setText(String.format("Loading: %.1f", frac * 100));
         this.view.getTimeProgress().setProgress(frac);
 
-        rt.play();
-        rt1.play();
-        rt2.play();
-        rt3.play();
-
-
     }
+
+
+/**
+ * Animates the nodes created in the View Start screen
+ */
 }

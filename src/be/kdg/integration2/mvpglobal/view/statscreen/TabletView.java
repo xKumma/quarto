@@ -18,11 +18,9 @@ public class TabletView extends BaseView {
     TableView<Tabledata.Data> table  ;
     Button menuButton;
     Button backButton;
-
     Label title;
     Label logoLabel;
-    //TableColumn<Tabledata, Double> ScoreAI;
-    //TableColumn<Tabledata, Double> ScoreP;
+
 
 
     public TabletView()  {
