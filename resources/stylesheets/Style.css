@@ -21,6 +21,9 @@
 
 .header {
     -fx-padding: 48px;
+}
+
+.header .label {
     -fx-font-size: 64px;
     -fx-font-family: "Helvetica";
 }
@@ -31,7 +34,7 @@
     -fx-max-width: 64px;
     -fx-max-height: 64px;
 
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-border-width: 3px;
     -fx-border-style: solid;
 
