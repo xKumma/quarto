@@ -60,8 +60,8 @@ public class LoginScreenView extends BaseView {
         passwordField.setMaxSize(275, 20);
         nameField.setMaxSize(275, 20);
 
-        rectangle.widthProperty().bind(box1.widthProperty().add(20));
-        rectangle.heightProperty().bind(box1.widthProperty().add(20));
+        rectangle.widthProperty().bind(box1.widthProperty().add(60));
+        rectangle.heightProperty().bind(box1.widthProperty().add(60));
 
         StackPane root = new StackPane(rectangle, box1);
         StackPane.setAlignment(box1, Pos.CENTER);

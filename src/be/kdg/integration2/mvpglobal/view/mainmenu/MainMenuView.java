@@ -64,8 +64,8 @@ public class MainMenuView extends BaseView {
             button.setPrefSize(175, 40);
         }
 
-        rectangle.widthProperty().bind(buttons.widthProperty().add(20));
-        rectangle.heightProperty().bind(buttons.heightProperty().add(20));
+        rectangle.widthProperty().bind(buttons.widthProperty().add(60));
+        rectangle.heightProperty().bind(buttons.heightProperty().add(60));
 
         //setTop(header);
         StackPane root = new StackPane(rectangle, buttons);
