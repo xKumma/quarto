@@ -239,6 +239,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setTitle("Exit Game");
         alert.setHeaderText("Do you want to save the game before exiting?");
+        alert.getDialogPane().getStyleClass().add("black");
         alert.setContentText("Choose an option:");
 
         ButtonType saveAndExit = new ButtonType("Save and Exit");

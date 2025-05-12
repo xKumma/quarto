@@ -138,8 +138,12 @@
 
 
 .label {
-    -fx-text-fill: black;        /* Text color */
+    -fx-text-fill: white;        /* Text color */
     /*-fx-font-size: 18px;         !* Font size *!*/
+}
+
+.black .label {
+    -fx-text-fill: black;
 }
 
 .title{

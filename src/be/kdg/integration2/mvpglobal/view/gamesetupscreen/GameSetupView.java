@@ -98,7 +98,7 @@ public class GameSetupView extends BaseView {
         rectangle.widthProperty().bind(centerOptions.heightProperty().add(60));
         rectangle.heightProperty().bind(centerOptions.heightProperty().add(60));
 
-        StackPane root = new StackPane(rectangle, centerOptions, bottomContainer);
+        StackPane root = new StackPane(bottomContainer, rectangle, centerOptions);
         setCenter(root);
     }
 

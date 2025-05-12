@@ -44,6 +44,7 @@ public class GameScreenView extends BaseView {
         }
 
         chosenPieceLabel = new Label("Chosen piece: ");
+        chosenPieceLabel.getStyleClass().add("white");
         chosenPieceButton = new PieceButton(null, null);
 
         unusedPieces = new GridPane();
@@ -62,7 +63,7 @@ public class GameScreenView extends BaseView {
                     Player: <name>
                     """
         );
-        roundInfoLbl.getStyleClass().add("game-info");
+        roundInfoLbl.getStyleClass().addAll("game-info", "white");
 
         timeLbl = new Label("Time: %02d:%02d (Turn: %02d:%03d)");
 
