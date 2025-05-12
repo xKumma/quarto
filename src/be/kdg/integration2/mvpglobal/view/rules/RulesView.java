@@ -43,6 +43,10 @@ public class RulesView extends BaseView {
                 "-fx-padding: 0px;"
         );
 
+        rulesTextLabel.setStyle(
+                "-fx-text-fill: white;"
+        );
+
         //rectangle
         Rectangle rectangle = new Rectangle();
         rectangle.setStroke(Color.BLACK);
@@ -50,14 +54,24 @@ public class RulesView extends BaseView {
         rectangle.setFill(Color.TRANSPARENT);
         rectangle.setRotate(45);
 
-        VBox textArea = new VBox(header, rulesTextLabel, menuButton);
-        textArea.setSpacing(80);
+        Label transparent = new Label("Transparent");
+
+        VBox menuButtonBox = new VBox(menuButton, transparent);
+        menuButtonBox.setPadding(new Insets(    20,20,20, 20));
+        transparent.setStyle("-fx-text-fill: transparent;");
+
+        menuButtonBox.setAlignment(Pos.CENTER);
+        menuButton.setAlignment(Pos.CENTER);
+
+        VBox textArea = new VBox(header, rulesTextLabel, menuButtonBox);
+        textArea.setSpacing(40);
         textArea.setAlignment(Pos.CENTER);
-        textArea.setMaxWidth(800);
+        textArea.setMaxWidth(400);
         textArea.setMaxHeight(600);
 
 
-        rectangle.widthProperty().bind(textArea.widthProperty().subtract(340) );
+
+        rectangle.widthProperty().bind(textArea.widthProperty().add(60) );
         rectangle.heightProperty().bind(textArea.heightProperty().subtract(140) );
 
         //setTop(header);
