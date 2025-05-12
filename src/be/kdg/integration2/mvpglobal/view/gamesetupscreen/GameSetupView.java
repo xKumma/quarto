@@ -9,7 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +21,6 @@ import java.util.List;
 public class GameSetupView extends BaseView {
 
     private List<ToggleButton> startingPlayerButtons;
-    private List<ToggleButton> difficultyButtons;
 
     private Button startBtn;
     private Button loadFileBtn;
@@ -46,40 +48,58 @@ public class GameSetupView extends BaseView {
         playerGroup.selectToggle(startingPlayerButtons.getFirst());
 
         startBtn = new Button("Start");
-        loadFileBtn = new Button("Load from file");
+        loadFileBtn = new Button("Load Game");
         menuBtn = new Button("Menu");
     }
 
     @Override
     protected void layoutNodes() {
-        setTop(new Header());
+        //setTop(new Header());
+        loadFileBtn.getStyleClass().addAll("menu-button", "small");
 
-        HBox loadButtons = new HBox(loadFileBtn);
-        loadButtons.setAlignment(Pos.CENTER);
-        loadButtons.setSpacing(15);
-        loadButtons.setPadding(new Insets(15));
+        startingPlayerButtons.forEach(node -> {
+            node.getStyleClass().add("menu-button");
+            node.setPrefSize(175, 40);
+        });
 
-        VBox startingPlayerOptions = new VBox(new Label("Starting Player"));
+        VBox startingPlayerOptions = new VBox(loadFileBtn, new Label("Starting Player"));
         startingPlayerOptions.getChildren().addAll(startingPlayerButtons);
         startingPlayerOptions.setSpacing(15);
+        startingPlayerOptions.setAlignment(Pos.CENTER);
 
-        HBox setupOptions = new HBox(startingPlayerOptions);
-        setupOptions.setSpacing(32);
-        setupOptions.setAlignment(Pos.CENTER);
-        setupOptions.getStyleClass().addAll("setup-options");
-
-        VBox centerOptions = new VBox(loadButtons,setupOptions);
-        setCenter(centerOptions);
+        Header header = new Header();
+        header.setStyle(
+                "-fx-padding: 0px; "
+        );
+        VBox centerOptions = new VBox(header, startingPlayerOptions);
         centerOptions.getStyleClass().addAll("setup-container");
-        centerOptions.setSpacing(32);
+        centerOptions.setSpacing(24);
+        centerOptions.setAlignment(Pos.CENTER);
+
+        centerOptions.setMaxSize(400, 400);
 
         HBox bottomContainer = new HBox(startBtn,menuBtn);
-        bottomContainer.getStyleClass().add("container");
-        bottomContainer.setAlignment(Pos.CENTER);
-        bottomContainer.setSpacing(15);
-        bottomContainer.setPadding(new Insets(15));
+        bottomContainer.getChildren().forEach(node -> {
+            ((Button)node).setPrefSize(115, 40);
+            node.getStyleClass().addAll("menu-button", "small", "white");
+        });
+        bottomContainer.setAlignment(Pos.BOTTOM_CENTER);
+        bottomContainer.setSpacing(64);
+        bottomContainer.setPadding(new Insets(-0, 0, 24, 0));
+        //setBottom(bottomContainer);
 
-        setBottom(bottomContainer);
+        Rectangle rectangle = new Rectangle();
+        rectangle.setStroke(Color.BLACK);
+        rectangle.setStrokeWidth(3);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setRotate(45);
+        rectangle.setMouseTransparent(true);
+
+        rectangle.widthProperty().bind(centerOptions.heightProperty().add(60));
+        rectangle.heightProperty().bind(centerOptions.heightProperty().add(60));
+
+        StackPane root = new StackPane(rectangle, centerOptions, bottomContainer);
+        setCenter(root);
     }
 
     //region Getters

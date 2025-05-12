@@ -8,7 +8,6 @@
     src: url('/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf');
 }
 .root{
-
     -fx-background-radius: 8px;
     -fx-background-color: radial-gradient(
             focus-distance 0%,
@@ -28,6 +27,15 @@
     -fx-font-family: "Helvetica";
 }
 
+
+.white .header-q  {
+    -fx-border-color: white;
+}
+
+.white .label {
+    -fx-text-fill: white;
+}
+
 .header-q {
     -fx-min-width: 64px;
     -fx-min-height: 64px;
@@ -43,19 +51,20 @@
     -fx-font-family: "Source Sans Pro Bold";
 }
 
-
-.piece-button {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-    -fx-border-style: dashed;
+.startup-header .label {
+    -fx-text-fill: white;
 }
-.box_plot{
+
+.startup-header .header-q{;
+    -fx-border-color: white;
+}
+
+.box_plot {
     -fx-text-fill: white;
     -fx-text-inner-color: white;
-
 }
 
-.button{
+.button {
     -fx-padding: 10px 25px; /* top-bottom left-right */
     -fx-font-size: 14px;
     -fx-background-color: black;
@@ -66,23 +75,23 @@
 .board-button {
     -fx-border-color: white;
     -fx-border-width: 1px;
-    -fx-border-style: dashed;
+    -fx-background-color: #262626;
 }
 
 
 .unused-button {
     -fx-border-color: white;
     -fx-border-width: 1px;
-    -fx-border-style: dashed;
+    -fx-background-color: transparent;
 }
 
 .container {
     -fx-padding: 48px;
 }
 
-.setup-container {
-    -fx-font-size: 21px;
-}
+/*.setup-container {*/
+/*    -fx-font-size: 21px;*/
+/*}*/
 
 .chart-title {
     -fx-text-fill: white;
@@ -98,9 +107,8 @@
 
 
 .label {
-    -fx-text-fill: white;        /* Text color */
-    -fx-font-size: 18px;         /* Font size */
-
+    -fx-text-fill: black;        /* Text color */
+    /*-fx-font-size: 18px;         !* Font size *!*/
 }
 
 .title{
@@ -130,8 +138,6 @@
 .chart-title{
     -fx-text-fill: white;        /* Text color */
     -fx-font-size: 30px;
-
-
 }
 
 .table-row-cell {
@@ -141,4 +147,42 @@
 .table-cell {
     -fx-padding: 8px;            /* Space inside each cell */
     -fx-font-size: 16px;         /* Font size inside the cells */
+}
+
+.menu-button {
+    -fx-shape: "M1031.46 2.5L1176.46 147.5L1031.46 292.5H148.535L3.53516 147.5L148.535 2.5H1031.46Z";
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-padding: 10 20 10 20;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+}
+
+.menu-button.small {
+    -fx-padding: 5 15 5 15;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-font-size: 12px;
+}
+
+.menu-button.white {
+    -fx-border-color: white;
+    -fx-text-fill: white;
+}
+
+.menu-button:focused {
+    -fx-font-weight: bold;
+}
+
+
+.menu-button:selected {
+    -fx-border-color: dimgrey;
+}
+
+.menu-button:hover {
+    -fx-border-color: white;
+    -fx-font-weight: bold;
 }

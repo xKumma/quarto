@@ -70,12 +70,13 @@ public class GameScreenView extends BaseView {
         infoLbl.getStyleClass().add("info-label");
 
         menuBtn = new Button("Menu");
-        menuBtn.getStyleClass().add("button");
+        menuBtn.getStyleClass().addAll("menu-button", "small", "white");
     }
 
     @Override
     protected void layoutNodes() {
         setTop(new Header());
+        getTop().getStyleClass().add("white");
 
         //new boxes with chosenpiece included
         GridPane chosenPieceGrid = new GridPane();
@@ -86,15 +87,14 @@ public class GameScreenView extends BaseView {
         VBox labels = new VBox(roundInfoLbl, timeLbl);
         labels.setSpacing(32);
         HBox allLabels = new HBox(labels, chosenPieceGrid);
-        //allLabels.setAlignment(Pos.TOP_LEFT);
-        allLabels.setSpacing(193);
+        allLabels.setSpacing(192);
 
 
-        VBox centerLeft = new VBox(allLabels, unusedPieces);
-        centerLeft.setSpacing(32);
+        VBox centerRight = new VBox(allLabels, unusedPieces);
+        centerRight.setSpacing(32);
 
-        HBox centerUpper = new HBox(board, centerLeft);
-        centerUpper.setSpacing(128);
+        HBox centerUpper = new HBox(board, centerRight);
+        centerUpper.setSpacing(64);
         centerUpper.setAlignment(Pos.CENTER);
 
         chosenPieceGrid.setAlignment(Pos.TOP_LEFT);

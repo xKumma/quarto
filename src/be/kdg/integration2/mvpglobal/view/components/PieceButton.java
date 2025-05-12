@@ -59,7 +59,8 @@ public class PieceButton extends Button {
         ImageView imageView = new ImageView(image);
 
         Lighting lighting = new Lighting();
-        lighting.setLight(new Light.Distant(45, 45, Color.web(color)));
+        lighting.setLight(new Light.Distant(45, 45,
+                Color.web(Objects.equals(color, "blue") ? "#7B68EE" : "firebrick")));
 
         imageView.setEffect(lighting);
 

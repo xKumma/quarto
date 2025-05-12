@@ -4,8 +4,6 @@ import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -46,22 +44,6 @@ public class MainMenuView extends BaseView {
     }
 
     protected void layoutNodes() {
-        //resize buttons
-        startGameButton.setPrefSize(110, 20); // Width, Height
-        rulesButton.setPrefSize(110, 20);
-        leaderboardButton.setPrefSize(110, 20);
-        quitButton.setPrefSize(110, 20);
-        /* --- buttons for testing ---
-        statisticsButton.setPrefSize(110, 20);
-        tableButton.setPrefSize(110, 20);
-        aboutButton.setPrefSize(110, 20);
-        settingsButton.setPrefSize(110, 20);
-        */
-
-        Label menuLabel = new Label("Menu");
-        menuLabel.setStyle("-fx-font-size: 24px;");
-
-
         //rectangle
         Rectangle rectangle = new Rectangle();
         rectangle.setStroke(Color.BLACK);
@@ -70,14 +52,20 @@ public class MainMenuView extends BaseView {
         rectangle.setRotate(45);
 
         //buttons vbox
-        VBox buttons = new VBox(header, menuLabel,startGameButton, rulesButton, leaderboardButton, quitButton);
+        VBox buttons = new VBox(header,startGameButton, rulesButton, leaderboardButton, quitButton);
         buttons.setSpacing(4);
         buttons.setAlignment(Pos.CENTER);
         buttons.setMaxWidth(400);
         buttons.setMaxHeight(400);
 
-        rectangle.widthProperty().bind(buttons.widthProperty().add(60));
-        rectangle.heightProperty().bind(buttons.heightProperty().add(60));
+        for (int i = 1; i < buttons.getChildren().size(); i++) {
+            var button = (Button) buttons.getChildren().get(i);
+            button.getStyleClass().add("menu-button");
+            button.setPrefSize(175, 40);
+        }
+
+        rectangle.widthProperty().bind(buttons.widthProperty().add(20));
+        rectangle.heightProperty().bind(buttons.heightProperty().add(20));
 
         //setTop(header);
         StackPane root = new StackPane(rectangle, buttons);

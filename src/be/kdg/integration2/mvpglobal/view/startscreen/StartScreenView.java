@@ -1,6 +1,7 @@
 package be.kdg.integration2.mvpglobal.view.startscreen;
 
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -24,8 +25,6 @@ public final class StartScreenView extends BaseView {
     private Rectangle rectangle3;
 
     private StackPane graphic = new StackPane();
-    private Label titolo;
-
 
 
     public StartScreenView() {
@@ -43,9 +42,6 @@ public final class StartScreenView extends BaseView {
         rectangle1 = new Rectangle();
         rectangle2 = new Rectangle();
         rectangle3 = new Rectangle();
-        titolo = new Label();
-        this.titolo.setStyle("   -fx-font-size: 20pt  ;  -fx-text-fill: white ");
-
     }
 
 
@@ -80,19 +76,12 @@ public final class StartScreenView extends BaseView {
         BorderPane progressPane = new BorderPane();
         graphic = new StackPane();
         progressPane.getChildren().addAll(graphic);
-        titolo.setText("     \uD83C\uDD40UARTO     " );
-        this.titolo.setId("titolo");
-        this.titolo.setStyle("   -fx-font-size: 20pt  ;  -fx-text-fill: white ");
-
-        // this.getChildren().add(titolo);
-        this.setTop(titolo);
-
-
 
         this.setCenter(graphic);
 
-
-        graphic.getChildren().addAll( circle, rectangle, rectangle1, rectangle2, rectangle3,titolo );
+        Header header = new Header();
+        header.getStyleClass().add("startup-header");
+        graphic.getChildren().addAll( circle, rectangle, rectangle1, rectangle2, rectangle3,header);
 
         progressPane.setRight(this.timeProgress);
         progressPane.setLeft(this.timeDisplay);
@@ -104,8 +93,6 @@ public final class StartScreenView extends BaseView {
         setMinWidth(500);
         setMaxHeight(1000);
         setMaxWidth(1900);
-
-
     }
 
 
@@ -133,10 +120,6 @@ public final class StartScreenView extends BaseView {
 
     Rectangle getRectangle3() {
         return rectangle3;
-    }
-
-    Label getTitolo() {
-        return titolo;
     }
 
     private void animate() {

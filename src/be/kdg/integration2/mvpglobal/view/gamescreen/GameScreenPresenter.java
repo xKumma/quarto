@@ -107,7 +107,6 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
                 });
             }
         }
-        view.getChosenPieceGrid().setOnMouseClicked(e -> SaveManager.saveToDB(model.getSessionData()));
     }
 
     private void goToMenu() {
