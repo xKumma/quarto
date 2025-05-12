@@ -27,6 +27,37 @@
     -fx-font-family: "Helvetica";
 }
 
+.dialog-pane {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 16px;
+    -fx-background-color: white;
+
+}
+
+.dialog-pane .button {
+
+
+
+
+
+
+
+
+     -fx-shape: "M1031.46 2.5L1176.46 147.5L1031.46 292.5H148.535L3.53516 147.5L148.535 2.5H1031.46Z";
+     -fx-background-color: transparent;
+     -fx-border-color: black;
+     -fx-padding: 10 20 10 20;
+     -fx-text-fill: black;
+     -fx-font-size: 14px;
+     -fx-cursor: hand;
+     -fx-min-height: 40px;
+     -fx-max-height: 40px;
+
+
+
+}
+
+
 
 .white .header-q  {
     -fx-border-color: white;
