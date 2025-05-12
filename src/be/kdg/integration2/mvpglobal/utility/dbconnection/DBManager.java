@@ -361,7 +361,7 @@ public class DBManager {
      * Name that the user has entered
      * @param passwordData
      * Password that the user has entered
-     * @return
+     * @return returns true if user was successfully registered
      */
     public Boolean registerUser(String usernameData, String passwordData){
         try{
@@ -390,13 +390,12 @@ public class DBManager {
     }
 
     /**
-     * returns true if user is in the database and the passwords are matching.
-     * If the user is not in the DB it will show an alert saying that the user does not exist.
+     * Calls username check and password check and creates a player object if that is the case
      * @param usernameData
      * Name that the user has entered
      * @param passwordData
      * Password that the user has entered
-     * @return
+     * @return returns true if user is in the database and the passwords are matching.
      */
     public Boolean loginUser(String usernameData, String passwordData){
         try{
@@ -423,10 +422,10 @@ public class DBManager {
     }
 
     /**
-     * Checks if the entered username already exists in the database
+     * Compares given Username with database
      * @param usernameData
      * Name that the user has entered
-     * @return
+     * @return returns a flag which is true if the user exists in the DB
      */
     public Boolean userExists(String usernameData){
         Boolean flag=false;
@@ -446,12 +445,12 @@ public class DBManager {
 
 
     /**
-     * Returns true if the password given is matching the password of the given username.
-     * If not it will show an alert saying that the password is wrong.
+     * Compares given Username and Password with database
      * @param usernameData
      * Name that the user has entered
      * @param passwordData
      * Password that the user has entered
+     * @return returns a flag which is true when the password and username have a match in the DB
      */
     public Boolean passwordCheck(String usernameData,String passwordData){
         Boolean flag=false;

@@ -10,8 +10,6 @@ public class LeaderboardScreenPresenter extends BasePresenter<LeaderboardScreenV
 
     /**
      * When the leaderboard screen is opened, the table will be filled with data from the DB
-     * @param view
-     * @param model
      */
     public LeaderboardScreenPresenter(LeaderboardScreenView view, BaseModel model) {
         super(view, model);

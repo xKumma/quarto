@@ -47,7 +47,7 @@ public class LoginScreenPresenter extends BasePresenter<LoginScreenView, BaseMod
 
     /**
      * Checks if Name and Password field are filled in, if not it will throw an error alert
-     * @return
+     * @return returns true if the fields are filled in and have the minimum size
      */
     private Boolean contentChecker(){
         if (view.getNameField().getText().trim().isEmpty()||
