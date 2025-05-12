@@ -58,6 +58,9 @@ public class MainMenuView extends BaseView {
         settingsButton.setPrefSize(110, 20);
         */
 
+        Label menuLabel = new Label("Menu");
+        menuLabel.setStyle("-fx-font-size: 24px;");
+
 
         //rectangle
         Rectangle rectangle = new Rectangle();
@@ -67,14 +70,14 @@ public class MainMenuView extends BaseView {
         rectangle.setRotate(45);
 
         //buttons vbox
-        VBox buttons = new VBox(header,new Label("Menu"),startGameButton, rulesButton, leaderboardButton, quitButton);
+        VBox buttons = new VBox(header, menuLabel,startGameButton, rulesButton, leaderboardButton, quitButton);
         buttons.setSpacing(4);
         buttons.setAlignment(Pos.CENTER);
         buttons.setMaxWidth(400);
         buttons.setMaxHeight(400);
 
-        rectangle.widthProperty().bind(buttons.widthProperty().add(20));
-        rectangle.heightProperty().bind(buttons.heightProperty().add(20));
+        rectangle.widthProperty().bind(buttons.widthProperty().add(60));
+        rectangle.heightProperty().bind(buttons.heightProperty().add(60));
 
         //setTop(header);
         StackPane root = new StackPane(rectangle, buttons);

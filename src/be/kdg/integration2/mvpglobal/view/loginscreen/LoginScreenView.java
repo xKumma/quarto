@@ -59,8 +59,8 @@ public class LoginScreenView extends BaseView {
         box1.setAlignment(Pos.CENTER);
         box2.setAlignment(Pos.CENTER);
 
-        rectangle.widthProperty().bind(box1.widthProperty().add(20));
-        rectangle.heightProperty().bind(box1.heightProperty().add(20));
+        rectangle.widthProperty().bind(box1.widthProperty().add(60));
+        rectangle.heightProperty().bind(box1.heightProperty().add(60));
 
         StackPane root = new StackPane(rectangle, box1);
         StackPane.setAlignment(box1, Pos.CENTER);

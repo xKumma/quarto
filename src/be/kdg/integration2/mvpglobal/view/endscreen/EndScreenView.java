@@ -46,7 +46,11 @@ public class EndScreenView extends BaseView {
     }
 
     protected void layoutNodes() {
-        setTop(header);
+
+        header.setStyle(
+                "-fx-padding: 0px;"
+        );
+        //setTop(header);
 
         menuButton.setPrefSize(90, 20); // Width, Height
         tableButton.setPrefSize(90, 20);
@@ -59,23 +63,6 @@ public class EndScreenView extends BaseView {
         rectangle.setFill(Color.TRANSPARENT);
         rectangle.setRotate(45);
 
-
-
-        VBox textBox = new VBox(header, winnerTextLabel);
-        textBox.setSpacing(4);
-        textBox.setAlignment(Pos.CENTER);
-        textBox.setMaxWidth(400);
-        textBox.setMaxHeight(400);
-
-        rectangle.widthProperty().bind(textBox.widthProperty().add(20));
-        rectangle.heightProperty().bind(textBox.heightProperty().add(20));
-
-        //center (rectangle + label)
-        StackPane centerPane = new StackPane(rectangle, textBox);
-        StackPane.setAlignment(winnerTextLabel, Pos.CENTER);
-        StackPane.setAlignment(rectangle, Pos.CENTER);
-        setCenter(centerPane);
-
         //buttons
         HBox hBoxButtons = new HBox(tableButton, graphButton);
         hBoxButtons.setAlignment(Pos.CENTER);
@@ -85,7 +72,27 @@ public class EndScreenView extends BaseView {
         vBoxButtons.setSpacing(20);
 
 
-        setBottom(vBoxButtons);
+        VBox textBox = new VBox(header, winnerTextLabel, vBoxButtons);
+        winnerTextLabel.setStyle("-fx-font-size: 30px;");
+        textBox.setSpacing(80);
+        textBox.setAlignment(Pos.CENTER);
+        textBox.setMaxWidth(400);
+        textBox.setMaxHeight(400);
+
+        rectangle.widthProperty().bind(textBox.widthProperty().add(60));
+        rectangle.heightProperty().bind(textBox.heightProperty().add(60));
+
+
+        //center (rectangle + label)
+        StackPane centerPane = new StackPane(rectangle, textBox);
+        StackPane.setAlignment(winnerTextLabel, Pos.CENTER);
+        StackPane.setAlignment(rectangle, Pos.CENTER);
+        setCenter(centerPane);
+
+
+
+
+        //setBottom(vBoxButtons);
 
 
 

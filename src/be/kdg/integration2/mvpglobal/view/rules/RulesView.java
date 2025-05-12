@@ -6,7 +6,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 public class RulesView extends BaseView {
@@ -35,16 +38,39 @@ public class RulesView extends BaseView {
     }
 
     protected void layoutNodes() {
-        setTop(header);
 
-        VBox rulesVBox = new VBox(rulesTitleLabel, rulesTextLabel);
-        rulesVBox.setSpacing(15);
-        rulesVBox.setAlignment(Pos.CENTER);
+        header.setStyle(
+                "-fx-padding: 0px;"
+        );
+
+        //rectangle
+        Rectangle rectangle = new Rectangle();
+        rectangle.setStroke(Color.BLACK);
+        rectangle.setStrokeWidth(3);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setRotate(45);
+
+        VBox textArea = new VBox(header, rulesTextLabel, menuButton);
+        textArea.setSpacing(80);
+        textArea.setAlignment(Pos.CENTER);
+        textArea.setMaxWidth(800);
+        textArea.setMaxHeight(600);
+
+
+        rectangle.widthProperty().bind(textArea.widthProperty().subtract(340) );
+        rectangle.heightProperty().bind(textArea.heightProperty().subtract(140) );
+
+        //setTop(header);
+        StackPane textRectangle = new StackPane(rectangle, textArea);
+        StackPane.setAlignment(textArea, Pos.CENTER);
+        StackPane.setAlignment(rectangle, Pos.CENTER);
+        setCenter(textRectangle);
+
         menuButton.setAlignment(Pos.BOTTOM_CENTER);
 
 
-        setCenter(rulesVBox);
-        setBottom(menuButton);
+
+        //setBottom(menuButton);
 
 
         setPadding(new Insets(50));
