@@ -18,7 +18,6 @@ public class Header extends HBox {
     private void setupComponent() {
         Label qLabel = new Label("Q"); // 🅀
         StackPane qContainer = new StackPane(qLabel);
-        //qContainer.setAlignment(Pos.CENTER);
         qContainer.getStyleClass().add("header-q");
 
         Label restLabel = new Label("uarto");
