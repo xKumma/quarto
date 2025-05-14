@@ -2,14 +2,17 @@ package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.model.Tabledata;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
+import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import be.kdg.integration2.mvpglobal.model.Tabledata;
 
 import java.sql.SQLException;
 /**
@@ -24,8 +27,6 @@ public class TabletView extends BaseView {
     Button menuButton;
     Button backButton;
     Label title;
-    Label logoLabel;
-
 
 
     public TabletView()  {
@@ -36,8 +37,7 @@ public class TabletView extends BaseView {
     protected void initialiseNodes() throws SQLException {
         table = new TableView();
         pane=new BorderPane();
-        title = new Label("game stats");
-        logoLabel = new Label("\uD83C\uDD40uarto");
+        title = new Label("Game Statistics");
         backButton = new Button("BACK");
         menuButton = new Button("MENU");
 
@@ -57,12 +57,11 @@ public class TabletView extends BaseView {
         this.setCenter(pane);
         pane.setCenter(table);
         BorderPane panepane = new BorderPane();
-        title.setPadding(new Insets(20, 50, 50, 440));
+        title.setPadding(new Insets(20, 0, 50, 0));
         title.getStyleClass().add("title");
-        logoLabel.setPadding(new Insets(50, 50, 50, 420));
-        logoLabel.getStyleClass().add("logo");
 
-        VBox box1 = new VBox(logoLabel, title);
+        VBox box1 = new VBox(new Header(), title);
+        box1.setAlignment(Pos.CENTER);
         panepane.setCenter(box1);
         pane.setTop(panepane);
 

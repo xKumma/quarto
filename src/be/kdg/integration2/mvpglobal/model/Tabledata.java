@@ -84,13 +84,17 @@ public class Tabledata {
     protected DBManager dbManager = DBManager.getInstance();
 
 
-    public Tabledata() throws SQLException {
-        getName();
-        geTIME();
-        getNMAI();
-        getNMpl();
-        getTai();
-        getTPL();
+    public Tabledata() {
+        try {
+            getName();
+            geTIME();
+            getNMAI();
+            getNMpl();
+            getTai();
+            getTPL();
+        } catch (Exception e) {
+            System.err.println("Error connecting to DB, not able to retrieve data");
+        }
     }
 
 

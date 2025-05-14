@@ -1,6 +1,5 @@
 package be.kdg.integration2.mvpglobal.view.endscreen;
 
-import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.geometry.Insets;
@@ -11,9 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
 public class EndScreenView extends BaseView {
 
@@ -30,19 +27,11 @@ public class EndScreenView extends BaseView {
     }
 
     protected void initialiseNodes() {
-        Font font = new Font(16);
         header = new Header();
         menuButton = new Button("Menu");
         tableButton = new Button("Table");
         graphButton = new Button("Graph");
-        try {
-            winnerTextLabel = new Label(DBManager.getInstance().getWinnerName() + " won!");
-        } catch (Exception e) {
-            winnerTextLabel = new Label("Player x won!");
-        }
-
-
-
+        winnerTextLabel = new Label();
     }
 
     protected void layoutNodes() {
@@ -52,9 +41,8 @@ public class EndScreenView extends BaseView {
         );
         //setTop(header);
 
-        menuButton.setPrefSize(90, 20); // Width, Height
-        tableButton.setPrefSize(90, 20);
-        graphButton.setPrefSize(90, 20);
+        menuButton.getStyleClass().addAll("menu-button");
+        menuButton.setPrefSize(105,20);
 
         //rectangle
         Rectangle rectangle = new Rectangle();
@@ -65,6 +53,10 @@ public class EndScreenView extends BaseView {
 
         //buttons
         HBox hBoxButtons = new HBox(tableButton, graphButton);
+        hBoxButtons.getChildren().forEach(node -> {
+            node.getStyleClass().addAll("menu-button");
+            ((Button)node).setPrefSize(105,20);
+        });
         hBoxButtons.setAlignment(Pos.CENTER);
         hBoxButtons.setSpacing(20);
         VBox vBoxButtons = new VBox(hBoxButtons, menuButton);

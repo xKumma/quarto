@@ -47,21 +47,23 @@ public class SaveManager {
      *                        contains all the necessary information about the game session.
      */
     public static void saveToDB(GameSessionData gameSessionData) {
-        try {
-            DBManager.getInstance().insertNewSession(
-                    gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal(), !gameSessionData.getMoveHistory().getLast().getPlayer().equals("bot"));
+        if (DBManager.getInstance().isConnected()) {
+            try {
+                DBManager.getInstance().insertNewSession(
+                        gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal(), !gameSessionData.getMoveHistory().getLast().getPlayer().equals("bot"));
 
-            for (Move move : gameSessionData.getMoveHistory()) {
-                DBManager.getInstance().insertNewMove(
-                        move.getPlayer(),
-                        move.getPosition().x(),
-                        move.getPosition().y(),
-                        move.getStartTime(),
-                        move.getEndTime()
-                );
+                for (Move move : gameSessionData.getMoveHistory()) {
+                    DBManager.getInstance().insertNewMove(
+                            move.getPlayer(),
+                            move.getPosition().x(),
+                            move.getPosition().y(),
+                            move.getStartTime(),
+                            move.getEndTime()
+                    );
+                }
+            } catch (SQLException e) {
+                System.err.println("Error saving to DB");;
             }
-        } catch (SQLException e) {
-            System.err.println("Error saving to DB");;
         }
     }
 

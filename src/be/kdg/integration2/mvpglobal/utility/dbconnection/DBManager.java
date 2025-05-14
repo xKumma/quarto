@@ -106,15 +106,13 @@ public class DBManager {
      * @throws SQLException If a database access error occurs.
      */
     public void insertNewSession(String currentPlayer, int difficulty, boolean playerWon) throws SQLException {
-        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, ?, TRUE, ?)";
+        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, 'bot', TRUE, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
 
         ps.setString(1, currentPlayer);
 
-        String botPlayer = getBotNameFromDifficulty(difficulty);
-        ps.setString(2, botPlayer);
 
-        ps.setBoolean(3, playerWon);
+        ps.setBoolean(2, playerWon);
 
         ps.executeUpdate();
 
@@ -125,15 +123,6 @@ public class DBManager {
 
         rs.close();
         ps.close();
-    }
-
-    public String getBotNameFromDifficulty (int difficulty) throws SQLException {
-        String selectBotName = "SELECT bot_name FROM bot_players WHERE bot_difficulty = ?";
-        PreparedStatement ps = connection.prepareStatement(selectBotName);
-        ps.setInt(1, difficulty+1);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        return rs.getString(1);
     }
 
     public String getBotNameFromSession (int sessionID) throws SQLException {

@@ -1,22 +1,11 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
-import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.Statistics;
+import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.model.Tabledata;
 import be.kdg.integration2.mvpglobal.utility.Router;
-import be.kdg.integration2.mvpglobal.model.Screen;
-import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
 
@@ -33,14 +22,14 @@ public class TablePresenter extends BasePresenter<TabletView, Tabledata> {
     ObservableList<Tabledata.Data> dataList = FXCollections.observableArrayList();
 
 
-    public TablePresenter( TabletView view , Tabledata model) throws SQLException {
+    public TablePresenter( TabletView view , Tabledata model) {
         super( view , model  );
 
-
-
-
-
-        updateval();
+        try {
+            updateval();
+        } catch (Exception e) {
+            System.err.println("Error updating statistics: " + e.getMessage());
+        }
 
     }
 

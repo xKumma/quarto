@@ -1,9 +1,10 @@
 package be.kdg.integration2.mvpglobal.view.endscreen;
 
 import be.kdg.integration2.mvpglobal.model.BaseModel;
-import be.kdg.integration2.mvpglobal.model.Player;
 import be.kdg.integration2.mvpglobal.model.Screen;
+import be.kdg.integration2.mvpglobal.model.dataobjects.GameSessionData;
 import be.kdg.integration2.mvpglobal.utility.Router;
+import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
 public class EndScreenPresenter extends BasePresenter<EndScreenView, BaseModel> {
@@ -11,6 +12,24 @@ public class EndScreenPresenter extends BasePresenter<EndScreenView, BaseModel> 
 
     public EndScreenPresenter(EndScreenView endScreenView, BaseModel model) {
         super(endScreenView, model);
+
+        if (!DBManager.getInstance().isConnected()) {
+            view.getGraphButton().setDisable(true);
+            view.getTableButton().setDisable(true);
+        }
+    }
+
+    @Override
+    public void init(Object data) {
+        super.init(data);
+
+        try {
+            view.getWinnerTextLabel().setText(DBManager.getInstance().getWinnerName() + " won!");
+        } catch (Exception e) {
+            if (data != null)
+                view.getWinnerTextLabel().setText(
+                        ((GameSessionData)data).getMoveHistory().getLast().getPlayer() + " won!");
+        }
     }
 
     protected void addEventHandlers() {

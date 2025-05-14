@@ -63,6 +63,11 @@ public class GameSetupView extends BaseView {
         });
 
         VBox startingPlayerOptions = new VBox(loadFileBtn, new Label("Starting Player"));
+        startingPlayerOptions.getStyleClass().addAll("black");
+        startingPlayerOptions.setStyle(
+                "-fx-font-size: 16px"
+        );
+
         startingPlayerOptions.getChildren().addAll(startingPlayerButtons);
         startingPlayerOptions.setSpacing(15);
         startingPlayerOptions.setAlignment(Pos.CENTER);

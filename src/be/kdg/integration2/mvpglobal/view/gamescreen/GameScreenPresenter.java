@@ -116,7 +116,7 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         Router.getInstance().goTo(Screen.MAIN_MENU, null);
     }
     private void goToEndScreen() {
-        Router.getInstance().goTo(Screen.END_SCREEN, null);
+        Router.getInstance().goTo(Screen.END_SCREEN, model.getSessionData());
     }
 
 

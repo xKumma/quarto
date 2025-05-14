@@ -148,7 +148,7 @@
 
 .title{
     -fx-font-size: 40px;
-
+    -fx-alignment: center;
 }
 
 .logo {

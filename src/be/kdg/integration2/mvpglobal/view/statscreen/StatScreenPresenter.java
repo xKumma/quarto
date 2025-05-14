@@ -72,13 +72,14 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
 
         try {
             model.launch();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             player = dbManager.getUserNameFromSession(dbManager.getSessionID());
+
         } catch (SQLException e) {
+            System.err.println("Database connection is not initialized.");
+            return;
         }
+
+
         size1 = model.getTime1().length;
         values1 = new double[size1];
         size2 = model.getTime2().length;
