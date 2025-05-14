@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * SaveManager class for handling the saving and loading of game session data.
+ * This class provides methods to save game session data to a file or a database,
+ * and to load game session data from a file.
+ */
 public class SaveManager {
     public static final Path SAVE_PATH = Paths.get("saves/").toAbsolutePath();
 

@@ -7,6 +7,12 @@ import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
+/**
+ * Presenter class for the MainMenu view.
+ * <p>
+ * This class handles the logic and interactions for the MainMenu view,
+ * including navigation to other screens and disabling buttons based on database connection status.
+ */
 public class MainMenuPresenter extends BasePresenter<MainMenuView, BaseModel> {
     public MainMenuPresenter(MainMenuView view, MVPModel model) {
         super(view, model);

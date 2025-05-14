@@ -5,6 +5,12 @@ import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.model.Screen;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
+/**
+ * Presenter class for the Rules view.
+ * <p>
+ * This class handles the logic and interactions for the Rules view,
+ * including navigation to other screens.
+ */
 public class RulesPresenter extends BasePresenter<RulesView, BaseModel> {
 
     public RulesPresenter(RulesView rulesView, BaseModel model) {

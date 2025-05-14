@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * MainMenuView class represents the main menu screen of the application.
+ */
 public class MainMenuView extends BaseView {
 
     private Header header;

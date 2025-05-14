@@ -12,6 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+/**
+ * RulesView class represents the rules screen of the application.
+ */
 public class RulesView extends BaseView {
 
     private Button menuButton;

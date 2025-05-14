@@ -1,7 +1,7 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
 import be.kdg.integration2.mvpglobal.model.Screen;
-import be.kdg.integration2.mvpglobal.model.Tabledata;
+import be.kdg.integration2.mvpglobal.model.dataobjects.Tabledata;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.collections.FXCollections;

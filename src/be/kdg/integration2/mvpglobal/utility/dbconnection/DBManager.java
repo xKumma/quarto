@@ -1,7 +1,7 @@
 package be.kdg.integration2.mvpglobal.utility.dbconnection;
 
 import be.kdg.integration2.mvpglobal.model.HumanPlayer;
-import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.LeaderboardData;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -33,6 +33,11 @@ public class DBManager {
         setupDatabase();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static DBManager getInstance() {
         if (Instance == null) {
             Instance = new DBManager();
@@ -40,6 +45,9 @@ public class DBManager {
         return Instance;
     }
 
+    /**
+     * Setup database in case of valid connection but no tables.
+     */
     private void setupDatabase() {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -71,6 +79,9 @@ public class DBManager {
         }
     }
 
+    /**
+     * Close connection.
+     */
     public void closeConnection() {
         try {
             if (connection != null) {
@@ -81,6 +92,16 @@ public class DBManager {
         }
     }
 
+    /**
+     * Insert new move.
+     *
+     * @param player    the player
+     * @param x         the x
+     * @param y         the y
+     * @param startTime the start time
+     * @param endTime   the end time
+     * @throws SQLException If a database access error occurs.
+     */
     public void insertNewMove(String player, int x, int y, long startTime, long endTime) throws SQLException {
         String insertNewMove =
                 "INSERT INTO moves(sessionID, move_start_time, move_end_time, was_ai) VALUES(?, ?, ?, ?)";
@@ -101,8 +122,8 @@ public class DBManager {
      * Inserts a new game session into the database.
      *
      * @param currentPlayer The username of the current player.
-     * @param difficulty The difficulty level of the bot (used to determine the bot's name).
-     * @param playerWon A boolean indicating whether the player won the session.
+     * @param difficulty    The difficulty level of the bot.
+     * @param playerWon     A boolean indicating whether the player won the session.
      * @throws SQLException If a database access error occurs.
      */
     public void insertNewSession(String currentPlayer, int difficulty, boolean playerWon) throws SQLException {
@@ -125,15 +146,12 @@ public class DBManager {
         ps.close();
     }
 
-    public String getBotNameFromSession (int sessionID) throws SQLException {
-        String selectBotName = "SELECT bot_name FROM sessions WHERE sessionID = ?";
-        PreparedStatement ps = connection.prepareStatement(selectBotName);
-        ps.setInt(1, sessionID);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        return rs.getString(1);
-    }
-
+    /**
+     * Gets winner name.
+     *
+     * @return the winner name
+     * @throws SQLException If a database access error occurs.
+     */
     public String getWinnerName () throws SQLException {
         String selectWasAI = "SELECT was_ai FROM moves WHERE sessionID = ? ORDER BY moveID DESC LIMIT 1";
         PreparedStatement ps = connection.prepareStatement(selectWasAI);
@@ -145,10 +163,23 @@ public class DBManager {
 
     }
 
+    /**
+     * Gets id for the current session.
+     *
+     * @return the session id
+     * @throws SQLException If a database access error occurs.
+     */
     public int getSessionID() throws SQLException {
         return currentSessionID;
     }
 
+    /**
+     * Gets user name from session.
+     *
+     * @param sessionID the session id
+     * @return the user name from session
+     * @throws SQLException If a database access error occurs.
+     */
     public String getUserNameFromSession (int sessionID) throws SQLException {
         String selectBotName = "SELECT player_username FROM sessions WHERE sessionID = ?";
         PreparedStatement ps = connection.prepareStatement(selectBotName);
@@ -157,6 +188,7 @@ public class DBManager {
         rs.next();
         return rs.getString(1);
     }
+
 
     public double getTimeIN(int sessionid ) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM ( move_start_time))  FROM moves WHERE sessionId = ? ORDER BY moveID ASC LIMIT 1  ";
@@ -172,7 +204,7 @@ public class DBManager {
         return 0; // Valore di default se non ci sono risultati
     }
 
-     public double getTMAIs(int sessionid ) throws SQLException {
+    public double getTMAIs(int sessionid ) throws SQLException {
         String query = "SELECT EXTRACT(EPOCH FROM ( move_start_time  ))  FROM moves WHERE sessionId = ? AND was_ai = TRUE ORDER BY moveID ASC LIMIT 1  ";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, sessionid);
@@ -330,6 +362,13 @@ public class DBManager {
         return 0;
     }
 
+    /**
+     * Was a move made by AI boolean.
+     *
+     * @param moveid the moveid
+     * @return true if AI made the move, false otherwise
+     * @throws SQLException  If a database access error occurs.
+     */
     public boolean isAI(int moveid) throws SQLException {
         String query = "SELECT was_ai FROM  moves WHERE moveId = ?  order by moveid asc  ";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -345,10 +384,9 @@ public class DBManager {
 
     /**
      * If the user does not exist in the DB it will create this user in the database with his chosen password
-     * @param usernameData
-     * Name that the user has entered
-     * @param passwordData
-     * Password that the user has entered
+     *
+     * @param usernameData Name that the user has entered
+     * @param passwordData Password that the user has entered
      * @return returns true if user was successfully registered
      */
     public Boolean registerUser(String usernameData, String passwordData){
@@ -379,10 +417,9 @@ public class DBManager {
 
     /**
      * Calls username check and password check and creates a player object if that is the case
-     * @param usernameData
-     * Name that the user has entered
-     * @param passwordData
-     * Password that the user has entered
+     *
+     * @param usernameData Name that the user has entered
+     * @param passwordData Password that the user has entered
      * @return returns true if user is in the database and the passwords are matching.
      */
     public Boolean loginUser(String usernameData, String passwordData){
@@ -411,8 +448,8 @@ public class DBManager {
 
     /**
      * Compares given Username with database
-     * @param usernameData
-     * Name that the user has entered
+     *
+     * @param usernameData Name that the user has entered
      * @return returns a flag which is true if the user exists in the DB
      */
     public Boolean userExists(String usernameData){
@@ -434,10 +471,9 @@ public class DBManager {
 
     /**
      * Compares given Username and Password with database
-     * @param usernameData
-     * Name that the user has entered
-     * @param passwordData
-     * Password that the user has entered
+     *
+     * @param usernameData Name that the user has entered
+     * @param passwordData Password that the user has entered
      * @return returns a flag which is true when the password and username have a match in the DB
      */
     public Boolean passwordCheck(String usernameData,String passwordData){
@@ -468,7 +504,6 @@ public class DBManager {
     /**
      * Will first clear the current leaderboard and then fill it with fresh data.
      * It will create a row with name,gamesPlayed,wins,losses,averageMoves,averageTime for each user
-     *
      */
     public void fillLeaderboard(){
         String tempName="Empty";
@@ -533,6 +568,11 @@ public class DBManager {
         }
     }
 
+    /**
+     * Is connected boolean.
+     *
+     * @return true if connected, false otherwise
+     */
     public boolean isConnected() {
         try {
             return connection != null && !connection.isClosed();

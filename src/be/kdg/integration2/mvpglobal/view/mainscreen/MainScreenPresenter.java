@@ -2,7 +2,6 @@ package be.kdg.integration2.mvpglobal.view.mainscreen;
 
 import be.kdg.integration2.mvpglobal.model.MVPModel;
 import be.kdg.integration2.mvpglobal.model.Screen;
-import be.kdg.integration2.mvpglobal.model.Tabledata;
 import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
@@ -11,8 +10,6 @@ import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.infoscreen.InfoScreenView;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsPresenter;
 import be.kdg.integration2.mvpglobal.view.settingsscreen.SettingsView;
-import be.kdg.integration2.mvpglobal.view.statscreen.TablePresenter;
-import be.kdg.integration2.mvpglobal.view.statscreen.TabletView;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,7 +24,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.List;
 

@@ -22,6 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Presenter class for the GameScreen view.
+ * <p>
+ * This class handles the logic and interactions for the game screen, including managing the game state,
+ * handling user input, and updating the view accordingly.
+ */
 public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSession> {
 
     private GameTimer gameTimer;
@@ -183,6 +189,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
         botPlay();
     }
 
+    /**
+     * Handles the bot's turn in the game.<br>
+     * - Selects a position on the board for the bot's move.<br>
+     * - Updates the view with the bot's chosen piece.<br>
+     * - Ends the turn after the bot's move.
+     */
     private void botPlay() {
         Move botMove;
 
@@ -232,6 +244,12 @@ public class GameScreenPresenter extends BasePresenter<GameScreenView, GameSessi
     }
 
 
+    /**
+     * Displays a confirmation dialog when the user attempts to exit the game.
+     * If the user chooses to save, it saves the game state.
+     *
+     * @return true if the user chooses to exit, false otherwise.
+     */
     private boolean confirmSaveBeforeExit() {
         stopTimer();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

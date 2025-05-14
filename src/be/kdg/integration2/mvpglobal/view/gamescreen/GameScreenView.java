@@ -16,6 +16,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * GameScreenView class represents the game screen of the application.
+ * It displays the game board, unused pieces, and various labels for game information.
+ */
 public class GameScreenView extends BaseView {
 
     private GridPane board;

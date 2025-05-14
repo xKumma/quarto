@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * GameSetupView class represents the game setup screen of the application.
+ */
 public class GameSetupView extends BaseView {
 
     private List<ToggleButton> startingPlayerButtons;

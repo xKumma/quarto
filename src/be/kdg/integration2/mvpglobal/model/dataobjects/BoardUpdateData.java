@@ -16,8 +16,4 @@ public record BoardUpdateData(String imageName, String color, int x, int y) {
                 x, y
         );
     }
-
-    public String getFullSlug() {
-        return (imageName != null && color != null) ? imageName + "#" + color : null;
-    }
 }

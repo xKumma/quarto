@@ -1,5 +1,6 @@
 package be.kdg.integration2.mvpglobal.model;
 
+import be.kdg.integration2.mvpglobal.model.dataobjects.Tabledata;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenPresenter;
 import be.kdg.integration2.mvpglobal.view.aboutscreen.AboutScreenView;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;

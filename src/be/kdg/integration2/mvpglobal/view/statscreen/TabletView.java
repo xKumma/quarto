@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.statscreen;
 
-import be.kdg.integration2.mvpglobal.model.Tabledata;
+import be.kdg.integration2.mvpglobal.model.dataobjects.Tabledata;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import be.kdg.integration2.mvpglobal.view.components.Header;
 import javafx.collections.ObservableList;

@@ -4,12 +4,18 @@ import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import be.kdg.integration2.mvpglobal.model.pieces.PieceAttribute;
 
 public final class RuleChecker {
+    /**
+     * Checks if a move is valid
+     * @param move the move that was made
+     * @param board the current board and the pieces that have been placed on it
+     * @return true if the move is valid
+     */
     public static boolean isMoveValid(Move move, Board board) {
         return board.getPieces()[move.getPosition().x()][move.getPosition().y()] == null;
     }
 
     /**
-     * checks if the given 4 pieces share an attribute
+     * Checks if the given 4 pieces share an attribute
      * @param pieces 4 pieces that were found in a row
      * @return true if the 4 pieces have a common attribute
      */

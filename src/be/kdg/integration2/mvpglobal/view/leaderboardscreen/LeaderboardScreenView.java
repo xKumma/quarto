@@ -1,6 +1,6 @@
 package be.kdg.integration2.mvpglobal.view.leaderboardscreen;
 
-import be.kdg.integration2.mvpglobal.model.LeaderboardData;
+import be.kdg.integration2.mvpglobal.model.dataobjects.LeaderboardData;
 import be.kdg.integration2.mvpglobal.view.UISettings;
 import be.kdg.integration2.mvpglobal.view.base.BaseView;
 import javafx.geometry.Pos;

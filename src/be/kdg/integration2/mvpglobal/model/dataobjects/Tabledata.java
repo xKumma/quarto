@@ -1,4 +1,4 @@
-package be.kdg.integration2.mvpglobal.model;
+package be.kdg.integration2.mvpglobal.model.dataobjects;
 
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import javafx.beans.property.*;

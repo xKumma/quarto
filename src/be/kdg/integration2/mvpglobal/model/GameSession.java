@@ -24,6 +24,9 @@ public class GameSession implements BaseModel {
     private Piece selectedPiece;
     private Move currentMove;
 
+    /**
+     * Instantiates a new Game session.
+     */
     public GameSession () {
         //this.board = new Board();
         this.player = HumanPlayer.getInstance();
@@ -129,9 +132,9 @@ public class GameSession implements BaseModel {
     }
 
     /**
-         * Starts a new turn by initializing a new move with the currently selected piece
-         * and setting the turn phase to PLACING.
-         */
+     * Starts a new turn by initializing a new move with the currently selected piece
+     * and setting the turn phase to PLACING.
+     */
     public void startNewTurn() {
         currentMove = new Move(isPlayersTurn ? player.getName() : "bot" ,selectedPiece);
         turnPhase = TurnPhase.PLACING;
@@ -221,53 +224,89 @@ public class GameSession implements BaseModel {
         active = false;
     }
 
-
-    // region Getters
+// region Getters
+    /**
+     * Is active boolean.
+     *
+     * @return true if the game session is active, false otherwise
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Is players turn boolean.
+     *
+     * @return true if it's the player's turn, false if it's the computer's turn
+     */
     public boolean isPlayersTurn() {
         return isPlayersTurn;
     }
 
-    public long getTotalElapsedTime() {
-        long elapsedTime = moves.stream().mapToLong(Move::getTime).sum();
-        return elapsedTime >= 0 ? elapsedTime : 0;
-    }
-
-    public long getOngoingMoveTime() {
-        return (currentMove != null) ? System.currentTimeMillis() - currentMove.getStartTime() : 0;
-    }
-
+    /**
+     * Gets selected piece.
+     *
+     * @return the selected piece
+     */
     public Piece getSelectedPiece() {
         return selectedPiece;
     }
 
-    public int getRoundsCount() {
-        return moves.size()+1;
-    }
-
+    /**
+     * Gets current move.
+     *
+     * @return the current move
+     */
     public Move getCurrentMove() { return currentMove; }
 
+    /**
+     * Gets board.
+     *
+     * @return the board
+     */
     public Board getBoard () {return board;}
 
+    /**
+     * Gets unused pieces.
+     *
+     * @return the unused pieces
+     */
     public List<Piece> getUnusedPieces() {
         return unusedPieces;
     }
 
+    /**
+     * Gets turn phase.
+     *
+     * @return the turn phase
+     */
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
 
+    /**
+     * Gets moves.
+     *
+     * @return the moves
+     */
     public List<Move> getMoves() {
         return moves;
     }
 
+    /**
+     * Gets computer player.
+     *
+     * @return the computer player
+     */
     public ComputerPlayer getComputerPlayer() {
         return computer;
     }
 
+    /**
+     * Gets session data, a snapshot of the current session.
+     *
+     * @return the session data
+     */
     public GameSessionData getSessionData() {
         return new GameSessionData(player.getName(), computer.getDifficulty(), moves, selectedPiece);
     }

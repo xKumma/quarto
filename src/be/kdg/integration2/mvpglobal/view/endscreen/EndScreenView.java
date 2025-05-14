@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * EndScreenView class represents the end screen of the application.
+ */
 public class EndScreenView extends BaseView {
 
     private Header header;

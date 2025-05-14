@@ -1,4 +1,4 @@
-package be.kdg.integration2.mvpglobal.model;
+package be.kdg.integration2.mvpglobal.model.dataobjects;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;

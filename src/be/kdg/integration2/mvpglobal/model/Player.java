@@ -1,6 +1,3 @@
 package be.kdg.integration2.mvpglobal.model;
-
-public class Player {
-
-
-}
+/** Player base class */
+public class Player {}

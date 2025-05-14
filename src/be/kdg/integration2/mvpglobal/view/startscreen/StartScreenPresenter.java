@@ -6,7 +6,12 @@ import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 import javafx.stage.Stage;
 
-
+/**
+ * Presenter class for the StartScreen view.
+ * <p>
+ * This class handles the logic and interactions for the StartScreen view,
+ * including navigation to other screens.
+ */
 public final class StartScreenPresenter extends BasePresenter<StartScreenView, BaseModel> {
 
     public StartScreenPresenter(StartScreenView view, BaseModel model) {

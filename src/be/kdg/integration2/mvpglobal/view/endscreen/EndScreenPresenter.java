@@ -7,6 +7,12 @@ import be.kdg.integration2.mvpglobal.utility.Router;
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import be.kdg.integration2.mvpglobal.view.base.BasePresenter;
 
+/**
+ * Presenter class for the EndScreen view.
+ * <p>
+ * This class handles the logic and interactions for the EndScreen view,
+ * including navigation to other screens and updating the winner text.
+ */
 public class EndScreenPresenter extends BasePresenter<EndScreenView, BaseModel> {
 
 

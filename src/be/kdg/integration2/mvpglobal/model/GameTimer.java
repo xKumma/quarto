@@ -10,15 +10,23 @@ public class GameTimer {
     private long startNano;
     private long totalElapsedMillis;
 
-    private long cachedTurnMillis; // <-- new: holds turn time during pause
+    private long cachedTurnMillis;
     private boolean isPaused = false;
 
     private final Consumer<TimeUpdateData> updateCallback;
 
+    /**
+     * Instantiates a new Game timer.
+     *
+     * @param updateCallback the update callback
+     */
     public GameTimer(Consumer<TimeUpdateData> updateCallback) {
         this.updateCallback = updateCallback;
     }
 
+    /**
+     * Starts the timer.
+     */
     public void start() {
         startNano = System.nanoTime();
         cachedTurnMillis = 0;
@@ -34,6 +42,9 @@ public class GameTimer {
         timer.start();
     }
 
+    /**
+     * Pauses the timer.
+     */
     public void pause() {
         if (timer != null && !isPaused) {
             long now = System.nanoTime();
@@ -44,6 +55,9 @@ public class GameTimer {
         }
     }
 
+    /**
+     * Resume the timer.
+     */
     public void resume() {
         if (timer != null && isPaused) {
             startNano = System.nanoTime();
@@ -52,10 +66,18 @@ public class GameTimer {
         }
     }
 
+    /**
+     * Stops the timer.
+     */
     public void stop() {
         if (timer != null) timer.stop();
     }
 
+    /**
+     * Gets cached total elapsed millis.
+     *
+     * @return the cached total elapsed millis
+     */
     public long getCachedTotalElapsedMillis() {
         return totalElapsedMillis;
     }

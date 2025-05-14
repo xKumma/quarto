@@ -67,6 +67,12 @@ public class Piece {
         return attributes;
     }
 
+    /**
+     * Retrieves the value of a specific attribute of the piece.
+     *
+     * @param attribute The attribute to retrieve (type, color, shape, or size).
+     * @return The value of the specified attribute as a string.
+     */
     public String getOneAttribute(PieceAttribute attribute) {
         if (attribute == PieceAttribute.TYPE) {
             return type.toString();
@@ -79,22 +85,10 @@ public class Piece {
         }
     }
 
-
-
-    public void piecesAbstraction(){
-
-    }
-
-
-
-
-
     @Override
     public String toString() {
         return String.format(
                 "%s_%s_%s#%s", shape.toString(), size.toString(), type.toString(), color.toString()
         ).toLowerCase();
     }
-
-
 }

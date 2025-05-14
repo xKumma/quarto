@@ -8,6 +8,11 @@ import be.kdg.integration2.mvpglobal.model.pieces.Piece;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * A data object representing the state of a game session.<br>
+ * This class is used to store and retrieve game session data, including player name,
+ * bot difficulty, move history, and the last selected piece.
+ */
 public class GameSessionData implements Serializable {
     private final String playerName;
     private final BotDifficulty botDifficulty;
@@ -16,7 +21,15 @@ public class GameSessionData implements Serializable {
     private int startingPlayer;
     private Piece lastSelectedPiece;
 
-    // Loaded from a file
+    /**
+     * Constructor for loading game session data from a file.
+     *
+     * @param playerName        The name of the player.
+     * @param botDifficulty     The difficulty level of the bot.
+     * @param moveHistory       The history of moves made during the game.
+     * @param lastSelectedPiece The last selected piece in the game.
+     * @param startingPlayer    The player who starts the game (1 or 2).
+     */
     public GameSessionData(String playerName,
                            String botDifficulty,
                            List<Move> moveHistory,
@@ -30,7 +43,12 @@ public class GameSessionData implements Serializable {
         this.startingPlayer = startingPlayer;
     }
 
-    // PreGame
+    /**
+     * Constructor for initializing a new game session.
+     *
+     * @param startingPlayer The player who starts the game (1 or 2).
+     * @param difficulty     The difficulty level of the bot.
+     */
     public GameSessionData(int startingPlayer, BotDifficulty difficulty) {
         this.startingPlayer = startingPlayer;
         this.botDifficulty = difficulty;
@@ -40,7 +58,15 @@ public class GameSessionData implements Serializable {
         playerName = null;
     }
 
-    // PreSave
+    /**
+     * Constructor for creating a GameSessionData object with player name, bot difficulty,
+     * move history, and the last selected piece.
+     *
+     * @param playerName    The name of the player.
+     * @param difficulty    The difficulty level of the bot.
+     * @param moveHistory   The history of moves made during the game.
+     * @param selectedPiece The last selected piece in the game.
+     */
     public GameSessionData(String playerName, BotDifficulty difficulty, List<Move> moveHistory, Piece selectedPiece) {
         this.playerName = playerName;
         this.moveHistory = moveHistory;
@@ -82,11 +108,46 @@ public class GameSessionData implements Serializable {
     }
 
     //region Getters
+    /**
+     * Gets player name.
+     *
+     * @return the player name
+     */
     public String getPlayerName() { return playerName; }
+
+    /**
+     * Gets bot difficulty.
+     *
+     * @return the bot difficulty
+     */
     public BotDifficulty getBotDifficulty() { return botDifficulty; }
+
+    /**
+     * Gets move history.
+     *
+     * @return the move history
+     */
     public List<Move> getMoveHistory() { return moveHistory; }
+
+    /**
+     * Gets board.
+     *
+     * @return the board
+     */
     public Board getBoard() { return board; }
+
+    /**
+     * Gets starting player.
+     *
+     * @return the starting player
+     */
     public int getStartingPlayer() { return startingPlayer; }
+
+    /**
+     * Gets selected piece.
+     *
+     * @return the selected piece
+     */
     public Piece getSelectedPiece() { return lastSelectedPiece; }
     //endregion
 }

@@ -12,6 +12,11 @@ public class Board  {
 
     public Board() {}
 
+    /**
+     * Plays a move on the board
+     *
+     * @param move move to play
+     */
     public void movePiece(Move move) {
         pieces[move.getPosition().x()][move.getPosition().y()] = move.getPiece();
     }
@@ -280,6 +285,11 @@ public class Board  {
     // endregion
 
     // region Getters and Setters
+
+    /**
+     * Gets the board
+     * @return board as a 2D array of Pieces
+     */
     public Piece[][] getPieces() {
         return pieces;
     }

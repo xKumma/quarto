@@ -12,6 +12,12 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Presenter class for the GameSetup view.
+ * <p>
+ * This class handles the logic and interactions for the game setup screen,
+ * including setting up event handlers and managing the game session data.
+ */
 public class GameSetupPresenter extends BasePresenter<GameSetupView, GameSetup> {
 
     public GameSetupPresenter(GameSetupView view, GameSetup model) {
