@@ -122,12 +122,11 @@ public class DBManager {
      * Inserts a new game session into the database.
      *
      * @param currentPlayer The username of the current player.
-     * @param difficulty    The difficulty level of the bot.
      * @param playerWon     A boolean indicating whether the player won the session.
      * @throws SQLException If a database access error occurs.
      */
-    public void insertNewSession(String currentPlayer, int difficulty, boolean playerWon) throws SQLException {
-        String insertNewSession = "INSERT INTO sessions(player_username, bot_name, is_finished, player_won) VALUES(?, 'bot', TRUE, ?)";
+    public void insertNewSession(String currentPlayer, boolean playerWon) throws SQLException {
+        String insertNewSession = "INSERT INTO sessions(player_username, is_finished, player_won) VALUES(?, TRUE, ?)";
         PreparedStatement ps = connection.prepareStatement(insertNewSession, Statement.RETURN_GENERATED_KEYS);
 
         ps.setString(1, currentPlayer);

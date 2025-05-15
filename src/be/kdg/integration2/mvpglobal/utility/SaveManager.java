@@ -55,7 +55,7 @@ public class SaveManager {
         if (DBManager.getInstance().isConnected()) {
             try {
                 DBManager.getInstance().insertNewSession(
-                        gameSessionData.getPlayerName(), gameSessionData.getBotDifficulty().ordinal(), !gameSessionData.getMoveHistory().getLast().getPlayer().equals("bot"));
+                        gameSessionData.getPlayerName(), !gameSessionData.getMoveHistory().getLast().getPlayer().equals("bot"));
 
                 for (Move move : gameSessionData.getMoveHistory()) {
                     DBManager.getInstance().insertNewMove(
