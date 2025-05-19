@@ -13,47 +13,18 @@ VALUES
     ('Stuard', 'worcestershire')
 ;
 
-
-INSERT INTO pieces(pieceID, type, size, shape, color)
+INSERT INTO sessions(player_username, is_finished, player_won)
 VALUES
-    (1, 'full', 'big', 'square', 'red'),
-    (2, 'full', 'small', 'square', 'red'),
-    (3, 'hollow', 'small', 'square', 'blue'),
-    (4, 'full', 'small', 'round', 'blue'),
-    (5, 'hollow', 'big', 'round', 'red'),
-    (6, 'full', 'big', 'round', 'red'),
-    (7, 'hollow', 'big', 'round', 'blue'),
-    (8, 'hollow', 'small', 'round', 'blue'),
-    (9, 'hollow', 'big', 'square', 'red'),
-    (10, 'hollow', 'small', 'round', 'red'),
-    (11, 'full', 'big', 'round', 'blue'),
-    (12, 'full', 'small', 'square', 'blue'),
-    (13, 'full', 'small', 'round', 'red'),
-    (14, 'hollow', 'small', 'square', 'red'),
-    (15, 'full', 'big', 'square', 'blue'),
-    (16, 'hollow', 'big', 'square', 'blue')
-;
-
-INSERT INTO bot_players(bot_name, bot_difficulty)
-VALUES
-    ('Plamen', 1),
-    ('Moira', 2),
-    ('Beatrice', 3),
-    ('Maxim', 4)
-;
-
-INSERT INTO sessions(player_username, bot_name, is_finished, player_won)
-VALUES
-    ('Emma', 'Plamen', true, false),
-    ('Emma', 'Plamen', true, true),
-    ('Emma', 'Moira', false, NULL),
-    ('Bella', 'Maxim', true, false),
-    ('Cecilia', 'Beatrice', false, NULL),
-    ('Milan', 'Beatrice', false, NULL),
-    ('Stuard', 'Maxim', true, false),
-    ('Alan', 'Moira', false, NULL),
-    ('Fiona', 'Plamen', true, true),
-    ('Emily', 'Beatrice', true, false)
+    ('Emma', true, false),
+    ('Emma', true, true),
+    ('Emma', false, NULL),
+    ('Bella', true, false),
+    ('Cecilia', false, NULL),
+    ('Milan',  false, NULL),
+    ('Stuard', true, false),
+    ('Alan', false, NULL),
+    ('Fiona', true, true),
+    ('Emily',  true, false)
 ;
 
 
@@ -83,17 +54,4 @@ VALUES
     (22, 10, '2024-12-01 12:24:40', '2024-12-01 12:24:49', true),
     (23, 10, '2024-12-01 12:24:40', '2024-12-01 12:24:58', false),
     (24, 10, '2024-12-01 12:24:53', '2024-12-01 12:24:54', true)
-
-
-;
-
-
-INSERT INTO piece_locations(sessionID, pieceID, position_x, position_y)
-VALUES
-    (1, 1, 1, 1),
-    (1, 13, 1, 2),
-    (1, 14, 2, 2),
-    (1, 6, 1, 3),
-    (1, 3, 3, 3),
-    (1, 11, 1, 4)
 ;

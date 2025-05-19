@@ -36,11 +36,17 @@ public class SaveManager {
      *                        contains all the necessary information about the game session.
      */
     public static void saveToFile(GameSessionData gameSessionData) {
-        try (PrintWriter out = new PrintWriter(new FileWriter(new File(SAVE_PATH.toFile(),
-                gameSessionData.getPlayerName() + System.currentTimeMillis() + ".json")))) {
-            out.println(gameSessionData.toJson());
+        try {
+            Files.createDirectories(SAVE_PATH);
+
+            File saveFile = new File(SAVE_PATH.toFile(),
+                    gameSessionData.getPlayerName() + System.currentTimeMillis() + ".json");
+
+            try (PrintWriter out = new PrintWriter(new FileWriter(saveFile))) {
+                out.println(gameSessionData.toJson());
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error saving to file");
         }
     }
 
