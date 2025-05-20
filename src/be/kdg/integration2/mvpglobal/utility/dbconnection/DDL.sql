@@ -1,9 +1,6 @@
 -- USED FOR RECREATION,COMMENT OUT IF YOU DONT WANT TO REMOVE ALL DATA
 DROP TABLE IF EXISTS HUMAN_PLAYERS CASCADE ;
-DROP TABLE IF EXISTS BOT_PLAYERS CASCADE ;
 DROP TABLE IF EXISTS SESSIONS CASCADE ;
-DROP TABLE IF EXISTS PIECES CASCADE ;
-DROP TABLE IF EXISTS PIECE_LOCATIONS CASCADE ;
 DROP TABLE IF EXISTS MOVES CASCADE ;
 
 
@@ -21,45 +18,14 @@ CREATE TABLE IF NOT EXISTS HUMAN_PLAYERS (
 );
 
 
--- TABLE: BOT PLAYERS
-CREATE TABLE IF NOT EXISTS BOT_PLAYERS (
-                                           bot_name VARCHAR(16) PRIMARY KEY,
-                                           bot_difficulty NUMERIC(1) NOT NULL
-);
-
 -- TABLE: SESSIONS
 CREATE TABLE IF NOT EXISTS SESSIONS (
                                         sessionID SERIAL PRIMARY KEY,
                                         player_username VARCHAR(16),
-                                        bot_name VARCHAR(16),
                                         is_finished BOOLEAN DEFAULT FALSE NOT NULL,
                                         player_won boolean DEFAULT NULL,
 
-                                        FOREIGN KEY (player_username) REFERENCES HUMAN_PLAYERS(username) ON DELETE CASCADE ,
-                                        FOREIGN KEY (bot_name) REFERENCES BOT_PLAYERS(bot_name) ON DELETE SET NULL
-);
-
--- TABLE: PIECES
-CREATE TABLE IF NOT EXISTS PIECES (
-                                      pieceID SERIAL PRIMARY KEY,
-                                      type VARCHAR(10) NOT NULL,
-                                      size VARCHAR(10) NOT NULL,
-                                      shape VARCHAR(10) NOT NULL,
-                                      color VARCHAR(10) NOT NULL,
-                                       abstract INTEGER NOT NULL
-);
-
--- TABLE: PIECE LOCATIONS
-CREATE TABLE IF NOT EXISTS PIECE_LOCATIONS (
-                                               sessionID SERIAL,
-                                               pieceID SERIAL,
-                                               position_x NUMERIC(1) NOT NULL,
-                                               position_y NUMERIC(1) NOT NULL,
-
-                                               PRIMARY KEY (sessionID, pieceID),
-
-                                               FOREIGN KEY (sessionID) REFERENCES SESSIONS(sessionID) ON DELETE CASCADE,
-                                               FOREIGN KEY (pieceID) REFERENCES PIECES(pieceID) ON DELETE CASCADE
+                                        FOREIGN KEY (player_username) REFERENCES HUMAN_PLAYERS(username) ON DELETE CASCADE
 );
 
 -- TABLE: MOVES

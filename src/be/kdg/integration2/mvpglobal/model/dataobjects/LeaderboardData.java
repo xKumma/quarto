@@ -25,7 +25,7 @@ public class LeaderboardData {
         this.gamesPlayed = new SimpleIntegerProperty(gamesPlayed);
         this.wins = new SimpleIntegerProperty (wins);
         this.losses = new SimpleIntegerProperty(losses);
-        this.winRate = new SimpleDoubleProperty((double)wins / (double) gamesPlayed *100);
+        this.winRate = new SimpleDoubleProperty(Math.round(((double)wins / (double) gamesPlayed *100)*Math.pow(10,4))/Math.pow(10,4));
         this.averageMoves = new SimpleDoubleProperty(averageMoves);
         this.averageTime = new SimpleDoubleProperty(averageTime);
     }

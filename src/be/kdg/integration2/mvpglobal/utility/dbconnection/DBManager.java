@@ -566,10 +566,11 @@ public class DBManager {
                 try (ResultSet rs = ps1.executeQuery()) {
                     if (rs.next()) {
                         double moves=rs.getInt(1);
-                        if(gamesPlayed!=0){averageMoves=moves/gamesPlayed;}
+                        if(gamesPlayed!=0){ averageMoves=Math.round((moves/gamesPlayed)*Math.pow(10,2))/Math.pow(10,2);}
                         else{averageMoves=0;}
                         double seconds=rs.getInt(2);
-                        averageTime=seconds/moves;
+                        averageTime= Math.round((seconds/moves)*Math.pow(10,4))/Math.pow(10,4);
+
                     }
                 }
                 catch (SQLException e) {
