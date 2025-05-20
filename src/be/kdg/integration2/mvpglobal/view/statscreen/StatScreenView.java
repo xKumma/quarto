@@ -74,9 +74,7 @@ public class StatScreenView extends BaseView {
         rectangle2 = createRectangle();
         rectangle3 = createRectangle();
         rectangle4 = createRectangle();
-
         chartContainer.getChildren().addAll(rectangle1, rectangle2, rectangle3, rectangle4);
-
         setCenter(stack);
 
         HBox buttons = new HBox(backButton, menuButton);

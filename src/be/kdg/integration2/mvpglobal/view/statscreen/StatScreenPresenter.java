@@ -115,14 +115,12 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
         }
 
         for(int i = 0; i < size1; i++){
-            //series1.getData().add(new XYChart.Data<>(values1[i], player));
             series1.getData().add(new XYChart.Data<>(val1.get(i), player));
 
 
         }
 
         for(int i = 0; i < size3; i++){
-           // series3.getData().add(new XYChart.Data<>(model.getNumbermove().get(i), player));
             series3.getData().add(new XYChart.Data<>(model.getStat1().get(i), player));
             series4.getData().add(new XYChart.Data<>(model.getStat2().get(i), player2));
 
@@ -141,7 +139,6 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
 
 
         for(int i = 0; i < size2; i++){
-            //series2.getData().add(new XYChart.Data<>(values2[i] , player2));
             series2.getData().add(new XYChart.Data<>(val2.get(i) , player2));
 
 

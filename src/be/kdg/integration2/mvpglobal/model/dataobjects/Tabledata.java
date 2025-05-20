@@ -3,7 +3,12 @@ package be.kdg.integration2.mvpglobal.model.dataobjects;
 import be.kdg.integration2.mvpglobal.utility.dbconnection.DBManager;
 import javafx.beans.property.*;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * model class related to the table statistic at the end of a match:
  * retrives data from the database assigning them to the attributes that will be filled into the tableview
@@ -66,12 +71,6 @@ public class Tabledata {
         }
 
 
-
-
-
-
-
-
         @Override
         public String toString() {
             return "Data{name='" + name.get() + "', score=" + time.get() + "}";
@@ -82,7 +81,7 @@ public class Tabledata {
 
     private Data data = new Data();
     protected DBManager dbManager = DBManager.getInstance();
-
+    Double movesaip;
 
     public Tabledata() {
         try {
@@ -93,6 +92,7 @@ public class Tabledata {
             getTai();
             getTPL();
         } catch (Exception e) {
+            System.out.println(e);
             System.err.println("Error connecting to DB, not able to retrieve data");
         }
     }
@@ -114,7 +114,7 @@ public class Tabledata {
     }
 
     public Data getNMAI() throws SQLException {
-        Double movesaip= (double) dbManager.getNMovesAI(dbManager.getSessionID());
+        movesaip= (double) dbManager.getNMovesAI(dbManager.getSessionID());
         data.setMovesai(movesaip);
         System.out.println(truncateTo2Decimals(movesaip));
         return data;
@@ -128,19 +128,36 @@ public class Tabledata {
     }
 
     public Data getTai() throws SQLException {
-        Double taiprovvisory =  (dbManager.getTMAIf(dbManager.getSessionID())- dbManager.getTMAIs(dbManager.getSessionID()))/ dbManager.getNMovesAI(dbManager.getSessionID());
-        data.setTai(truncateTo2Decimals(taiprovvisory));
-        System.out.println(taiprovvisory);
+        List<Double> taiprovvisory = new ArrayList<>();
+        taiprovvisory=dbManager.getTMAIf(dbManager.getSessionID());
+
+        double sum = 0;
+        for (double value : taiprovvisory) {
+            sum += value;
+            System.out.println(value);
+        }
+
+        double average = taiprovvisory.isEmpty() ? 0 : sum / taiprovvisory.size();
+        System.out.println("Media: " + average);
+        data.setTai(Math.floor(average * 10000) / 10000.0);
         return data;
     }
 
     public Data getTPL() throws SQLException {
-        Double tplprovvisory =  (dbManager.getTMPf(dbManager.getSessionID())- dbManager.getTMPs(dbManager.getSessionID()))/ dbManager.getNMovesPL(dbManager.getSessionID());
-        data.setTp(truncateTo2Decimals(tplprovvisory));
-        System.out.println(tplprovvisory);
+        List<Double> tmpprovvisory = new ArrayList<>();
+        tmpprovvisory=dbManager.getTMPs(dbManager.getSessionID());
+
+        double sum = 0;
+        for (double value : tmpprovvisory) {
+            sum += value;
+            System.out.println(value);
+        }
+
+        double average = tmpprovvisory.isEmpty() ? 0 : sum / tmpprovvisory.size();
+        System.out.println("Media: " + average);
+        data.setTp(truncateTo2Decimals(average));
         return data;
     }
-
     public static double truncateTo2Decimals(double value) {
         return Math.floor(value * 100) / 100.0;
     }

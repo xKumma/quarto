@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBManager {
     private static DBManager Instance;
@@ -196,11 +198,11 @@ public class DBManager {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
     public double getTMAIs(int sessionid ) throws SQLException {
@@ -210,39 +212,57 @@ public class DBManager {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
-    public double getTMAIf(int sessionid ) throws SQLException {
-        String query = "SELECT EXTRACT(EPOCH FROM ( move_end_time  ))  FROM moves WHERE sessionId = ? AND was_ai = TRUE ORDER BY moveID DESC LIMIT 1  ";
+    public List<Double> getTMAIf(int sessionid) throws SQLException {
+        String query = """
+        SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))
+        FROM moves
+        WHERE sessionId = ? AND was_ai = TRUE
+        ORDER BY moveID DESC
+    """;
+
+        List<Double> times = new ArrayList<>();
+
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, sessionid);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                while (rs.next()) {
+                    times.add(rs.getDouble(1)); // or rs.getDouble("column_alias") if you used one
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+
+        return times;
     }
 
-    public double getTMPs(int sessionid ) throws SQLException {
-        String query = "SELECT EXTRACT(EPOCH FROM ( move_start_time  ))  FROM moves WHERE sessionId = ? AND was_ai = FALSE ORDER BY moveID ASC LIMIT 1  ";
+
+    public List<Double> getTMPs(int sessionid ) throws SQLException {
+        String query = """
+        SELECT EXTRACT(EPOCH FROM (move_end_time - move_start_time))
+        FROM moves
+        WHERE sessionId = ? AND was_ai = FALSE
+        ORDER BY moveID DESC
+    """;
+        List<Double> times = new ArrayList<>();
+
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, sessionid);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                while (rs.next()) {
+                    times.add(rs.getDouble(1)); // or rs.getDouble("column_alias") if you used one
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+
+        return times;
     }
 
     public double getTMPf(int sessionid ) throws SQLException {
@@ -252,11 +272,11 @@ public class DBManager {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
     public double getTimeFIN(int sessionid ) throws SQLException {
@@ -266,11 +286,11 @@ public class DBManager {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
 
@@ -281,11 +301,11 @@ public class DBManager {
             ps.setInt(2, moveid);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getDouble(1); // Restituisce il valore in minuti (con secondi nei decimali)
+                    return rs.getDouble(1);
                 }
             }
         }
-        return 0; // Valore di default se non ci sono risultati
+        return 0;
     }
 
     public double getTimeMove2(int sessionid , int moveid) throws SQLException {

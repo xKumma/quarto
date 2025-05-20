@@ -301,18 +301,5 @@ time();
 
 
 
-    public String getFirstname() {
-        firstname = "bibi";
-        return firstname;
-    }
 
-    public double getScore() {
-        score = 100;
-        return score;
-    }
-
-    public double getTime() {
-        time = 10;
-        return time;
-    }
 }
