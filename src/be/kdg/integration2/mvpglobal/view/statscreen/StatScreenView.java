@@ -37,7 +37,6 @@ public class StatScreenView extends BaseView {
 
     public StatScreenView() {
         super();
-        draw();
     }
 
     @Override
@@ -47,12 +46,8 @@ public class StatScreenView extends BaseView {
         lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
         lineChart.setAnimated(false);
         lineChart.setMinSize(0, 0);
-        lineChart.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         serieC = new ArrayList<>();
         lineChart.getStyleClass().add("box_plot");
-
-
-
 
     }
 
@@ -66,9 +61,7 @@ public class StatScreenView extends BaseView {
         chartContainer.setPickOnBounds(false); // Let mouse events pass through if needed
         chartContainer.prefWidthProperty().bind(lineChart.widthProperty());
         chartContainer.prefHeightProperty().bind(lineChart.heightProperty());
-
         stack.getChildren().addAll(lineChart, chartContainer);
-
         // Create rectangles
         rectangle1 = createRectangle();
         rectangle2 = createRectangle();
@@ -76,7 +69,6 @@ public class StatScreenView extends BaseView {
         rectangle4 = createRectangle();
         chartContainer.getChildren().addAll(rectangle1, rectangle2, rectangle3, rectangle4);
         setCenter(stack);
-
         HBox buttons = new HBox(backButton, menuButton);
         buttons.setSpacing(15);
         buttons.setPadding(new Insets(15));
@@ -96,19 +88,26 @@ public class StatScreenView extends BaseView {
     }
 
     public List<Double> draw() {
-        serieC.clear();
+
         for (XYChart.Data<Number, String> d : series3.getData()) {
             serieC.add(d.getXValue().doubleValue());
         }
+
+
         for (XYChart.Data<Number, String> d : series4.getData()) {
             serieC.add(d.getXValue().doubleValue());
         }
 
-        lineChart.getData().addAll(series3, series4);
 
         Platform.runLater(() -> {
-            styleSeries(series3, "green");
-            styleSeries(series4, "blue");
+           // styleSeries(series3, "green");
+           // styleSeries(series4, "blue");
+            series3.getNode().setStyle("-fx-stroke: transparent;");
+            series4.getNode().setStyle("-fx-stroke: transparent;");
+            series5.getNode().setStyle("-fx-stroke: transparent;");
+            series6.getNode().setStyle("-fx-stroke: transparent;");
+
+
             series1.setName("TimeP(s)");
             series2.setName("TimeAI(cs)");
             series3.setName("P Qs (s)");
@@ -117,8 +116,6 @@ public class StatScreenView extends BaseView {
             series6.setName("AI Os (cs)");
             lineChart.setTitle("MOVES STATISTICS");
             lineChart.getStyleClass().add("linetitle");
-
-
 
             updateAllRectangles();
         });
@@ -167,19 +164,25 @@ public class StatScreenView extends BaseView {
     public Button getMenuButton() {
         return menuButton;
     }
-    private void hideSeriesFromLegend(XYChart.Series<Number, String> series) {
-        Platform.runLater(() -> {
-            Node chartLegend = lineChart.lookup(".chart-legend");
-            if (chartLegend != null) {
-                for (Node legendItem : chartLegend.lookupAll(".chart-legend-item")) {
-                    if (legendItem instanceof Label && ((Label) legendItem).getText().equals(series.getName())) {
-                        legendItem.setVisible(false);
-                        legendItem.setManaged(false);
 
-                    }
-                }
-            }
-        });
+
+    public void clear() {
+        // Clear chart data and all series data
+        lineChart.getData().clear();
+        serieC.clear();
+        series1.getData().clear();
+        series2.getData().clear();
+        series3.getData().clear();
+        series4.getData().clear();
+        series5.getData().clear();
+        series6.getData().clear();
+
+
+            lineChart.applyCss();  // reapply styles
+            lineChart.layout();    // trigger layout pass
+
+
+
     }
 
     public Button getBackButton() {

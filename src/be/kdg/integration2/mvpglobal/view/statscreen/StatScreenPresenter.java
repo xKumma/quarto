@@ -29,13 +29,108 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     protected List<Integer> moves;
     protected List<Double> statA;
     protected List<Double> statB;
-    protected static XYChart.Series<Number, String> series6;
+    protected static XYChart.Series<Number, String> series6 = new XYChart.Series<>();
     protected static XYChart.Series<Number, String> series1 = new XYChart.Series<>();
     protected static  XYChart.Series<Number, String> series2 = new XYChart.Series<>();
     protected static XYChart.Series<Number, String> series3 = new XYChart.Series<>();
     protected static  XYChart.Series<Number, String> series4 = new XYChart.Series<>();
     protected static  XYChart.Series<Number, String> series5 = new XYChart.Series<>();
     private DBManager dbManager = DBManager.getInstance();
+
+
+
+
+    public StatScreenPresenter(StatScreenView view, Statistics model) {
+        super(view, model);
+        init();
+
+        if (this.model == null) {
+            System.out.println("model is null");
+
+        }else{
+
+            initialize();
+        }
+
+    }
+
+    public void init() {
+        super.init();
+        try {
+            model.launch();
+            player = dbManager.getUserNameFromSession(dbManager.getSessionID());
+
+        } catch (SQLException e) {
+            System.err.println("Database connection is not initialized.");
+        }
+    }
+
+    public void initialize() {
+        size1 = model.getTime1().length;
+        values1 = new double[size1];
+        size2 = model.getTime2().length;
+        values2 = new double[size2];
+        xAxis = new double[size2];
+        val1 = new ArrayList<>();
+        val2 = new ArrayList<>();
+        size3= model.getStat1().toArray().length;
+        size5= model.OUT1().toArray().length;
+        size6= model.OUT2().toArray().length;
+        moves = model.getNumbermove();
+        statA = new ArrayList<>();
+        statB = new ArrayList<>();
+        statA = model.getStat1();
+        statB = model.getStat2();
+        this.view.clear();
+        updateView();
+        getvalues();
+        view.draw();
+
+    }
+
+
+    protected void updateView(){
+        view.getLineChart().getData().clear();
+
+        for (int i = 0; i < size1; i++) {
+        val1.add(model.getTime1()[i]);}
+        for (int i = 0; i < size2; i++) {
+            val2.add(model.getTime2()[i]);
+        }
+        for(int i = 0; i < size1; i++){
+            series1.getData().add(new XYChart.Data<>(val1.get(i), player));
+        }
+        for(int i = 0; i < size2; i++){
+            series2.getData().add(new XYChart.Data<>(val2.get(i) , player2));
+        }
+        this.view.getLineChart().getData().addAll(series1,series2);
+        for(int i = 0; i < size3; i++){
+            series3.getData().add(new XYChart.Data<>(model.getStat1().get(i), player));
+            series4.getData().add(new XYChart.Data<>(model.getStat2().get(i), player2));
+        }
+        this.view.getLineChart().getData().addAll(series3,series4);
+        for(int i = 0; i < size5; i++){
+            series5.getData().add(new XYChart.Data<>(model.OUT1().get(i), player));
+        }
+        for(int i = 0; i < size6; i++){
+            series6.getData().add(new XYChart.Data<>(model.OUT2().get(i), player2));
+
+        }
+        this.view.getLineChart().getData().addAll(series5,series6);
+
+
+    }
+    public void getvalues(){
+
+        for(int i = 0; i < size1; i++){
+            values1[i] = model.getTime1()[i];
+            val1.add(model.getTime1()[i]);
+        }
+        for(int i = 0; i < size2; i++){
+            values2[i] = model.getTime2()[i];
+            val2.add(model.getTime2()[i]);
+        }
+    }
 
 
 
@@ -52,121 +147,6 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     private void goToWin() {
         Router.getInstance().goTo(Screen.END_SCREEN, null);
     }
-
-
-    public StatScreenPresenter(StatScreenView view, Statistics model) {
-        super(view, model);
-
-        if (this.model == null) {
-            System.out.println("model is null");
-            return;
-        }
-
-
-        //arrayx();
-        updateVIew();
-    }
-
-    public void init() {
-        super.init();
-
-        try {
-            model.launch();
-            player = dbManager.getUserNameFromSession(dbManager.getSessionID());
-
-        } catch (SQLException e) {
-            System.err.println("Database connection is not initialized.");
-            return;
-        }
-
-
-        size1 = model.getTime1().length;
-        values1 = new double[size1];
-        size2 = model.getTime2().length;
-        values2 = new double[size2];
-        xAxis = new double[size2];
-        val1 = new ArrayList<>();
-        val2 = new ArrayList<>();
-        size3= model.getStat1().toArray().length;
-        size5= model.OUT1().toArray().length;
-        size6= model.OUT2().toArray().length;
-
-        moves = model.getNumbermove();
-        statA = new ArrayList<>();
-        statB = new ArrayList<>();
-        statA = model.getStat1();
-        statB = model.getStat2();
-
-
-
-
-        updateVIew();
-        getvalues();
-    }
-
-
-    private void updateVIew(){
-
-        series6 = new XYChart.Series<>();
-        for (int i = 0; i < size1; i++) {
-        val1.add(model.getTime1()[i]);}
-        for (int i = 0; i < size2; i++) {
-            val2.add(model.getTime2()[i]);
-        }
-
-        for(int i = 0; i < size1; i++){
-            series1.getData().add(new XYChart.Data<>(val1.get(i), player));
-
-
-        }
-
-        for(int i = 0; i < size3; i++){
-            series3.getData().add(new XYChart.Data<>(model.getStat1().get(i), player));
-            series4.getData().add(new XYChart.Data<>(model.getStat2().get(i), player2));
-
-
-
-        }
-            for(int i = 0; i < size5; i++){
-                series5.getData().add(new XYChart.Data<>(model.OUT1().get(i), player));
-
-            }
-        for(int i = 0; i < size6; i++){
-            series6.getData().add(new XYChart.Data<>(model.OUT2().get(i), player));
-
-        }
-
-
-
-        for(int i = 0; i < size2; i++){
-            series2.getData().add(new XYChart.Data<>(val2.get(i) , player2));
-
-
-
-        }
-        this.view.getLineChart().getData().clear(); // Clear old data
-        this.view.getLineChart().getData().addAll(series1, series2 , series3 , series4 , series5 , series6);
-
-
-    }
-
-
-
-
-    public void getvalues(){
-
-        for(int i = 0; i < size1; i++){
-            values1[i] = model.getTime1()[i];
-            val1.add(model.getTime1()[i]);
-        }
-        for(int i = 0; i < size2; i++){
-            values2[i] = model.getTime2()[i];
-            val2.add(model.getTime2()[i]);
-        }
-    }
-
-
-
 
     public double[] getValues2() {
         return values2;
