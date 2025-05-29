@@ -33,10 +33,14 @@ public class StatScreenView extends BaseView {
     private Rectangle rectangle1, rectangle2, rectangle3, rectangle4;
     private Pane chartContainer;
     private List<Double> serieC;
+    StackPane stack;
 
 
     public StatScreenView() {
         super();
+        initialiseNodes();
+        layoutNodes();
+        draw();
     }
 
     @Override
@@ -44,20 +48,19 @@ public class StatScreenView extends BaseView {
         menuButton = new Button("Menu");
         backButton = new Button("Back");
         lineChart = new LineChart<>(new NumberAxis(), new CategoryAxis());
-        lineChart.setAnimated(false);
-        lineChart.setMinSize(0, 0);
         serieC = new ArrayList<>();
         lineChart.getStyleClass().add("box_plot");
+        // StackPane for responsiveness
+         stack = new StackPane();
+        // Overlay Pane for rectangles
+        chartContainer = new Pane();
+        clear();
 
     }
 
     @Override
     protected void layoutNodes() {
-        // StackPane for responsiveness
-        StackPane stack = new StackPane();
 
-        // Overlay Pane for rectangles
-        chartContainer = new Pane();
         chartContainer.setPickOnBounds(false); // Let mouse events pass through if needed
         chartContainer.prefWidthProperty().bind(lineChart.widthProperty());
         chartContainer.prefHeightProperty().bind(lineChart.heightProperty());
@@ -87,17 +90,13 @@ public class StatScreenView extends BaseView {
         return r;
     }
 
-    public List<Double> draw() {
-
+    public void draw() {
         for (XYChart.Data<Number, String> d : series3.getData()) {
             serieC.add(d.getXValue().doubleValue());
         }
-
-
         for (XYChart.Data<Number, String> d : series4.getData()) {
             serieC.add(d.getXValue().doubleValue());
         }
-
 
         Platform.runLater(() -> {
            // styleSeries(series3, "green");
@@ -106,13 +105,16 @@ public class StatScreenView extends BaseView {
             series4.getNode().setStyle("-fx-stroke: transparent;");
             series5.getNode().setStyle("-fx-stroke: transparent;");
             series6.getNode().setStyle("-fx-stroke: transparent;");
-
+            series1.getNode().setStyle("-fx-stroke: transparent;");
+            series2.getNode().setStyle("-fx-stroke: transparent;");
+            series1.getNode().setStyle("-fx-stroke: red;");
+            series2.getNode().setStyle("-fx-stroke: orange;");
 
             series1.setName("TimeP(s)");
             series2.setName("TimeAI(cs)");
             series3.setName("P Qs (s)");
-            series4.setName("P Os (s)");
-            series5.setName("AI Qs (cs)");
+            series4.setName("AI Qs (cs)");
+            series5.setName("AI Qs (s)");
             series6.setName("AI Os (cs)");
             lineChart.setTitle("MOVES STATISTICS");
             lineChart.getStyleClass().add("linetitle");
@@ -120,7 +122,6 @@ public class StatScreenView extends BaseView {
             updateAllRectangles();
         });
 
-        return serieC;
     }
 
     private void styleSeries(XYChart.Series<Number, String> series, String color) {
@@ -147,7 +148,6 @@ public class StatScreenView extends BaseView {
         Platform.runLater(() -> {
             Bounds startScene = start.getNode().localToScene(start.getNode().getBoundsInLocal());
             Bounds endScene = end.getNode().localToScene(end.getNode().getBoundsInLocal());
-
             Bounds startLocal = chartContainer.sceneToLocal(startScene);
             Bounds endLocal = chartContainer.sceneToLocal(endScene);
 
@@ -176,13 +176,21 @@ public class StatScreenView extends BaseView {
         series4.getData().clear();
         series5.getData().clear();
         series6.getData().clear();
-
-
-            lineChart.applyCss();  // reapply styles
-            lineChart.layout();    // trigger layout pass
+        lineChart.applyCss();  // reapply styles
+        lineChart.layout();    // trigger layout pass
 
 
 
+    }
+
+    public  void removeChart() {
+        // 1. Remove lineChart and overlay container from the stack
+        stack.getChildren().removeAll(lineChart);
+
+        // 2. Clear all data and nodes
+        lineChart.getData().clear();
+        serieC.clear();
+        lineChart = null;
     }
 
     public Button getBackButton() {

@@ -9,8 +9,7 @@ import java.util.List;
 
 
 public class Statistics implements BaseModel {
-    public static int i =1;
-    public static int j =1;
+
 
     protected double quartile1A;
     protected double quartile2A;
@@ -24,36 +23,19 @@ public class Statistics implements BaseModel {
     protected double outlier2A;
     protected double outlier2B;
     protected double outlier1B;
-
-
     protected List<Double> stat1 = new ArrayList<>();
     protected List<Double> stat2 = new ArrayList<>();
     protected List<Double> out1 = new ArrayList<>();
     protected List<Double> out2 = new ArrayList<>();
-
-    protected String firstname;
-    protected double score;
     protected  double time;
-
-
     protected static double[] time1 ;
     protected static double[] time2 ;
     protected  List <Double> timeList1 = new ArrayList<>();
     protected List <Double> timeList2 = new ArrayList<>();
     protected  List <Integer> numbermove = new ArrayList<>();
     private DBManager dbManager = DBManager.getInstance();
-
-
-    public Statistics()  {
-        stat1.clear();
-        stat2.clear();
-        out1.clear();
-        out2.clear();
-        timeList1.clear();
-        timeList2.clear();
-        numbermove.clear();
-
-    }
+    private  int i =1;
+    private int j =1;
 
     public  void setValues() throws SQLException {
 
@@ -89,7 +71,8 @@ public class Statistics implements BaseModel {
         i=dbManager.getMoveID1(j);
        // System.out.println("sessione"+j + "\n");
        //    System.out.println("initial move"+i + "\n");
-
+            timeList1.clear();
+            timeList2.clear();
         for (int i = dbManager.getMoveID1(j); i <= dbManager.getMoveID2(j ); i ++) {
             try {
                 setValues();
@@ -97,40 +80,35 @@ public class Statistics implements BaseModel {
             }
         }
             }
-
-
-
-
-time();
-
-
+       time();
 
     }
 
     public void time(){
+
         Collections.sort(timeList1);
         Collections.sort(timeList2);
 
-      //  System.out.println("duration player moves"+timeList1);
-      //  System.out.println("duration ai moves"+timeList2);
+        System.out.println("duration player moves"+timeList1);
+        System.out.println("duration ai moves"+timeList2);
 
         time1 = new double[timeList1.size()];
         time2 = new double[timeList2.size()];
 
         for(int i=0 ; i<timeList1.size(); i++){
             time1 [i] = timeList1.get(i);
-            //  System.out.print(time1[i]);
+              System.out.print(time1[i]);
 
         }
 
         for(int i=0 ; i<timeList2.size(); i++){
             time2 [i] = timeList2.get(i);
-          //  System.out.println(time2[i]);
+            System.out.println(time2[i]);
         }
          statA();
-        statB();
-        outA();
-        outB();
+         statB();
+         outA();
+         outB();
     }
 
 
@@ -141,12 +119,9 @@ time();
             System.out.println("List is empty.");
             return;
         }
-
-
         Collections.sort(timeList1);
         stat1.clear();
         int size = timeList1.size();
-
         if (size % 2 == 0) {
             // EVEN size
             int q1Pos = (int) Math.ceil(size * 0.25);
@@ -173,7 +148,7 @@ time();
         stat1.add(quartile2A);
         stat1.add(quartile3A);
 
-        //System.out.println("quartiles\n" + stat1);
+        System.out.println("quartiles\n" + stat1);
     }
 
 
@@ -186,7 +161,6 @@ time();
 
         Collections.sort(timeList2);
         stat2.clear();
-
         int size = timeList2.size();
 
         if (size % 2 == 0) {
@@ -215,17 +189,16 @@ time();
         stat2.add(quartile2B);
         stat2.add(quartile3B);
 
-        //System.out.println("quartiles \n" + stat2);
+        System.out.println("quartiles \n" + stat2);
     }
 
     public void outA(){
         IQRA = quartile3A-quartile1A;
         //System.out.println("IQRA\n" + IQRA);
-
         outlier1A = quartile1A - (1.5*IQRA);
-         outlier2A = quartile3A + (1.5*IQRA);
-      //  System.out.println("treshold a-\n" + outlier1A );
-       // System.out.println("treshold a+\n" + outlier2A );
+        outlier2A = quartile3A + (1.5*IQRA);
+        System.out.println("treshold a-\n" + outlier1A );
+        System.out.println("treshold a+\n" + outlier2A );
 
 
         for (int i=0 ; i<timeList1.size(); i++){

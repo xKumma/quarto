@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistics> {
-
-
     protected double[] values1;
     int size1;
     int size3;
@@ -37,12 +35,16 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
     protected static  XYChart.Series<Number, String> series5 = new XYChart.Series<>();
     private DBManager dbManager = DBManager.getInstance();
 
-
-
-
     public StatScreenPresenter(StatScreenView view, Statistics model) {
         super(view, model);
-        init();
+        super.init();
+        try {
+            model.launch();
+            player = dbManager.getUserNameFromSession(dbManager.getSessionID());
+
+        } catch (SQLException e) {
+            System.err.println("Database connection is not initialized.");
+        }
 
         if (this.model == null) {
             System.out.println("model is null");
@@ -54,18 +56,10 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
 
     }
 
-    public void init() {
-        super.init();
-        try {
-            model.launch();
-            player = dbManager.getUserNameFromSession(dbManager.getSessionID());
-
-        } catch (SQLException e) {
-            System.err.println("Database connection is not initialized.");
-        }
-    }
 
     public void initialize() {
+
+        this.view.clear();
         size1 = model.getTime1().length;
         values1 = new double[size1];
         size2 = model.getTime2().length;
@@ -81,11 +75,23 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
         statB = new ArrayList<>();
         statA = model.getStat1();
         statB = model.getStat2();
-        this.view.clear();
-        updateView();
-        getvalues();
-        view.draw();
 
+        getvalues();
+        updateView();
+
+
+    }
+
+    public void getvalues(){
+
+        for(int i = 0; i < size1; i++){
+            values1[i] = model.getTime1()[i];
+            val1.add(model.getTime1()[i]);
+        }
+        for(int i = 0; i < size2; i++){
+            values2[i] = model.getTime2()[i];
+            val2.add(model.getTime2()[i]);
+        }
     }
 
 
@@ -117,27 +123,22 @@ public class StatScreenPresenter extends BasePresenter<StatScreenView, Statistic
 
         }
         this.view.getLineChart().getData().addAll(series5,series6);
-
-
     }
-    public void getvalues(){
 
-        for(int i = 0; i < size1; i++){
-            values1[i] = model.getTime1()[i];
-            val1.add(model.getTime1()[i]);
-        }
-        for(int i = 0; i < size2; i++){
-            values2[i] = model.getTime2()[i];
-            val2.add(model.getTime2()[i]);
-        }
-    }
 
 
 
     protected void addEventHandlers() {
 
-        view.getMenuButton().setOnAction(e -> goToMenu());
-        view.getBackButton().setOnAction(e -> goToWin());
+        view.getMenuButton().setOnAction(e -> {
+            view.removeChart();  // Clean up the chart
+            goToMenu();          // Navigate to menu
+        });
+
+        view.getBackButton().setOnAction(e -> {
+            view.removeChart();  // Clean up the chart
+            goToWin();           // Navigate to win screen
+        });
     }
 
     private void goToMenu() {
